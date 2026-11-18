@@ -1,0 +1,4883 @@
+{
+ "what": "the step table. forms: features of info.json, as the feature of a column no step file has, that stop the loader making its table (every other one of `all` gave a table). casts: pairs (stored column, declaration) of tests/validator/feature_casts.py the loader cannot cast (every other pair of `stored` x `declared` it read). columns: whether the loader read the file. batches: a null list among lists of any length declared a list of 3, by the file's row groups -- with every step holding values of its own, the placings that stop the loader and the ones it reads through handing out another step's values, each with the first step that is not as stored (where it stops, in the batches cast in memory up to the one that fails: the reader hands out nothing then); every other one of `all` it read as stored. alike: the same placings with every list holding the same values -- the ones that stop it, and the ones not read as stored. And the placings (of either kind of values) not read as stored when the same file is read for each choice of `episodes_chosen`, as LeRobot reads a release opened for chosen episodes. info: what info.json holds for its features that stops the loader before any table",
+ "measured_with": {
+  "lerobot": "0.6.1",
+  "datasets": "4.8.5",
+  "pyarrow": "25.0.1"
+ },
+ "forms": {
+  "all": [
+   "dtype 'float64', shape [1]",
+   "dtype 'float32', shape [1]",
+   "dtype 'float16', shape [1]",
+   "dtype 'int8', shape [1]",
+   "dtype 'int16', shape [1]",
+   "dtype 'int32', shape [1]",
+   "dtype 'int64', shape [1]",
+   "dtype 'uint8', shape [1]",
+   "dtype 'uint16', shape [1]",
+   "dtype 'uint32', shape [1]",
+   "dtype 'uint64', shape [1]",
+   "dtype 'bool', shape [1]",
+   "dtype 'bool_', shape [1]",
+   "dtype 'string', shape [1]",
+   "dtype 'utf8', shape [1]",
+   "dtype 'large_string', shape [1]",
+   "dtype 'large_utf8', shape [1]",
+   "dtype 'binary', shape [1]",
+   "dtype 'large_binary', shape [1]",
+   "dtype 'null', shape [1]",
+   "dtype 'date32', shape [1]",
+   "dtype 'date64', shape [1]",
+   "dtype 'double', shape [1]",
+   "dtype 'float', shape [1]",
+   "dtype 'int', shape [1]",
+   "dtype 'uint', shape [1]",
+   "dtype 'long', shape [1]",
+   "dtype 'f8', shape [1]",
+   "dtype '<f8', shape [1]",
+   "dtype '<i8', shape [1]",
+   "dtype 'number', shape [1]",
+   "dtype 'str', shape [1]",
+   "dtype 'boolean', shape [1]",
+   "dtype 'object', shape [1]",
+   "dtype 'halffloat', shape [1]",
+   "dtype 'Float64', shape [1]",
+   "dtype 'FLOAT64', shape [1]",
+   "dtype 'float64 ', shape [1]",
+   "dtype ' float64', shape [1]",
+   "dtype '', shape [1]",
+   "dtype 'json', shape [1]",
+   "dtype 'array', shape [1]",
+   "dtype 'list', shape [1]",
+   "dtype 'list_', shape [1]",
+   "dtype 'struct', shape [1]",
+   "dtype 'decimal128', shape [1]",
+   "dtype 'timestamp', shape [1]",
+   "dtype 'cpu_count', shape [1]",
+   "dtype 'timestamp[s]', shape [1]",
+   "dtype 'time32[s]', shape [1]",
+   "dtype 'duration[s]', shape [1]",
+   "dtype 'decimal128(5, 2)', shape [1]",
+   "dtype 'image', shape [1]",
+   "dtype 'float64', shape [3]",
+   "dtype 'long', shape [3]",
+   "dtype '', shape [3]",
+   "dtype 'json', shape [3]",
+   "dtype 'image', shape [3]",
+   "dtype 5 (no string), shape [1]",
+   "dtype 1.5 (no string), shape [1]",
+   "dtype null (no string), shape [1]",
+   "dtype true (no string), shape [1]",
+   "dtype [\"float32\"] (no string), shape [1]",
+   "dtype {\"a\": 1} (no string), shape [1]",
+   "no dtype, shape [1]",
+   "dtype 'float32', shape [2]",
+   "dtype 'float32', shape [3]",
+   "dtype 'float32', shape [19]",
+   "dtype 'float32', shape [0]",
+   "dtype 'float32', shape [-1]",
+   "dtype 'float32', shape [-3]",
+   "dtype 'float32', shape []",
+   "dtype 'float32', shape [3, 2]",
+   "dtype 'float32', shape [1, 1]",
+   "dtype 'float32', shape [2, 2, 2]",
+   "dtype 'float32', shape [1, 1, 1, 1]",
+   "dtype 'float32', shape [1, 1, 1, 1, 1]",
+   "dtype 'float32', shape [1, 1, 1, 1, 1, 1]",
+   "dtype 'float32', shape \"3\"",
+   "dtype 'float32', shape \"13\"",
+   "dtype 'float32', shape \"\"",
+   "dtype 'float32', shape 3",
+   "dtype 'float32', shape 3.0",
+   "dtype 'float32', shape true",
+   "dtype 'float32', shape null",
+   "dtype 'float32', shape {}",
+   "dtype 'float32', shape {\"a\": 1}",
+   "dtype 'float32', shape [3.0]",
+   "dtype 'float32', shape [1.0]",
+   "dtype 'float32', shape [true]",
+   "dtype 'float32', shape [false]",
+   "dtype 'float32', shape [\"3\"]",
+   "dtype 'float32', shape [\"1\"]",
+   "dtype 'float32', shape [null]",
+   "dtype 'float32', shape [2.5]",
+   "dtype 'float32', shape [1, -1]",
+   "dtype 'float32', shape [3, 0]",
+   "dtype 'float32', shape [[3]]",
+   "dtype 'float32', shape [1, \"1\"]",
+   "dtype 'float32', no shape",
+   "dtype 'float32', shape [1], no names",
+   "dtype 'float32', shape [1], a key more",
+   "the feature is \"float32\"",
+   "the feature is null",
+   "the feature is []",
+   "the feature is [\"float32\", [1]]",
+   "the feature is 3",
+   "the feature is 1.5",
+   "the feature is true",
+   "the feature is {}"
+  ],
+  "stops": [
+   "dtype 'int', shape [1]",
+   "dtype 'uint', shape [1]",
+   "dtype 'long', shape [1]",
+   "dtype 'f8', shape [1]",
+   "dtype '<f8', shape [1]",
+   "dtype '<i8', shape [1]",
+   "dtype 'number', shape [1]",
+   "dtype 'str', shape [1]",
+   "dtype 'boolean', shape [1]",
+   "dtype 'object', shape [1]",
+   "dtype 'halffloat', shape [1]",
+   "dtype 'Float64', shape [1]",
+   "dtype 'FLOAT64', shape [1]",
+   "dtype 'float64 ', shape [1]",
+   "dtype ' float64', shape [1]",
+   "dtype '', shape [1]",
+   "dtype 'json', shape [1]",
+   "dtype 'array', shape [1]",
+   "dtype 'list', shape [1]",
+   "dtype 'list_', shape [1]",
+   "dtype 'struct', shape [1]",
+   "dtype 'decimal128', shape [1]",
+   "dtype 'timestamp', shape [1]",
+   "dtype 'cpu_count', shape [1]",
+   "dtype 'long', shape [3]",
+   "dtype '', shape [3]",
+   "dtype 'json', shape [3]",
+   "dtype 5 (no string), shape [1]",
+   "dtype 1.5 (no string), shape [1]",
+   "dtype null (no string), shape [1]",
+   "dtype true (no string), shape [1]",
+   "dtype [\"float32\"] (no string), shape [1]",
+   "dtype {\"a\": 1} (no string), shape [1]",
+   "no dtype, shape [1]",
+   "dtype 'float32', shape [0]",
+   "dtype 'float32', shape [-3]",
+   "dtype 'float32', shape []",
+   "dtype 'float32', shape [1, 1, 1, 1, 1, 1]",
+   "dtype 'float32', shape \"3\"",
+   "dtype 'float32', shape \"\"",
+   "dtype 'float32', shape 3",
+   "dtype 'float32', shape 3.0",
+   "dtype 'float32', shape true",
+   "dtype 'float32', shape null",
+   "dtype 'float32', shape {}",
+   "dtype 'float32', shape {\"a\": 1}",
+   "dtype 'float32', shape [false]",
+   "dtype 'float32', shape [\"3\"]",
+   "dtype 'float32', shape [\"1\"]",
+   "dtype 'float32', shape [null]",
+   "dtype 'float32', shape [2.5]",
+   "dtype 'float32', shape [[3]]",
+   "dtype 'float32', no shape",
+   "the feature is \"float32\"",
+   "the feature is null",
+   "the feature is []",
+   "the feature is [\"float32\", [1]]",
+   "the feature is 3",
+   "the feature is 1.5",
+   "the feature is true",
+   "the feature is {}"
+  ]
+ },
+ "casts": {
+  "stored": [
+   "double",
+   "double, whole",
+   "double, whole, one 300",
+   "double, whole, one -1",
+   "double, 0 and 1",
+   "double, one NaN",
+   "double, one inf",
+   "double, one 1e300",
+   "double, one null",
+   "float",
+   "halffloat",
+   "int64",
+   "int64, 0 and 1",
+   "int64, one 127",
+   "int64, one 128",
+   "int64, one 255",
+   "int64, one 256",
+   "int64, one -1",
+   "int64, one -129",
+   "int64, one 2**24+1",
+   "int64, one 2**31",
+   "int64, one 2**53+1",
+   "uint64, one 2**63",
+   "int32",
+   "int8",
+   "uint8, one 255",
+   "bool",
+   "string, numbers",
+   "string, whole numbers",
+   "string, one word",
+   "string, one empty",
+   "string, true and false",
+   "large_string, whole numbers",
+   "binary, whole numbers",
+   "dictionary<int32, string>, whole numbers",
+   "null",
+   "timestamp[ms]",
+   "date32",
+   "decimal128(5, 2)",
+   "struct<x: double>",
+   "list<double>, of 3",
+   "list<double>, of 3, whole",
+   "list<double>, of 3, one NaN",
+   "list<double>, of 3 and one of 2",
+   "list<double>, of 3 and one of 4",
+   "list<double>, of 3 and one empty",
+   "list<double>, of 3 and one null",
+   "list<double>, every one null",
+   "list<double>, of 3, a null inside",
+   "list<double>, of 2",
+   "list<double>, of 1",
+   "large_list<double>, of 3",
+   "list<float>, of 3",
+   "list<int64>, of 3",
+   "list<int64>, of 3, one 300",
+   "list<string>, of 3, numbers",
+   "list<string>, of 3, one word",
+   "list<null>, of 3",
+   "list<null>, empty",
+   "fixed<double>[3]",
+   "fixed<double>[3], whole",
+   "fixed<double>[3], a null inside",
+   "fixed<double>[2]",
+   "fixed<double>[1]",
+   "fixed<float>[3]",
+   "fixed<int32>[3], one 300",
+   "list<list<double>>, 3 of 1",
+   "fixed<fixed<double>[1]>[3]",
+   "list<struct<x: double>>, of 3",
+   "fixed_shape_tensor<double>[3]"
+  ],
+  "declared": [
+   "float64 [1]",
+   "float32 [1]",
+   "float16 [1]",
+   "int64 [1]",
+   "int32 [1]",
+   "int8 [1]",
+   "uint8 [1]",
+   "uint64 [1]",
+   "bool [1]",
+   "string [1]",
+   "large_string [1]",
+   "binary [1]",
+   "null [1]",
+   "float64 [3]",
+   "float32 [3]",
+   "int64 [3]",
+   "int8 [3]",
+   "bool [3]",
+   "string [3]",
+   "null [3]",
+   "float64 [2]",
+   "float64 [4]"
+  ],
+  "stops": [
+   [
+    "double",
+    "int64 [1]"
+   ],
+   [
+    "double",
+    "int32 [1]"
+   ],
+   [
+    "double",
+    "int8 [1]"
+   ],
+   [
+    "double",
+    "uint8 [1]"
+   ],
+   [
+    "double",
+    "uint64 [1]"
+   ],
+   [
+    "double",
+    "binary [1]"
+   ],
+   [
+    "double",
+    "null [1]"
+   ],
+   [
+    "double",
+    "float64 [3]"
+   ],
+   [
+    "double",
+    "float32 [3]"
+   ],
+   [
+    "double",
+    "int64 [3]"
+   ],
+   [
+    "double",
+    "int8 [3]"
+   ],
+   [
+    "double",
+    "bool [3]"
+   ],
+   [
+    "double",
+    "string [3]"
+   ],
+   [
+    "double",
+    "null [3]"
+   ],
+   [
+    "double",
+    "float64 [2]"
+   ],
+   [
+    "double",
+    "float64 [4]"
+   ],
+   [
+    "double, whole",
+    "binary [1]"
+   ],
+   [
+    "double, whole",
+    "null [1]"
+   ],
+   [
+    "double, whole",
+    "float64 [3]"
+   ],
+   [
+    "double, whole",
+    "float32 [3]"
+   ],
+   [
+    "double, whole",
+    "int64 [3]"
+   ],
+   [
+    "double, whole",
+    "int8 [3]"
+   ],
+   [
+    "double, whole",
+    "bool [3]"
+   ],
+   [
+    "double, whole",
+    "string [3]"
+   ],
+   [
+    "double, whole",
+    "null [3]"
+   ],
+   [
+    "double, whole",
+    "float64 [2]"
+   ],
+   [
+    "double, whole",
+    "float64 [4]"
+   ],
+   [
+    "double, whole, one 300",
+    "int8 [1]"
+   ],
+   [
+    "double, whole, one 300",
+    "uint8 [1]"
+   ],
+   [
+    "double, whole, one 300",
+    "binary [1]"
+   ],
+   [
+    "double, whole, one 300",
+    "null [1]"
+   ],
+   [
+    "double, whole, one 300",
+    "float64 [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "float32 [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "int64 [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "int8 [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "bool [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "string [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "null [3]"
+   ],
+   [
+    "double, whole, one 300",
+    "float64 [2]"
+   ],
+   [
+    "double, whole, one 300",
+    "float64 [4]"
+   ],
+   [
+    "double, whole, one -1",
+    "uint8 [1]"
+   ],
+   [
+    "double, whole, one -1",
+    "uint64 [1]"
+   ],
+   [
+    "double, whole, one -1",
+    "binary [1]"
+   ],
+   [
+    "double, whole, one -1",
+    "null [1]"
+   ],
+   [
+    "double, whole, one -1",
+    "float64 [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "float32 [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "int64 [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "int8 [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "bool [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "string [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "null [3]"
+   ],
+   [
+    "double, whole, one -1",
+    "float64 [2]"
+   ],
+   [
+    "double, whole, one -1",
+    "float64 [4]"
+   ],
+   [
+    "double, 0 and 1",
+    "binary [1]"
+   ],
+   [
+    "double, 0 and 1",
+    "null [1]"
+   ],
+   [
+    "double, 0 and 1",
+    "float64 [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "float32 [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "int64 [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "int8 [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "bool [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "string [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "null [3]"
+   ],
+   [
+    "double, 0 and 1",
+    "float64 [2]"
+   ],
+   [
+    "double, 0 and 1",
+    "float64 [4]"
+   ],
+   [
+    "double, one NaN",
+    "int64 [1]"
+   ],
+   [
+    "double, one NaN",
+    "int32 [1]"
+   ],
+   [
+    "double, one NaN",
+    "int8 [1]"
+   ],
+   [
+    "double, one NaN",
+    "uint8 [1]"
+   ],
+   [
+    "double, one NaN",
+    "uint64 [1]"
+   ],
+   [
+    "double, one NaN",
+    "binary [1]"
+   ],
+   [
+    "double, one NaN",
+    "null [1]"
+   ],
+   [
+    "double, one NaN",
+    "float64 [3]"
+   ],
+   [
+    "double, one NaN",
+    "float32 [3]"
+   ],
+   [
+    "double, one NaN",
+    "int64 [3]"
+   ],
+   [
+    "double, one NaN",
+    "int8 [3]"
+   ],
+   [
+    "double, one NaN",
+    "bool [3]"
+   ],
+   [
+    "double, one NaN",
+    "string [3]"
+   ],
+   [
+    "double, one NaN",
+    "null [3]"
+   ],
+   [
+    "double, one NaN",
+    "float64 [2]"
+   ],
+   [
+    "double, one NaN",
+    "float64 [4]"
+   ],
+   [
+    "double, one inf",
+    "int64 [1]"
+   ],
+   [
+    "double, one inf",
+    "int32 [1]"
+   ],
+   [
+    "double, one inf",
+    "int8 [1]"
+   ],
+   [
+    "double, one inf",
+    "uint8 [1]"
+   ],
+   [
+    "double, one inf",
+    "uint64 [1]"
+   ],
+   [
+    "double, one inf",
+    "binary [1]"
+   ],
+   [
+    "double, one inf",
+    "null [1]"
+   ],
+   [
+    "double, one inf",
+    "float64 [3]"
+   ],
+   [
+    "double, one inf",
+    "float32 [3]"
+   ],
+   [
+    "double, one inf",
+    "int64 [3]"
+   ],
+   [
+    "double, one inf",
+    "int8 [3]"
+   ],
+   [
+    "double, one inf",
+    "bool [3]"
+   ],
+   [
+    "double, one inf",
+    "string [3]"
+   ],
+   [
+    "double, one inf",
+    "null [3]"
+   ],
+   [
+    "double, one inf",
+    "float64 [2]"
+   ],
+   [
+    "double, one inf",
+    "float64 [4]"
+   ],
+   [
+    "double, one 1e300",
+    "int64 [1]"
+   ],
+   [
+    "double, one 1e300",
+    "int32 [1]"
+   ],
+   [
+    "double, one 1e300",
+    "int8 [1]"
+   ],
+   [
+    "double, one 1e300",
+    "uint8 [1]"
+   ],
+   [
+    "double, one 1e300",
+    "uint64 [1]"
+   ],
+   [
+    "double, one 1e300",
+    "binary [1]"
+   ],
+   [
+    "double, one 1e300",
+    "null [1]"
+   ],
+   [
+    "double, one 1e300",
+    "float64 [3]"
+   ],
+   [
+    "double, one 1e300",
+    "float32 [3]"
+   ],
+   [
+    "double, one 1e300",
+    "int64 [3]"
+   ],
+   [
+    "double, one 1e300",
+    "int8 [3]"
+   ],
+   [
+    "double, one 1e300",
+    "bool [3]"
+   ],
+   [
+    "double, one 1e300",
+    "string [3]"
+   ],
+   [
+    "double, one 1e300",
+    "null [3]"
+   ],
+   [
+    "double, one 1e300",
+    "float64 [2]"
+   ],
+   [
+    "double, one 1e300",
+    "float64 [4]"
+   ],
+   [
+    "double, one null",
+    "binary [1]"
+   ],
+   [
+    "double, one null",
+    "null [1]"
+   ],
+   [
+    "double, one null",
+    "float64 [3]"
+   ],
+   [
+    "double, one null",
+    "float32 [3]"
+   ],
+   [
+    "double, one null",
+    "int64 [3]"
+   ],
+   [
+    "double, one null",
+    "int8 [3]"
+   ],
+   [
+    "double, one null",
+    "bool [3]"
+   ],
+   [
+    "double, one null",
+    "string [3]"
+   ],
+   [
+    "double, one null",
+    "null [3]"
+   ],
+   [
+    "double, one null",
+    "float64 [2]"
+   ],
+   [
+    "double, one null",
+    "float64 [4]"
+   ],
+   [
+    "float",
+    "int64 [1]"
+   ],
+   [
+    "float",
+    "int32 [1]"
+   ],
+   [
+    "float",
+    "int8 [1]"
+   ],
+   [
+    "float",
+    "uint8 [1]"
+   ],
+   [
+    "float",
+    "uint64 [1]"
+   ],
+   [
+    "float",
+    "binary [1]"
+   ],
+   [
+    "float",
+    "null [1]"
+   ],
+   [
+    "float",
+    "float64 [3]"
+   ],
+   [
+    "float",
+    "float32 [3]"
+   ],
+   [
+    "float",
+    "int64 [3]"
+   ],
+   [
+    "float",
+    "int8 [3]"
+   ],
+   [
+    "float",
+    "bool [3]"
+   ],
+   [
+    "float",
+    "string [3]"
+   ],
+   [
+    "float",
+    "null [3]"
+   ],
+   [
+    "float",
+    "float64 [2]"
+   ],
+   [
+    "float",
+    "float64 [4]"
+   ],
+   [
+    "halffloat",
+    "int64 [1]"
+   ],
+   [
+    "halffloat",
+    "int32 [1]"
+   ],
+   [
+    "halffloat",
+    "int8 [1]"
+   ],
+   [
+    "halffloat",
+    "uint8 [1]"
+   ],
+   [
+    "halffloat",
+    "uint64 [1]"
+   ],
+   [
+    "halffloat",
+    "bool [1]"
+   ],
+   [
+    "halffloat",
+    "binary [1]"
+   ],
+   [
+    "halffloat",
+    "null [1]"
+   ],
+   [
+    "halffloat",
+    "float64 [3]"
+   ],
+   [
+    "halffloat",
+    "float32 [3]"
+   ],
+   [
+    "halffloat",
+    "int64 [3]"
+   ],
+   [
+    "halffloat",
+    "int8 [3]"
+   ],
+   [
+    "halffloat",
+    "bool [3]"
+   ],
+   [
+    "halffloat",
+    "string [3]"
+   ],
+   [
+    "halffloat",
+    "null [3]"
+   ],
+   [
+    "halffloat",
+    "float64 [2]"
+   ],
+   [
+    "halffloat",
+    "float64 [4]"
+   ],
+   [
+    "int64",
+    "binary [1]"
+   ],
+   [
+    "int64",
+    "null [1]"
+   ],
+   [
+    "int64",
+    "float64 [3]"
+   ],
+   [
+    "int64",
+    "float32 [3]"
+   ],
+   [
+    "int64",
+    "int64 [3]"
+   ],
+   [
+    "int64",
+    "int8 [3]"
+   ],
+   [
+    "int64",
+    "bool [3]"
+   ],
+   [
+    "int64",
+    "string [3]"
+   ],
+   [
+    "int64",
+    "null [3]"
+   ],
+   [
+    "int64",
+    "float64 [2]"
+   ],
+   [
+    "int64",
+    "float64 [4]"
+   ],
+   [
+    "int64, 0 and 1",
+    "binary [1]"
+   ],
+   [
+    "int64, 0 and 1",
+    "null [1]"
+   ],
+   [
+    "int64, 0 and 1",
+    "float64 [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "float32 [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "int64 [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "int8 [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "bool [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "string [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "null [3]"
+   ],
+   [
+    "int64, 0 and 1",
+    "float64 [2]"
+   ],
+   [
+    "int64, 0 and 1",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 127",
+    "binary [1]"
+   ],
+   [
+    "int64, one 127",
+    "null [1]"
+   ],
+   [
+    "int64, one 127",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 127",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 127",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 127",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 127",
+    "bool [3]"
+   ],
+   [
+    "int64, one 127",
+    "string [3]"
+   ],
+   [
+    "int64, one 127",
+    "null [3]"
+   ],
+   [
+    "int64, one 127",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 127",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 128",
+    "int8 [1]"
+   ],
+   [
+    "int64, one 128",
+    "binary [1]"
+   ],
+   [
+    "int64, one 128",
+    "null [1]"
+   ],
+   [
+    "int64, one 128",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 128",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 128",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 128",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 128",
+    "bool [3]"
+   ],
+   [
+    "int64, one 128",
+    "string [3]"
+   ],
+   [
+    "int64, one 128",
+    "null [3]"
+   ],
+   [
+    "int64, one 128",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 128",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 255",
+    "int8 [1]"
+   ],
+   [
+    "int64, one 255",
+    "binary [1]"
+   ],
+   [
+    "int64, one 255",
+    "null [1]"
+   ],
+   [
+    "int64, one 255",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 255",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 255",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 255",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 255",
+    "bool [3]"
+   ],
+   [
+    "int64, one 255",
+    "string [3]"
+   ],
+   [
+    "int64, one 255",
+    "null [3]"
+   ],
+   [
+    "int64, one 255",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 255",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 256",
+    "int8 [1]"
+   ],
+   [
+    "int64, one 256",
+    "uint8 [1]"
+   ],
+   [
+    "int64, one 256",
+    "binary [1]"
+   ],
+   [
+    "int64, one 256",
+    "null [1]"
+   ],
+   [
+    "int64, one 256",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 256",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 256",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 256",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 256",
+    "bool [3]"
+   ],
+   [
+    "int64, one 256",
+    "string [3]"
+   ],
+   [
+    "int64, one 256",
+    "null [3]"
+   ],
+   [
+    "int64, one 256",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 256",
+    "float64 [4]"
+   ],
+   [
+    "int64, one -1",
+    "uint8 [1]"
+   ],
+   [
+    "int64, one -1",
+    "uint64 [1]"
+   ],
+   [
+    "int64, one -1",
+    "binary [1]"
+   ],
+   [
+    "int64, one -1",
+    "null [1]"
+   ],
+   [
+    "int64, one -1",
+    "float64 [3]"
+   ],
+   [
+    "int64, one -1",
+    "float32 [3]"
+   ],
+   [
+    "int64, one -1",
+    "int64 [3]"
+   ],
+   [
+    "int64, one -1",
+    "int8 [3]"
+   ],
+   [
+    "int64, one -1",
+    "bool [3]"
+   ],
+   [
+    "int64, one -1",
+    "string [3]"
+   ],
+   [
+    "int64, one -1",
+    "null [3]"
+   ],
+   [
+    "int64, one -1",
+    "float64 [2]"
+   ],
+   [
+    "int64, one -1",
+    "float64 [4]"
+   ],
+   [
+    "int64, one -129",
+    "int8 [1]"
+   ],
+   [
+    "int64, one -129",
+    "uint8 [1]"
+   ],
+   [
+    "int64, one -129",
+    "uint64 [1]"
+   ],
+   [
+    "int64, one -129",
+    "binary [1]"
+   ],
+   [
+    "int64, one -129",
+    "null [1]"
+   ],
+   [
+    "int64, one -129",
+    "float64 [3]"
+   ],
+   [
+    "int64, one -129",
+    "float32 [3]"
+   ],
+   [
+    "int64, one -129",
+    "int64 [3]"
+   ],
+   [
+    "int64, one -129",
+    "int8 [3]"
+   ],
+   [
+    "int64, one -129",
+    "bool [3]"
+   ],
+   [
+    "int64, one -129",
+    "string [3]"
+   ],
+   [
+    "int64, one -129",
+    "null [3]"
+   ],
+   [
+    "int64, one -129",
+    "float64 [2]"
+   ],
+   [
+    "int64, one -129",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "float32 [1]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "int8 [1]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "uint8 [1]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "binary [1]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "null [1]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "bool [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "string [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "null [3]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 2**24+1",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 2**31",
+    "float32 [1]"
+   ],
+   [
+    "int64, one 2**31",
+    "int32 [1]"
+   ],
+   [
+    "int64, one 2**31",
+    "int8 [1]"
+   ],
+   [
+    "int64, one 2**31",
+    "uint8 [1]"
+   ],
+   [
+    "int64, one 2**31",
+    "binary [1]"
+   ],
+   [
+    "int64, one 2**31",
+    "null [1]"
+   ],
+   [
+    "int64, one 2**31",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "bool [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "string [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "null [3]"
+   ],
+   [
+    "int64, one 2**31",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 2**31",
+    "float64 [4]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float64 [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float32 [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float16 [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "int32 [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "int8 [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "uint8 [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "binary [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "null [1]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float64 [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float32 [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "int64 [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "int8 [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "bool [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "string [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "null [3]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float64 [2]"
+   ],
+   [
+    "int64, one 2**53+1",
+    "float64 [4]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float64 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float32 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float16 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "int64 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "int32 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "int8 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "uint8 [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "binary [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "null [1]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float64 [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float32 [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "int64 [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "int8 [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "bool [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "string [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "null [3]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float64 [2]"
+   ],
+   [
+    "uint64, one 2**63",
+    "float64 [4]"
+   ],
+   [
+    "int32",
+    "binary [1]"
+   ],
+   [
+    "int32",
+    "null [1]"
+   ],
+   [
+    "int32",
+    "float64 [3]"
+   ],
+   [
+    "int32",
+    "float32 [3]"
+   ],
+   [
+    "int32",
+    "int64 [3]"
+   ],
+   [
+    "int32",
+    "int8 [3]"
+   ],
+   [
+    "int32",
+    "bool [3]"
+   ],
+   [
+    "int32",
+    "string [3]"
+   ],
+   [
+    "int32",
+    "null [3]"
+   ],
+   [
+    "int32",
+    "float64 [2]"
+   ],
+   [
+    "int32",
+    "float64 [4]"
+   ],
+   [
+    "int8",
+    "binary [1]"
+   ],
+   [
+    "int8",
+    "null [1]"
+   ],
+   [
+    "int8",
+    "float64 [3]"
+   ],
+   [
+    "int8",
+    "float32 [3]"
+   ],
+   [
+    "int8",
+    "int64 [3]"
+   ],
+   [
+    "int8",
+    "int8 [3]"
+   ],
+   [
+    "int8",
+    "bool [3]"
+   ],
+   [
+    "int8",
+    "string [3]"
+   ],
+   [
+    "int8",
+    "null [3]"
+   ],
+   [
+    "int8",
+    "float64 [2]"
+   ],
+   [
+    "int8",
+    "float64 [4]"
+   ],
+   [
+    "uint8, one 255",
+    "int8 [1]"
+   ],
+   [
+    "uint8, one 255",
+    "binary [1]"
+   ],
+   [
+    "uint8, one 255",
+    "null [1]"
+   ],
+   [
+    "uint8, one 255",
+    "float64 [3]"
+   ],
+   [
+    "uint8, one 255",
+    "float32 [3]"
+   ],
+   [
+    "uint8, one 255",
+    "int64 [3]"
+   ],
+   [
+    "uint8, one 255",
+    "int8 [3]"
+   ],
+   [
+    "uint8, one 255",
+    "bool [3]"
+   ],
+   [
+    "uint8, one 255",
+    "string [3]"
+   ],
+   [
+    "uint8, one 255",
+    "null [3]"
+   ],
+   [
+    "uint8, one 255",
+    "float64 [2]"
+   ],
+   [
+    "uint8, one 255",
+    "float64 [4]"
+   ],
+   [
+    "bool",
+    "float16 [1]"
+   ],
+   [
+    "bool",
+    "binary [1]"
+   ],
+   [
+    "bool",
+    "null [1]"
+   ],
+   [
+    "bool",
+    "float64 [3]"
+   ],
+   [
+    "bool",
+    "float32 [3]"
+   ],
+   [
+    "bool",
+    "int64 [3]"
+   ],
+   [
+    "bool",
+    "int8 [3]"
+   ],
+   [
+    "bool",
+    "bool [3]"
+   ],
+   [
+    "bool",
+    "string [3]"
+   ],
+   [
+    "bool",
+    "null [3]"
+   ],
+   [
+    "bool",
+    "float64 [2]"
+   ],
+   [
+    "bool",
+    "float64 [4]"
+   ],
+   [
+    "string, numbers",
+    "int64 [1]"
+   ],
+   [
+    "string, numbers",
+    "int32 [1]"
+   ],
+   [
+    "string, numbers",
+    "int8 [1]"
+   ],
+   [
+    "string, numbers",
+    "uint8 [1]"
+   ],
+   [
+    "string, numbers",
+    "uint64 [1]"
+   ],
+   [
+    "string, numbers",
+    "bool [1]"
+   ],
+   [
+    "string, numbers",
+    "null [1]"
+   ],
+   [
+    "string, numbers",
+    "float64 [3]"
+   ],
+   [
+    "string, numbers",
+    "float32 [3]"
+   ],
+   [
+    "string, numbers",
+    "int64 [3]"
+   ],
+   [
+    "string, numbers",
+    "int8 [3]"
+   ],
+   [
+    "string, numbers",
+    "bool [3]"
+   ],
+   [
+    "string, numbers",
+    "string [3]"
+   ],
+   [
+    "string, numbers",
+    "null [3]"
+   ],
+   [
+    "string, numbers",
+    "float64 [2]"
+   ],
+   [
+    "string, numbers",
+    "float64 [4]"
+   ],
+   [
+    "string, whole numbers",
+    "bool [1]"
+   ],
+   [
+    "string, whole numbers",
+    "null [1]"
+   ],
+   [
+    "string, whole numbers",
+    "float64 [3]"
+   ],
+   [
+    "string, whole numbers",
+    "float32 [3]"
+   ],
+   [
+    "string, whole numbers",
+    "int64 [3]"
+   ],
+   [
+    "string, whole numbers",
+    "int8 [3]"
+   ],
+   [
+    "string, whole numbers",
+    "bool [3]"
+   ],
+   [
+    "string, whole numbers",
+    "string [3]"
+   ],
+   [
+    "string, whole numbers",
+    "null [3]"
+   ],
+   [
+    "string, whole numbers",
+    "float64 [2]"
+   ],
+   [
+    "string, whole numbers",
+    "float64 [4]"
+   ],
+   [
+    "string, one word",
+    "float64 [1]"
+   ],
+   [
+    "string, one word",
+    "float32 [1]"
+   ],
+   [
+    "string, one word",
+    "float16 [1]"
+   ],
+   [
+    "string, one word",
+    "int64 [1]"
+   ],
+   [
+    "string, one word",
+    "int32 [1]"
+   ],
+   [
+    "string, one word",
+    "int8 [1]"
+   ],
+   [
+    "string, one word",
+    "uint8 [1]"
+   ],
+   [
+    "string, one word",
+    "uint64 [1]"
+   ],
+   [
+    "string, one word",
+    "bool [1]"
+   ],
+   [
+    "string, one word",
+    "null [1]"
+   ],
+   [
+    "string, one word",
+    "float64 [3]"
+   ],
+   [
+    "string, one word",
+    "float32 [3]"
+   ],
+   [
+    "string, one word",
+    "int64 [3]"
+   ],
+   [
+    "string, one word",
+    "int8 [3]"
+   ],
+   [
+    "string, one word",
+    "bool [3]"
+   ],
+   [
+    "string, one word",
+    "string [3]"
+   ],
+   [
+    "string, one word",
+    "null [3]"
+   ],
+   [
+    "string, one word",
+    "float64 [2]"
+   ],
+   [
+    "string, one word",
+    "float64 [4]"
+   ],
+   [
+    "string, one empty",
+    "float64 [1]"
+   ],
+   [
+    "string, one empty",
+    "float32 [1]"
+   ],
+   [
+    "string, one empty",
+    "float16 [1]"
+   ],
+   [
+    "string, one empty",
+    "int64 [1]"
+   ],
+   [
+    "string, one empty",
+    "int32 [1]"
+   ],
+   [
+    "string, one empty",
+    "int8 [1]"
+   ],
+   [
+    "string, one empty",
+    "uint8 [1]"
+   ],
+   [
+    "string, one empty",
+    "uint64 [1]"
+   ],
+   [
+    "string, one empty",
+    "bool [1]"
+   ],
+   [
+    "string, one empty",
+    "null [1]"
+   ],
+   [
+    "string, one empty",
+    "float64 [3]"
+   ],
+   [
+    "string, one empty",
+    "float32 [3]"
+   ],
+   [
+    "string, one empty",
+    "int64 [3]"
+   ],
+   [
+    "string, one empty",
+    "int8 [3]"
+   ],
+   [
+    "string, one empty",
+    "bool [3]"
+   ],
+   [
+    "string, one empty",
+    "string [3]"
+   ],
+   [
+    "string, one empty",
+    "null [3]"
+   ],
+   [
+    "string, one empty",
+    "float64 [2]"
+   ],
+   [
+    "string, one empty",
+    "float64 [4]"
+   ],
+   [
+    "string, true and false",
+    "float64 [1]"
+   ],
+   [
+    "string, true and false",
+    "float32 [1]"
+   ],
+   [
+    "string, true and false",
+    "float16 [1]"
+   ],
+   [
+    "string, true and false",
+    "int64 [1]"
+   ],
+   [
+    "string, true and false",
+    "int32 [1]"
+   ],
+   [
+    "string, true and false",
+    "int8 [1]"
+   ],
+   [
+    "string, true and false",
+    "uint8 [1]"
+   ],
+   [
+    "string, true and false",
+    "uint64 [1]"
+   ],
+   [
+    "string, true and false",
+    "null [1]"
+   ],
+   [
+    "string, true and false",
+    "float64 [3]"
+   ],
+   [
+    "string, true and false",
+    "float32 [3]"
+   ],
+   [
+    "string, true and false",
+    "int64 [3]"
+   ],
+   [
+    "string, true and false",
+    "int8 [3]"
+   ],
+   [
+    "string, true and false",
+    "bool [3]"
+   ],
+   [
+    "string, true and false",
+    "string [3]"
+   ],
+   [
+    "string, true and false",
+    "null [3]"
+   ],
+   [
+    "string, true and false",
+    "float64 [2]"
+   ],
+   [
+    "string, true and false",
+    "float64 [4]"
+   ],
+   [
+    "large_string, whole numbers",
+    "bool [1]"
+   ],
+   [
+    "large_string, whole numbers",
+    "null [1]"
+   ],
+   [
+    "large_string, whole numbers",
+    "float64 [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "float32 [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "int64 [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "int8 [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "bool [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "string [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "null [3]"
+   ],
+   [
+    "large_string, whole numbers",
+    "float64 [2]"
+   ],
+   [
+    "large_string, whole numbers",
+    "float64 [4]"
+   ],
+   [
+    "binary, whole numbers",
+    "bool [1]"
+   ],
+   [
+    "binary, whole numbers",
+    "null [1]"
+   ],
+   [
+    "binary, whole numbers",
+    "float64 [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "float32 [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "int64 [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "int8 [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "bool [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "string [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "null [3]"
+   ],
+   [
+    "binary, whole numbers",
+    "float64 [2]"
+   ],
+   [
+    "binary, whole numbers",
+    "float64 [4]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "bool [1]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "null [1]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "float64 [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "float32 [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "int64 [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "int8 [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "bool [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "string [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "null [3]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "float64 [2]"
+   ],
+   [
+    "dictionary<int32, string>, whole numbers",
+    "float64 [4]"
+   ],
+   [
+    "timestamp[ms]",
+    "float64 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "float32 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "float16 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "int32 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "int8 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "uint8 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "uint64 [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "bool [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "binary [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "null [1]"
+   ],
+   [
+    "timestamp[ms]",
+    "float64 [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "float32 [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "int64 [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "int8 [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "bool [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "string [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "null [3]"
+   ],
+   [
+    "timestamp[ms]",
+    "float64 [2]"
+   ],
+   [
+    "timestamp[ms]",
+    "float64 [4]"
+   ],
+   [
+    "date32",
+    "float64 [1]"
+   ],
+   [
+    "date32",
+    "float32 [1]"
+   ],
+   [
+    "date32",
+    "float16 [1]"
+   ],
+   [
+    "date32",
+    "int64 [1]"
+   ],
+   [
+    "date32",
+    "int8 [1]"
+   ],
+   [
+    "date32",
+    "uint8 [1]"
+   ],
+   [
+    "date32",
+    "uint64 [1]"
+   ],
+   [
+    "date32",
+    "bool [1]"
+   ],
+   [
+    "date32",
+    "binary [1]"
+   ],
+   [
+    "date32",
+    "null [1]"
+   ],
+   [
+    "date32",
+    "float64 [3]"
+   ],
+   [
+    "date32",
+    "float32 [3]"
+   ],
+   [
+    "date32",
+    "int64 [3]"
+   ],
+   [
+    "date32",
+    "int8 [3]"
+   ],
+   [
+    "date32",
+    "bool [3]"
+   ],
+   [
+    "date32",
+    "string [3]"
+   ],
+   [
+    "date32",
+    "null [3]"
+   ],
+   [
+    "date32",
+    "float64 [2]"
+   ],
+   [
+    "date32",
+    "float64 [4]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "float16 [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "int64 [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "int32 [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "int8 [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "uint8 [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "uint64 [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "bool [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "binary [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "null [1]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "float64 [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "float32 [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "int64 [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "int8 [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "bool [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "string [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "null [3]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "float64 [2]"
+   ],
+   [
+    "decimal128(5, 2)",
+    "float64 [4]"
+   ],
+   [
+    "struct<x: double>",
+    "float64 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "float32 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "float16 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "int64 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "int32 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "int8 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "uint8 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "uint64 [1]"
+   ],
+   [
+    "struct<x: double>",
+    "bool [1]"
+   ],
+   [
+    "struct<x: double>",
+    "string [1]"
+   ],
+   [
+    "struct<x: double>",
+    "large_string [1]"
+   ],
+   [
+    "struct<x: double>",
+    "binary [1]"
+   ],
+   [
+    "struct<x: double>",
+    "null [1]"
+   ],
+   [
+    "struct<x: double>",
+    "float64 [3]"
+   ],
+   [
+    "struct<x: double>",
+    "float32 [3]"
+   ],
+   [
+    "struct<x: double>",
+    "int64 [3]"
+   ],
+   [
+    "struct<x: double>",
+    "int8 [3]"
+   ],
+   [
+    "struct<x: double>",
+    "bool [3]"
+   ],
+   [
+    "struct<x: double>",
+    "string [3]"
+   ],
+   [
+    "struct<x: double>",
+    "null [3]"
+   ],
+   [
+    "struct<x: double>",
+    "float64 [2]"
+   ],
+   [
+    "struct<x: double>",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3, whole",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3, one NaN",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float32 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "bool [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "string [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3 and one of 2",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float32 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "bool [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "string [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3 and one of 4",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float32 [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "bool [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "string [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3 and one empty",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3 and one null",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, every one null",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "bool [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "string [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "binary [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "null [1]"
+   ],
+   [
+    "list<double>, every one null",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 3, a null inside",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 2",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 2",
+    "float64 [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "float32 [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "bool [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "string [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 2",
+    "float64 [4]"
+   ],
+   [
+    "list<double>, of 1",
+    "float64 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "float32 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "float16 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "int64 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "int32 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "int8 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "uint8 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "uint64 [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "bool [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "string [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "large_string [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "binary [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "null [1]"
+   ],
+   [
+    "list<double>, of 1",
+    "float64 [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "float32 [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "int64 [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "int8 [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "bool [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "string [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "null [3]"
+   ],
+   [
+    "list<double>, of 1",
+    "float64 [2]"
+   ],
+   [
+    "list<double>, of 1",
+    "float64 [4]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "float64 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "float32 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "float16 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "int64 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "int32 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "int8 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "uint8 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "uint64 [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "bool [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "string [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "large_string [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "binary [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "null [1]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "int64 [3]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "int8 [3]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "null [3]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "float64 [2]"
+   ],
+   [
+    "large_list<double>, of 3",
+    "float64 [4]"
+   ],
+   [
+    "list<float>, of 3",
+    "float64 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "float32 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "float16 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "int64 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "int32 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "int8 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "uint8 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "uint64 [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "bool [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "string [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "large_string [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "binary [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "null [1]"
+   ],
+   [
+    "list<float>, of 3",
+    "int64 [3]"
+   ],
+   [
+    "list<float>, of 3",
+    "int8 [3]"
+   ],
+   [
+    "list<float>, of 3",
+    "null [3]"
+   ],
+   [
+    "list<float>, of 3",
+    "float64 [2]"
+   ],
+   [
+    "list<float>, of 3",
+    "float64 [4]"
+   ],
+   [
+    "list<int64>, of 3",
+    "float64 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "float32 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "float16 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "int64 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "int32 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "int8 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "uint8 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "uint64 [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "bool [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "string [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "large_string [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "binary [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "null [1]"
+   ],
+   [
+    "list<int64>, of 3",
+    "null [3]"
+   ],
+   [
+    "list<int64>, of 3",
+    "float64 [2]"
+   ],
+   [
+    "list<int64>, of 3",
+    "float64 [4]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "float64 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "float32 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "float16 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "int64 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "int32 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "int8 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "uint8 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "uint64 [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "bool [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "string [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "large_string [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "binary [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "null [1]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "int8 [3]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "null [3]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "float64 [2]"
+   ],
+   [
+    "list<int64>, of 3, one 300",
+    "float64 [4]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "float64 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "float32 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "float16 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "int64 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "int32 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "int8 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "uint8 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "uint64 [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "bool [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "string [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "large_string [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "binary [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "null [1]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "bool [3]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "null [3]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "float64 [2]"
+   ],
+   [
+    "list<string>, of 3, numbers",
+    "float64 [4]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float64 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float32 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float16 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "int64 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "int32 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "int8 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "uint8 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "uint64 [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "bool [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "string [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "large_string [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "binary [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "null [1]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float64 [3]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float32 [3]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "int64 [3]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "int8 [3]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "bool [3]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "null [3]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float64 [2]"
+   ],
+   [
+    "list<string>, of 3, one word",
+    "float64 [4]"
+   ],
+   [
+    "list<null>, of 3",
+    "float64 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "float32 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "float16 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "int64 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "int32 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "int8 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "uint8 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "uint64 [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "bool [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "string [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "large_string [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "binary [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "null [1]"
+   ],
+   [
+    "list<null>, of 3",
+    "float64 [2]"
+   ],
+   [
+    "list<null>, of 3",
+    "float64 [4]"
+   ],
+   [
+    "list<null>, empty",
+    "float64 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "float32 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "float16 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "int64 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "int32 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "int8 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "uint8 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "uint64 [1]"
+   ],
+   [
+    "list<null>, empty",
+    "bool [1]"
+   ],
+   [
+    "list<null>, empty",
+    "string [1]"
+   ],
+   [
+    "list<null>, empty",
+    "large_string [1]"
+   ],
+   [
+    "list<null>, empty",
+    "binary [1]"
+   ],
+   [
+    "list<null>, empty",
+    "null [1]"
+   ],
+   [
+    "list<null>, empty",
+    "float64 [3]"
+   ],
+   [
+    "list<null>, empty",
+    "float32 [3]"
+   ],
+   [
+    "list<null>, empty",
+    "int64 [3]"
+   ],
+   [
+    "list<null>, empty",
+    "int8 [3]"
+   ],
+   [
+    "list<null>, empty",
+    "bool [3]"
+   ],
+   [
+    "list<null>, empty",
+    "string [3]"
+   ],
+   [
+    "list<null>, empty",
+    "null [3]"
+   ],
+   [
+    "list<null>, empty",
+    "float64 [2]"
+   ],
+   [
+    "list<null>, empty",
+    "float64 [4]"
+   ],
+   [
+    "fixed<double>[3]",
+    "float64 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "float32 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "float16 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "int64 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "int32 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "int8 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "bool [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "string [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "large_string [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "binary [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "null [1]"
+   ],
+   [
+    "fixed<double>[3]",
+    "int64 [3]"
+   ],
+   [
+    "fixed<double>[3]",
+    "int8 [3]"
+   ],
+   [
+    "fixed<double>[3]",
+    "null [3]"
+   ],
+   [
+    "fixed<double>[3]",
+    "float64 [2]"
+   ],
+   [
+    "fixed<double>[3]",
+    "float64 [4]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "float64 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "float32 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "float16 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "int64 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "int32 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "int8 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "bool [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "string [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "large_string [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "binary [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "null [1]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "null [3]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "float64 [2]"
+   ],
+   [
+    "fixed<double>[3], whole",
+    "float64 [4]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "float64 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "float32 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "float16 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "int64 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "int32 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "int8 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "bool [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "string [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "large_string [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "binary [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "null [1]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "int64 [3]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "int8 [3]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "null [3]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "float64 [2]"
+   ],
+   [
+    "fixed<double>[3], a null inside",
+    "float64 [4]"
+   ],
+   [
+    "fixed<double>[2]",
+    "float64 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "float32 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "float16 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "int64 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "int32 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "int8 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "bool [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "string [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "large_string [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "binary [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "null [1]"
+   ],
+   [
+    "fixed<double>[2]",
+    "float64 [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "float32 [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "int64 [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "int8 [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "bool [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "string [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "null [3]"
+   ],
+   [
+    "fixed<double>[2]",
+    "float64 [4]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float64 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float32 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float16 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "int64 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "int32 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "int8 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "bool [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "string [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "large_string [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "binary [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "null [1]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float64 [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float32 [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "int64 [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "int8 [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "bool [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "string [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "null [3]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float64 [2]"
+   ],
+   [
+    "fixed<double>[1]",
+    "float64 [4]"
+   ],
+   [
+    "fixed<float>[3]",
+    "float64 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "float32 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "float16 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "int64 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "int32 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "int8 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "bool [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "string [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "large_string [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "binary [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "null [1]"
+   ],
+   [
+    "fixed<float>[3]",
+    "int64 [3]"
+   ],
+   [
+    "fixed<float>[3]",
+    "int8 [3]"
+   ],
+   [
+    "fixed<float>[3]",
+    "null [3]"
+   ],
+   [
+    "fixed<float>[3]",
+    "float64 [2]"
+   ],
+   [
+    "fixed<float>[3]",
+    "float64 [4]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "float64 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "float32 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "float16 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "int64 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "int32 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "int8 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "bool [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "string [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "large_string [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "binary [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "null [1]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "int8 [3]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "null [3]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "float64 [2]"
+   ],
+   [
+    "fixed<int32>[3], one 300",
+    "float64 [4]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float64 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float32 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float16 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "int64 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "int32 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "int8 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "uint8 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "uint64 [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "bool [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "string [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "large_string [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "binary [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "null [1]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float64 [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float32 [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "int64 [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "int8 [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "bool [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "string [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "null [3]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float64 [2]"
+   ],
+   [
+    "list<list<double>>, 3 of 1",
+    "float64 [4]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float64 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float32 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float16 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "int64 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "int32 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "int8 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "uint8 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "uint64 [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "bool [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "string [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "large_string [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "binary [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "null [1]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float64 [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float32 [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "int64 [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "int8 [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "bool [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "string [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "null [3]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float64 [2]"
+   ],
+   [
+    "fixed<fixed<double>[1]>[3]",
+    "float64 [4]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float64 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float32 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float16 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "int64 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "int32 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "int8 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "uint8 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "uint64 [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "bool [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "string [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "large_string [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "binary [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "null [1]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float64 [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float32 [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "int64 [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "int8 [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "bool [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "string [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "null [3]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float64 [2]"
+   ],
+   [
+    "list<struct<x: double>>, of 3",
+    "float64 [4]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "float64 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "float32 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "float16 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "int64 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "int32 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "int8 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "uint8 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "uint64 [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "bool [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "string [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "large_string [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "binary [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "null [1]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "int64 [3]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "int8 [3]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "null [3]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "float64 [2]"
+   ],
+   [
+    "fixed_shape_tensor<double>[3]",
+    "float64 [4]"
+   ]
+  ]
+ },
+ "columns": {
+  "a column the features do not declare": "stops",
+  "a column declared as a camera stream": "stops",
+  "a feature no file has a column of": "reads"
+ },
+ "batches": {
+  "all": [
+   "one row group of 10, no null",
+   "one row group of 10, a null at 3",
+   "row groups 5 5, a null at 2",
+   "row groups 5 5, a null at 9",
+   "row groups 2 2 2 2 2, a null at 5",
+   "row groups 2 8, no null",
+   "row groups 2 8, a null at 0",
+   "row groups 2 8, a null at 2",
+   "row groups 2 8, a null at 3",
+   "row groups 2 8, a null at 8",
+   "row groups 2 8, a null at 9",
+   "row groups 2 8, nulls at 2 and 9",
+   "row groups 2 8, nulls at 3 and 8",
+   "row groups 2 8, nulls at 2 4 6 8",
+   "row groups 2 8, nulls at 2 3 and 9",
+   "row groups 1 9, a null at 1",
+   "row groups 1 9, a null at 9",
+   "row groups 1 9, nulls at 1 and 9",
+   "row groups 1 9, nulls at 5 6 7 8 9",
+   "row groups 1 4 5, a null at 2",
+   "row groups 3 7, a null at 3",
+   "row groups 3 7, nulls at 3 and 9",
+   "row groups 3 3 4, a null at 6",
+   "row groups 3 3 4, nulls at 6 and 9",
+   "row groups 4 6, nulls at 4 and 8"
+  ],
+  "stops": {
+   "row groups 2 8, a null at 2": 4,
+   "row groups 2 8, a null at 3": 4,
+   "row groups 2 8, nulls at 2 3 and 9": 4,
+   "row groups 1 9, a null at 1": 2,
+   "row groups 1 9, nulls at 1 and 9": 2,
+   "row groups 1 4 5, a null at 2": 3,
+   "row groups 3 7, a null at 3": 6,
+   "row groups 3 7, nulls at 3 and 9": 6,
+   "row groups 3 3 4, a null at 6": 9
+  },
+  "shifts": {
+   "row groups 2 8, nulls at 2 and 9": 4,
+   "row groups 2 8, nulls at 3 and 8": 4
+  },
+  "alike": {
+   "stops": [
+    "row groups 2 8, a null at 2",
+    "row groups 2 8, a null at 3",
+    "row groups 2 8, nulls at 2 3 and 9",
+    "row groups 1 9, a null at 1",
+    "row groups 1 9, nulls at 1 and 9",
+    "row groups 1 4 5, a null at 2",
+    "row groups 3 7, a null at 3",
+    "row groups 3 7, nulls at 3 and 9",
+    "row groups 3 3 4, a null at 6"
+   ],
+   "not_as_stored": []
+  },
+  "episodes_chosen": [
+   [
+    0
+   ],
+   [
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "not_as_stored_when_episodes_are_chosen": []
+ },
+ "info": {
+  "all": [
+   "without features",
+   "features null",
+   "features []",
+   "features \"\"",
+   "features 3",
+   "features {}"
+  ],
+  "stops": [
+   "without features",
+   "features null",
+   "features []",
+   "features \"\"",
+   "features 3"
+  ]
+ },
+ "reader_and_cast_disagree": []
+}

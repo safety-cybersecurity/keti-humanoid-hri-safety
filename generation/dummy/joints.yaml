@@ -1,0 +1,100 @@
+# 관절 인형(v2)이 anthropometry.yaml 위에 더하는 것 — 관절 · 발 · 부위 질량 · 구동 강성.
+# anthropometry.yaml 은 v1 이 읽는 그대로 두고, 이 파일은 v2 빌드(build_dummy.py --jointed)와
+# v2 환경만 읽는다.
+#
+# 모든 값은 과제가 정한 잠정값이다(determined_by: project · status: provisional). 출처가 있는 값은
+# 출처를 적는다. ISO/TS 15066 에서 온 값은 없다 — 표준은 부위별 한계를 줄 뿐 관절 · 가동 범위 ·
+# 분절 질량을 주지 않는다.
+
+joints_version: "0.1"
+status: provisional
+determined_by: project
+
+# Isaac Lab 이 여러 축 관절(D6)을 읽는 방식 — 관절 위치의 규약과 축마다 붙이는 이름.
+# 고르는 값이 아니라 잰 값이다: generation/dummy/probe_d6.py 가
+# tests/generation/d6_convention_measured.json 을 쓰고, tests/generation/test_d6_convention.py 가
+# 아래 두 값을 그 측정과 대조한다. 세 축을 모두 연 D6 의 관절 위치는 회전벡터이고, 축의 이름은
+# <관절>:<번호>(0 · 1 · 2 = x · y · z)다. 한 축을 잠근 두 축 D6 은 어느 규약에도 맞지 않아
+# (잠근 축으로도 돈다) 쓰지 않는다 — 여러 축 관절은 세 축을 모두 연다.
+isaac:
+  d6_convention: rotvec
+  dof_name: "{joint}:{index}"
+
+# 피벗은 손으로 적지 않고 anthropometry.yaml 의 캡슐에서 유도한다.
+#   top: <코드>      그 캡슐 축 선분의 윗끝(위 반구의 중심)
+#   bottom: <코드>   아래끝
+#   between: [a, b]  a 의 아래끝과 b 의 윗끝의 가운데
+# 축은 서 있는 몸의 축이다(+x 앞 · +y 왼쪽 · +z 위). +y 둘레의 양의 각은 늘어진 팔다리를 뒤로 보낸다.
+# 범위는 왼쪽 기준의 도(degree)이고 오른쪽은 거울상이다(x · z 는 부호를 뒤집고 위아래를 바꾸며 y 는 그대로).
+# 범위의 출처: 널리 인용되는 정상 관절 가동 범위(AAOS)를 반올림.
+joints:
+  hip:
+    parent: BR-07
+    child: BR-11
+    pivot: {top: BR-11}
+    dofs: {x: [-30, 45], y: [-120, 30], z: [-45, 45]}
+  knee:
+    parent: BR-11
+    child: BR-12
+    pivot: {between: [BR-11, BR-12]}
+    dofs: {y: [0, 135]}
+  ankle:
+    parent: BR-12
+    child: FOOT
+    pivot: {bottom: BR-12}
+    # z(정강이 축 둘레)는 걸음이 늘 0 으로 구동한다 — 좁은 범위(과제가 정한 값)는 큰 비틀림에 대한 멈춤이다.
+    dofs: {x: [-35, 15], y: [-20, 50], z: [-10, 10]}
+  shoulder:
+    parent: BR-04
+    child: BR-08
+    pivot: {top: BR-08}
+    dofs: {x: [-30, 180], y: [-180, 60], z: [-70, 90]}
+  elbow:
+    parent: BR-08
+    child: BR-09
+    pivot: {between: [BR-08, BR-09]}
+    dofs: {y: [-150, 0]}
+
+# 발 — 발목 아래의 상자. 12 부위가 아니다(표 A.1 의 신체 부위는 하퇴에서 끝난다).
+# 치수는 키에 대한 비율(Drillis & Contini 1966, Winter, Biomechanics and Motor Control of Human
+# Movement, 4판, 2009, 그림 4.1 의 표).
+feet:
+  length_per_stature: 0.152
+  width_per_stature: 0.055
+  height_per_stature: 0.039
+  heel_fraction: 0.25            # 길이 가운데 발목 피벗 뒤로 가는 몫
+  semantic_class: BR-12          # 발 피부의 분할 라벨 — 사람 픽셀이라는 뜻일 뿐 접촉 부위가 아니다
+
+# 부위 질량. de Leva (1996), "Adjustments to Zatsiorsky-Seluyanov's segment inertia parameters",
+# J. Biomech. 29(9):1223-1230, 표 4, 남성, 체질량에 대한 백분율. 묶음의 질량은 그 묶음의 몸들에
+# 충돌체 부피로 나눈다(묶음마다 밀도 하나). 좌우가 있는 분절의 백분율은 한쪽 값이다.
+mass:
+  total_kg: 75.0                 # 잠정 — 성인 남성 중앙값 근사(키 1.74 m 와 같은 상태)
+  groups:
+    head_neck:    {percent: 6.94,  regions: [BR-01, BR-02, BR-03]}
+    upper_trunk:  {percent: 15.96, regions: [BR-04, BR-05]}
+    middle_trunk: {percent: 16.33, regions: [BR-06]}
+    lower_trunk:  {percent: 11.17, regions: [BR-07]}
+    upper_arm:    {percent: 2.71,  regions: [BR-08], per_side: true}
+    forearm:      {percent: 1.62,  regions: [BR-09], per_side: true}
+    hand:         {percent: 0.61,  regions: [BR-10], per_side: true}
+    thigh:        {percent: 14.16, regions: [BR-11], per_side: true}
+    shank:        {percent: 4.33,  regions: [BR-12], per_side: true}
+    foot:         {percent: 1.37,  regions: [FOOT],  per_side: true}
+
+# 관절 구동 강성(N·m/rad)과 감쇠(N·m·s/rad), 관절 묶음마다.
+# walking: 걸음이 관절을 구동하는 동안 — 2026-10-02 실험의 단단한 실행에서 시작하는 값.
+# tone: 붙잡기가 풀린 뒤의 근육 긴장 — 몸무게가 관절에 거는 힘보다 무른 값이라, 놓인 인형은 그 자세로 버티지 않고 무릎이 꺾이며 내려앉는다.
+drives:
+  walking:
+    hip:      {stiffness: 30000.0, damping: 600.0}
+    knee:     {stiffness: 10000.0, damping: 200.0}
+    ankle:    {stiffness: 3000.0,  damping: 60.0}
+    shoulder: {stiffness: 2000.0,  damping: 65.0}
+    elbow:    {stiffness: 500.0,   damping: 15.0}
+  tone:
+    hip:      {stiffness: 90.0, damping: 30.0}
+    knee:     {stiffness: 30.0, damping: 10.0}
+    ankle:    {stiffness: 9.0,  damping: 3.0}
+    shoulder: {stiffness: 6.0,  damping: 3.25}
+    elbow:    {stiffness: 1.5,  damping: 0.75}

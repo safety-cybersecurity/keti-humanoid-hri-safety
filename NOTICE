@@ -1,0 +1,270 @@
+NOTICE — 포함 자산의 출처 및 라이선스
+================================================================================
+
+AI 휴머노이드 HRI 안전성 데이터셋 (keti-humanoid-hri-safety)
+Copyright (c) 2026 한국전자기술연구원 (Korea Electronics Technology Institute)
+
+이 파일은 데이터셋과 저장소에 포함된 자산의 출처·라이선스를 고지합니다.
+자산 라이선스 판정 근거와 전체 조사 결과는 아래 문서에 있습니다.
+
+    docs/assets/asset-license-inventory-v0.1.md
+
+
+1. 배포 방침
+--------------------------------------------------------------------------------
+
+이 데이터셋은 **시뮬레이션 산출물과 자체 제작 자산만 배포**합니다. 예외는
+넷 — 자체 제작 자산이 재질로 쓰는 CC0 텍스처는 그 자산과 함께 싣고, 관절
+인형이 USD 안에 싣는 걸음 표는 100STYLE(CC BY 4.0)에서 유도한 것이라 출처 ·
+라이선스 · 바꾼 내용을 함께 적으며(§2 — 원본 동작 파일은 싣지 않음), 상자의
+라벨(창고 씬의 상자와 들고 다니는 상자)에 얹는 KETI CI 는 배포자 자신의 CI 라
+원본 그대로 싣되 데이터셋 라이선스와 따로 표기하고(§2 — 데이터셋의 일부로만
+재배포할 수 있고 상표 사용은 허락하지 않음), BSD-3 원본인 Unitree H1 로봇은 저작권 고지 · 라이선스 전문 · 면책 문구와
+함께 제 폴더(assets/unitree_h1/)에 원본 그대로 싣습니다(§3 · §4).
+그 밖의 제3자 자산의 원본은 포함하지 않고, 경로·버전·SHA256 으로 참조합니다.
+배포본마다 싣는 자산은 그 배치의 에피소드가 쓰는 것뿐입니다(에피소드 메타의
+scene_assets). 그 자산들을 엮은 장면(Stage)은 엮는 자산이 모두 실리는 배포본에만
+함께 실립니다(§2).
+
+  포함  시뮬레이션 산출물 (궤적 Parquet, 카메라 일곱 대의 RGB 영상, 메타데이터)
+  포함  KETI 자체 제작 자산 중 그 배치가 쓰는 것 (26.11 배포본 — S1e · S1f ·
+        S1g: 물류 창고 씬 · 조끼를 입힌 관절 인형 · 들고 다니는 상자). 지면은
+        절차적 평면이라 파일이 없습니다
+  포함  위 자산과 H1 을 엮은 장면 (assets/keti_hri_stage_v1.usd — Isaac Sim 에서
+        여는 장면, §2)
+  포함  위 자산이 쓰는 CC0 텍스처 (assets/textures/)
+  포함  상자 라벨의 KETI CI (assets/textures/keti_ci_en.png — 창고 씬과 들고 다니는
+        상자가 같은 파일을 씀. 배포자 자신의 CI, §2)
+  포함  Unitree H1 로봇 (assets/unitree_h1/ — h1.usd · instanceable_meshes.usd ·
+        LICENSE.txt, BSD-3, §3 · §4)
+  참조  그 밖의 NVIDIA Isaac Sim 번들 자산과 실행 환경
+
+실린 로봇 파일의 무결성은 meta/assets.json 의 그 로봇 항목(ship — 파일마다
+SHA256)으로 대조하고, 같은 USD 의 해시는 meta/joint_map/*.yaml 의
+provenance.usd_sha256 에도 있습니다. 참조하는 자산은 이용자가 Isaac Sim 을
+직접 설치해 확보할 수 있습니다.
+
+
+2. 자체 제작 자산 — 한국전자기술연구원
+--------------------------------------------------------------------------------
+
+  keti_dummy_ts15066_v1  (파일 keti_dummy_ts15066_v1.usd — 26.11 배포본에는 싣지 않음.
+                          이 더미의 부위 프리미티브에 관절을 더하고 피부와 조끼를
+                          입힌 아래 keti_dummy_ts15066_v2_vest 가 실림)
+      ISO/TS 15066 표 A.1/A.2 의 신체 부위 구분에 따라 기하 프리미티브로 자체
+      구성한 인체 더미. 표준 문서 자체는 포함하지 않습니다. 판정에 쓰는
+      임계값은 2026-08-27 국가기술표준원(저작권자)의 이용 허락에 따라
+      meta/rules.json 에 값과 조항 참조를 함께 수록합니다.
+
+      **부위 질량은 표준값이 아닙니다.** 자산은 강체 질량을 명시하지 않으므로
+      물리 엔진이 형상과 기본 밀도로 계산하며 실측 총 87.6 kg 입니다. 표 A.3 의
+      유효질량은 두 물체 충돌 모형의 파라미터이지 자유물체의 질량이 아니어서
+      쓰지 않았습니다. 기록된 접촉력과 낙상 동역학을 표준 생체역학 모형의
+      산출로 읽어서는 안 됩니다.
+
+  keti_logistics_aisle_v1  (배포본 경로: assets/keti_logistics_aisle_v1.usd ·
+                            텍스처는 assets/textures/)
+      자체 제작 물류 창고 씬 — 철제 랙·골판지 상자에 바닥·천장·사방의 벽·셔터
+      문·지붕 트러스·등기구·바닥 표시선을 박스 프림으로 조립한 USD. 랙 바닥
+      단에는 회색 플라스틱 팔레트(단색 재질)와 큰 골판지 상자(선반 상자와 같은
+      CC0 텍스처)가 놓입니다. 선반 상자와 그 큰 상자마다 y 를 보는 두 옆면(통로와
+      줄 사이 틈을 보는 면)의 가운데에 흰 라벨과 그 가운데의 KETI CI 를 붙입니다
+      (콜라이더 없는 시각 메시 — 크기 · 색 · 띄우는 거리는 자체 설정). 치수의
+      정본은 generation/scene/logistics_aisle.yaml 이고 표준 수치는 없습니다.
+      조명은 씬 안의 면광원과 채움광뿐이며 외부 하늘 이미지를 쓰지 않습니다.
+      트러스·등기구·바닥 선·팔레트·라벨의 흰 판은 텍스처 없는 단색 재질이고,
+      라벨의 KETI CI 는 아래 keti_carried_box_v1 의 「KETI CI」와 같은 파일
+      (assets/textures/keti_ci_en.png)이라 같은 표기를 따르며, 나머지 재질
+      텍스처는 CC0 자산을 씁니다:
+        Poly Haven (polyhaven.com, CC0)  concrete_floor_worn_001 · corrugated_iron_02
+                                         · blue_metal_plate · plywood
+        ambientCG  (ambientcg.com, CC0)  Cardboard001
+      세트마다 색 · 법선 · 거칠기 세 장이 assets/textures/ 에 실립니다 — 이름은
+      <세트>_diff_1k.jpg · <세트>_nor_gl_1k.jpg · <세트>_rough_1k.jpg 이고,
+      Cardboard001 은 Cardboard001_1K-JPG_Color.jpg · Cardboard001_1K-JPG_NormalGL.jpg
+      · Cardboard001_1K-JPG_Roughness.jpg 입니다.
+      파일마다의 출처 URL 과 SHA256 은 generation/scene/textures.lock 에 있고,
+      배포본에서는 meta/assets.json 의 이 자산 항목(bundle.files — 그 뒤에 KETI
+      CI 의 행이 이어짐)이 같은 표입니다.
+      CC0 는 표기 의무가 없으나 인벤토리 §1 의 원칙대로 출처를 남깁니다.
+      배포본은 그 배치의 에피소드가 쓰는 재배포 자산만 싣습니다(그것들을 엮은
+      장면은 엮는 자산이 모두 실릴 때 함께) — 26.11 배포본의 에피소드는
+      모두 이 씬을 씁니다.
+
+  keti_dummy_ts15066_v1_skin  (파일 keti_dummy_ts15066_v1_skin.usd — 26.11 배포본에는
+                               싣지 않음. 이 자산을 인체 모델로 쓰는 배치의 배포본에는
+                               assets/ 에, 텍스처는 assets/textures/ 에 실림)
+      위 인체 더미에 MakeHuman 으로 만든 시각 메시를 입힌 자산. 콜라이더·조인트·
+      질량은 keti_dummy_ts15066_v1 과 같고 보이는 모습만 더했습니다. 얼굴은
+      합성이며 실존 인물의 얼굴·스캔을 쓰지 않았습니다.
+        MakeHuman / MPFB2 2.0.17 (makehumancommunity.org)
+          시스템 자산 팩 makehuman_system_assets_cc0.zip — 피부 · 작업복 · 안전화
+          · 머리 · 눈 · 눈썹 6종과 텍스처 8장. 팩 자산은 CC0 1.0 이고, 내보낸
+          모델에 MPFB 는 어떤 권리도 주장하지 않습니다 (MPFB LICENSE.md).
+          CC0 이전의 저작권자(팩 파일 머리글): Data Collection AB · Joel Palmius
+          · Jonas Hauquier
+      근거와 쓴 자산 목록은 generation/dummy/skin/SKIN-LICENSE.md 에, 텍스처와
+      사람을 만든 팩 파일마다의 팩 안 경로와 SHA256 은 generation/dummy/skin/
+      textures.lock 에 있습니다 (팩 zip 과 바이트로 대조한 뒤에만 쓴 표입니다).
+      배포본에서는 실린 텍스처마다의 팩 안 경로와 SHA256 이 meta/assets.json 의
+      이 자산 항목(bundle.files)에 있습니다.
+      시나리오 S1d 를 담는 배치의 인체 모델이 이 자산이고, 26.11 배포본의 인체
+      모델은 아래 keti_dummy_ts15066_v2_vest 입니다.
+
+  keti_dummy_ts15066_v2_jointed  (파일 keti_dummy_ts15066_v2_jointed.usd — 배포본에는
+                                  싣지 않음. 같은 물리에 피부와 조끼를 입힌 아래
+                                  자산이 실림)
+      위 인체 더미의 부위 프리미티브에 관절 10(엉덩이 · 무릎 · 발목 · 어깨 ·
+      팔꿈치, 좌우)과 발 둘을 더한 관절 인형. 관절 · 가동 범위 · 발 치수 ·
+      부위 질량은 과제가 정한 값(자체 설정)이며 표준 수치가 아닙니다
+      (generation/dummy/joints.yaml). 부위 질량은 de Leva(1996)의 분절 비율로
+      합 75 kg(잠정)을 나눠 형상마다 밀도로 적습니다. 표 A.3 의 유효질량은 두
+      물체 충돌 모형의 파라미터이지 자유물체의 질량이 아니어서 쓰지 않았습니다.
+      기록된 접촉력과 낙상 동역학을 표준 생체역학 모형의 산출로 읽어서는 안
+      됩니다. 아래 걸음 표를 USD 안(/KetiDummy/Gait)에 싣습니다.
+
+  keti_dummy_ts15066_v2_vest  (배포본 경로: assets/keti_dummy_ts15066_v2_jointed_skin_vest.usd ·
+                               텍스처는 assets/textures/)
+      관절 인형에 keti_dummy_ts15066_v1_skin 과 같은 MakeHuman 시각 메시(위의
+      CC0 자산과 텍스처 8장)와 아래 형광 조끼를 입힌 자산. 콜라이더 · 관절 ·
+      질량은 keti_dummy_ts15066_v2_jointed 와 같고 보이는 모습만 더했습니다.
+      피부는 부위 몸마다 갈라 붙이고, 관절 이음새 근처의 피부 정점에는 이웃 몸과
+      섞는 비율을 실어 실행이 렌더할 때마다 섞습니다. 옮기는 기준과 관절마다의
+      반경은 자체 설정입니다(generation/dummy/skin_seams.yaml).
+      피부 텍스처 8장은 위의 MakeHuman CC0 자산이며 assets/textures/ 에 실립니다:
+      brown_eye.png · eyebrow001.png · male_worksuit01_diffuse.png ·
+      male_worksuit01_normal.png · middleage_lightskinned_male_diffuse2.png ·
+      shoes01_diffuse.png · shoes01_normal.png · short02_diffuse.png.
+      이 자산을 인체 모델로 쓰는 배치의 배포본에만 실립니다(26.11 배포본이 그
+      배포본입니다).
+
+      형광 조끼 — 자체 제작 (CC BY 4.0)
+        피부의 작업복 가운데 몸통 · 골반 부위(BR-04 · BR-05 · BR-06 · BR-07)에
+        든 옷의 바깥 둘레를 재서 그 위를 덮듯 고른 판을 아랫단 · 띠 · 진동둘레 ·
+        목둘레 · V넥으로 자른 메시이고 인형 USD 안에 있습니다. 텍스처 없이 단색
+        재질 둘(형광 노랑 · 밝은 회색 반사 띠)입니다. 덮는 부위 · 둘레를 재고
+        고르는 값 · 띄우는 거리 · 아랫단 · 띠 · 진동둘레 · 목둘레 · V넥의 자리 ·
+        색 · 광택은 자체 설정입니다(generation/dummy/vest.yaml).
+
+      걸음 표 — 100STYLE 에서 유도 (CC BY 4.0)
+        출처      The 100STYLE Dataset - Ian Mason
+                  https://www.ianxmason.com/100style/
+                  원본 묶음 https://zenodo.org/records/8127870
+        라이선스  CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
+        바꾼 것   인형 관절로 옮기고(리타깃) 디딤발을 바닥에 맞추고 주기를
+                  평균해 속도별로 정리했습니다. 표를 만든 동작은 앞으로 걷기
+                  (Neutral_FW)이고, 원본 동작 파일(BVH)은 저장소에도 배포본에도
+                  싣지 않습니다.
+        표는 인형 USD 안(/KetiDummy/Gait)에 있고, 배포본에서는 meta/assets.json
+        의 이 자산 항목(gait_source)에 같은 출처가 있습니다.
+
+  keti_carried_box_v1  (배포본 경로: assets/keti_carried_box_v1.usd ·
+                        KETI CI 는 assets/textures/keti_ci_en.png)
+      로봇이 몸 앞에 들고 다니는 골판지 상자. 단색 골판지 몸에 흰 라벨을 네
+      옆면과 윗면의 가운데에 붙이고 그 위에 KETI CI 를 얹은 USD 입니다. 몸
+      크기를 바꿔도 라벨과 CI 는 늘어나지 않습니다. 기본 크기 · 몸 색 · 라벨과
+      CI 의 크기는 자체 설정이고 표준 수치는 없습니다
+      (generation/scene/carried_box.py). 질량과 강체는 USD 에 없습니다. 이
+      상자를 쓰는 배치의 배포본에만 실립니다. 상자 메시와 재질은 자체 제작
+      (CC BY 4.0)입니다.
+
+      KETI CI — 한국전자기술연구원의 영문 대표 CI (LicenseRef-KETI-CI)
+        출처      https://keti.re.kr/introduce/ci.php (누리집 「CI 소개」)
+                  내려받기 https://keti.re.kr/file/KETI_CI.zip?a=1 안의 가로형
+                  PNG(584 × 147, 투명 바탕)를 바이트 그대로 싣습니다
+        권리      배포자 자신의 CI 이며 데이터셋 라이선스와 따로 표기합니다.
+                  이 데이터셋의 일부로 바꾸지 않은 채 함께 재배포할 수
+                  있습니다. 상표로 쓰거나 데이터셋과 떼어 따로 쓰거나 배포할
+                  권리는 주지 않으며, 데이터셋 라이선스(CC BY 4.0 §2(b)(2))도
+                  상표 사용을 허락하지 않습니다
+        압축 파일과 PNG 의 SHA256 은 generation/scene/keti_ci.json 에 있고,
+        배포본에서는 meta/assets.json 의 이 자산 항목과 창고 씬 항목
+        (keti_logistics_aisle_v1)의 bundle.files 가 같은 행입니다. 창고 씬의
+        상자 라벨도 이 파일을 씁니다.
+
+  keti_hri_stage_v1  (배포본 경로: assets/keti_hri_stage_v1.usd)
+      엮은 장면(Stage) — 위의 물류 창고 씬 · 조끼 입은 관절 인형 · 들고 다니는
+      상자와 §3 의 H1 을, 배포본에 실리는 이름으로 assets/ 에서 상대 경로로
+      참조하는 USD 하나. Isaac Sim 에서 열면 창고에 H1(출발 자리) · 인형(사람
+      자리) · 로봇 앞의 상자 · 로봇 카메라 다섯(머리 앞 둘 · 머리 뒤쪽 · 양
+      손목) · 자리마다의 3인칭 카메라와 CCTV · 출발 · 목표와 사람 자리의
+      표식(보이기만 함)이 보입니다. 시나리오를 돌리는 것(대본 · 조건표 · 판정 ·
+      기록)은 코드 저장소의 명령이고 이 파일만으로는 돌지 않습니다. 엮는
+      자산의 바이트는 들어 있지 않고 참조만 하며, 물리 · 텍스처 파일 · 표준
+      수치는 없습니다. 놓는 자리와 표식은 자체 설정입니다
+      (generation/scene/build_stage.py). 엮는 자산이 모두 실리는 배포본에만
+      실립니다(meta/assets.json 의 이 자산 항목의 composes). 엮은 것은 자체
+      제작(CC BY 4.0)이고, 참조하는 H1 은 §3 의 BSD-3 을 따릅니다.
+
+  라이선스: CC BY 4.0 (데이터셋 본체와 동일 — 위에 따로 적은 CC0 텍스처 ·
+            걸음 표 · KETI CI 는 각자의 표기를 따릅니다)
+
+
+3. 제3자 자산 — H1 로봇은 원본 그대로 동봉, 실행 환경은 참조
+--------------------------------------------------------------------------------
+
+  Unitree H1 (19DOF)  (배포본 경로: assets/unitree_h1/ — h1.usd ·
+                       instanceable_meshes.usd · LICENSE.txt)
+      출처   NVIDIA Isaac Sim 6.0.1 번들 자산의 BSD-3 경로
+             Assets/Isaac/6.0/Isaac/IsaacLab/Robots/Unitree/H1/h1.usd 와
+             그것이 같은 폴더에서 상대 경로로 참조하는 instanceable_meshes.usd,
+             그 경로의 라이선스 파일 .../IsaacLab/Robots/Unitree/LICENSE.txt
+      저작권 Copyright (c) 2016-2022 HangZhou YuShu TECHNOLOGY CO.,LTD.
+             ("Unitree Robotics"). All rights reserved.
+      라이선스 BSD 3-Clause License (전문은 §4)
+
+      이 로봇 자산은 위 저작권 고지 · §4 의 라이선스 전문 · 면책 문구와 함께
+      원본 그대로 싣습니다 — 세 파일 모두 바이트를 바꾸지 않았고, 파일마다의
+      출처와 SHA256 은 meta/assets.json 의 이 로봇 항목(ship)에 있습니다.
+      데이터셋 라이선스(CC BY 4.0)는 이 파일들에 적용되지 않고 BSD 3-Clause
+      License 를 따릅니다. 관절 이름·순서·한계값 등 데이터 해석에 필요한 정보는
+      meta/joint_map/unitree_h1.yaml 에 기록되어 있습니다. 이 로봇을 쓰는 배치의
+      배포본에만 실립니다.
+
+  NVIDIA Isaac Sim / Omniverse
+      시뮬레이션 실행 환경. NVIDIA Omniverse License Agreement 적용.
+      본 데이터셋은 동 계약이 허용하는 "user generated content"(생성 산출물)에 해당하며,
+      자기 라이선스 파일이 없는 NVIDIA 자산(동 계약의 Content)의 원본은 배포하지
+      않습니다. 위 H1 은 자기 라이선스 파일(BSD-3)이 있는 경로의 사본입니다.
+
+
+4. BSD 3-Clause License 전문 — Unitree Robotics
+--------------------------------------------------------------------------------
+
+BSD 3-Clause License
+
+Copyright (c) 2016-2022 HangZhou YuShu TECHNOLOGY CO.,LTD. ("Unitree Robotics")
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+5. 데이터셋 라이선스
+--------------------------------------------------------------------------------
+
+  데이터셋 : CC BY 4.0    (동봉 LICENSE 전문)
+  코드     : Apache-2.0   (동봉 LICENSE-CODE 전문)
+
+  인용 시 Dataset Card 의 인용 정보를 따라 주십시오.

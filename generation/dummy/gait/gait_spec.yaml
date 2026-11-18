@@ -1,0 +1,75 @@
+# 걸음 표 빌드의 명세 — 어느 클립을 쓰고, 주기를 어떻게 자르고, 속도를 어떻게 덮는가.
+# 과제가 정한 잠정값이다.
+source:
+  dataset: 100STYLE
+  credit: "The 100STYLE Dataset - Ian Mason"
+  license: CC-BY-4.0
+  license_url: https://creativecommons.org/licenses/by/4.0/
+  page: https://www.ianxmason.com/100style/
+  changes: "인형 관절로 옮기고(리타깃) 디딤발을 바닥에 맞추고 주기를 평균해 속도별로 정리함 — 원본 미포함"
+clips:
+  walk: Neutral_FW            # 앞으로 걷기
+  stand: Neutral_ID           # 제자리 — 서 있는 자세의 확인에만 쓴다
+contacts:
+  height_tol_m: 0.04
+  speed_tol_mps: 0.3
+  min_frames: 3
+cycles:
+  min_s: 0.6
+  max_s: 2.0
+  phase_samples: 100
+  # 한 주기(오른 뒤꿈치 닿음 → 다음 닿음) 동안 골반이 돈 각의 상한 — 넘는 주기는 속도 칸과 걷기 비에서 뺀다.
+  # Neutral_FW 는 촬영 공간을 돌며 걷는다(2026-10-13 잼: 주기 89개 가운데 10° 안 17 · 10~30° 8 · 30° 넘게 64).
+  max_turn_deg: 10
+stance:
+  # 양발 지지에서 두 발바닥을 바닥에 맞추느라 다리를 굽힌 만큼을, 그 앞뒤로 이 위상 수(한 주기 100 표본 기준)에 걸쳐 같은
+  # 걸음으로 풀거나 들인다 — 한 발이 닿거나 뜨는 순간 무릎과 골반이 한 칸에 튀지 않게(2026-10-13 잼: 잰 칸의 무릎이
+  # 한 칸에 14.3° · 골반이 2.5 cm).
+  blend_samples: 5
+  # 몸이 한 위상 걸음에 나아가는 거리(디딘 발이 미끄러지지 않고 구른다고 볼 때)의 하한 — 주기의 평균 걸음에 대한 비율.
+  # 걸음 표를 몸이 같은 거리를 가는 간격으로 다시 나눌 때 거꾸로 가지 않도록, 구르는 발이 몸을 뒤로 데려가거나 거의
+  # 세우는 위상에서도 몸은 이만큼 간다(디딘 발은 닿은 자리에 붙잡히고 그 다리가 맞춘다). 과제가 정한 값이다.
+  advance_floor_share: 0.25
+speeds:
+  # 덮어야 하는 범위 — S1d 의 진입 속도(0.4~1.6)와, 멈춘 자세에서 출발할 때 거치는 그 아래 속도. 가장 느린 행 아래에서는
+  # 그 행의 관절각을 줄여 쓰는데, 0.4 에서 시작하던 표는 그렇게 줄인 걸음이 출발 첫 1초 안에 발을 바닥 아래 4 cm 까지
+  # 넣어 몸을 들어 올렸다(2026-10-14 잼). 0.2 m/s 칸은 엉덩이 흔들림을 끝까지 줄여야 해서 무릎이 한 칸에 50° 꺾였고,
+  # 0.2 아래로는 엉덩이 흔들림만으로 걷기 비의 보폭을 내지 못한다.
+  grid_mps: [0.3, 1.6]
+  grid_step_mps: 0.1          # 잰 칸 밖은 이 간격의 칸으로 늘인다
+  bin_mps: 0.1                # 속도가 비슷한 주기를 묶는 폭
+  min_cycles_per_bin: 3
+swing:
+  # 흔드는 발바닥의 가장 낮은 모서리가 디딤발바닥(바닥)보다 이만큼 위 — 모자란 위상만 그 발목을 올린다
+  # (발의 방향은 그대로 · 무릎은 그만큼만 더 굽는다). 과제가 정한 값이다. 1 cm 에서는 걷는 인형의 흔드는 발끝이
+  # 흔들기 초반에 바닥에 걸려 몸이 앞으로 넘어갔다(시뮬레이션에서 발끝은 표보다 약 1 cm 낮게 지난다).
+  min_clearance_m: 0.025
+  # 흔들기의 처음과 끝에서 이 비율 동안은 요구가 0 쪽에서 위 값까지 같은 걸음으로 오르내린다 — 발을 뗄 때 한 칸에
+  # 들어 올리거나 디딜 때 한 칸에 떨어뜨리지 않게.
+  clearance_ramp: 0.15
+  # 흔들기 가운데(위 값을 다 요구하는 곳)에서 모자란 만큼을 이웃 위상으로도 이어 올리되, 위상마다 이만큼(m)씩만 줄인다 —
+  # 들어 올린 발과 무릎이 한 칸에 꺾이지 않게(2026-10-13 잼: 0.002 에서 칸마다 다리 관절의 가장 큰 한 칸 변화 4.5~7.6°,
+  # 이어 올리지 않으면 4.6~11.9°).
+  lift_slope_m: 0.002
+pelvis:
+  # 골반 높이는 다리만 정한다(높이를 드는 힘이 없음). 관절각이 정하는 골반 경로(낮은 발바닥이 바닥에 닿을 때)가 이보다
+  # 빠르게 꺾이는 곳은 두 다리를 똑같이 굽혀 골반을 그만큼만 낮춘다 — 발끼리 · 바닥과의 자리는 그대로. 2026-10-14 첫 실험:
+  # 1.0 m/s 칸이 12.5 m/s² · 1.6 m/s 칸이 62 m/s² 로 꺾였고 걷는 동안 두 발이 함께 떴다. 과제가 정한 값이다.
+  max_vertical_accel_mps2: 3.0
+ramp:
+  accel_time_s: 1.0           # 0 에서 진입 속도까지 — 대략 한 걸음
+  decel_time_s: 1.0
+# 문헌의 걷기 비(걸음 길이 ÷ 분당 걸음 수) — 빌드 보고에 나란히 싣는 값이고 빌드는 쓰지 않는다
+# (잰 칸 밖으로 늘일 때의 걷기 비는 곧게 걷는 칸에서 잰다).
+literature:
+  walk_ratio:
+    source: "Murakami R, Otaka Y (2017). Estimated lower speed boundary at which the walk ratio constancy is broken in healthy adults. J Phys Ther Sci 29(4):722-725. doi:10.1589/jpts.29.722 — Table 1 (키로 보정하지 않은 값)"
+    subjects: "건강한 성인 21명(남 11 · 여 10) · 24.5 ± 3.3세 · 키 166.7 ± 8.2 cm · 곧은 보행로"
+    unit: m/(steps/min)
+    rows:
+      - {condition: very slow, speed_m_per_min: 11.4, mean: 0.027, sd: 0.029}
+      - {condition: slow, speed_m_per_min: 20.9, mean: 0.015, sd: 0.012}
+      - {condition: slightly slow, speed_m_per_min: 49.1, mean: 0.0071, sd: 0.0012}
+      - {condition: preferred, speed_m_per_min: 79.0, mean: 0.0063, sd: 0.00071}
+      - {condition: fast, speed_m_per_min: 118.2, mean: 0.0064, sd: 0.00081}
+    constancy_breaks_below_m_per_min: 62

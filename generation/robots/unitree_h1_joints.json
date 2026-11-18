@@ -1,0 +1,802 @@
+{
+  "robot": "unitree_h1",
+  "usd_sha256": "3292a154c5eff7dd6d2610cdee8b26fdb2836338b05201321517acf97f2e09d8",
+  "root_link": "pelvis",
+  "note": "H1 의 시뮬레이션이 띄우는 사본(BSD-3 h1.usd)에서 관절마다 읽은 두 틀(부모 링크 쪽 pos0 · rot0 — 자식 링크 쪽 pos1 · rot1)과 회전축, 링크마다 저장된 자세를 뿌리 링크 기준으로 한 번 읽은 값 — 미터, 쿼터니언은 xyzw, 소수 9자리로 반올림. 자식 링크의 자세는 부모 ⊕ (pos0, rot0) ⊕ 축 둘레 회전 ⊕ (pos1, rot1)의 역입니다. 손으로 고치지 않고 generation/robots/extract_joint_frames.py --write 로 씁니다.",
+  "joints": {
+    "left_ankle": {
+      "type": "revolute",
+      "parent": "left_knee_link",
+      "child": "left_ankle_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        -0.400000006
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "left_elbow": {
+      "type": "revolute",
+      "parent": "left_shoulder_yaw_link",
+      "child": "left_elbow_link",
+      "axis": "X",
+      "pos0": [
+        0.0185,
+        0.0,
+        -0.197999954
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "left_hip_pitch": {
+      "type": "revolute",
+      "parent": "left_hip_roll_link",
+      "child": "left_hip_pitch_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.115359999,
+        0.0
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "left_hip_roll": {
+      "type": "revolute",
+      "parent": "left_hip_yaw_link",
+      "child": "left_hip_roll_link",
+      "axis": "X",
+      "pos0": [
+        0.039468002,
+        0.0,
+        0.0
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_hip_yaw": {
+      "type": "revolute",
+      "parent": "pelvis",
+      "child": "left_hip_yaw_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.087499999,
+        -0.174199998
+      ],
+      "rot0_xyzw": [
+        0.0,
+        -0.707106709,
+        0.0,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ]
+    },
+    "left_knee": {
+      "type": "revolute",
+      "parent": "left_hip_pitch_link",
+      "child": "left_knee_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        -0.400000036
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "left_shoulder_pitch": {
+      "type": "revolute",
+      "parent": "torso_link",
+      "child": "left_shoulder_pitch_link",
+      "axis": "X",
+      "pos0": [
+        0.0055,
+        0.15535,
+        0.429989934
+      ],
+      "rot0_xyzw": [
+        0.153044835,
+        -0.153044835,
+        0.690345824,
+        0.690345824
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106888,
+        0.707106888
+      ]
+    },
+    "left_shoulder_roll": {
+      "type": "revolute",
+      "parent": "left_shoulder_pitch_link",
+      "child": "left_shoulder_roll_link",
+      "axis": "X",
+      "pos0": [
+        -0.0055,
+        0.056499958,
+        -0.016500115
+      ],
+      "rot0_xyzw": [
+        -0.21643807,
+        0.0,
+        0.0,
+        0.976296365
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_shoulder_yaw": {
+      "type": "revolute",
+      "parent": "left_shoulder_roll_link",
+      "child": "left_shoulder_yaw_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        -0.134299994
+      ],
+      "rot0_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ]
+    },
+    "right_ankle": {
+      "type": "revolute",
+      "parent": "right_knee_link",
+      "child": "right_ankle_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        -0.400000006
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "right_elbow": {
+      "type": "revolute",
+      "parent": "right_shoulder_yaw_link",
+      "child": "right_elbow_link",
+      "axis": "X",
+      "pos0": [
+        0.0185,
+        0.0,
+        -0.197999954
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "right_hip_pitch": {
+      "type": "revolute",
+      "parent": "right_hip_roll_link",
+      "child": "right_hip_pitch_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        -0.115359999,
+        0.0
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "right_hip_roll": {
+      "type": "revolute",
+      "parent": "right_hip_yaw_link",
+      "child": "right_hip_roll_link",
+      "axis": "X",
+      "pos0": [
+        0.039468002,
+        0.0,
+        0.0
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_hip_yaw": {
+      "type": "revolute",
+      "parent": "pelvis",
+      "child": "right_hip_yaw_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        -0.087499999,
+        -0.174199998
+      ],
+      "rot0_xyzw": [
+        0.0,
+        -0.707106709,
+        0.0,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ]
+    },
+    "right_knee": {
+      "type": "revolute",
+      "parent": "right_hip_pitch_link",
+      "child": "right_knee_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        -0.400000036
+      ],
+      "rot0_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106829,
+        0.707106829
+      ]
+    },
+    "right_shoulder_pitch": {
+      "type": "revolute",
+      "parent": "torso_link",
+      "child": "right_shoulder_pitch_link",
+      "axis": "X",
+      "pos0": [
+        0.0055,
+        -0.15535,
+        0.429989934
+      ],
+      "rot0_xyzw": [
+        -0.153044835,
+        0.153044835,
+        0.690345824,
+        0.690345824
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.707106888,
+        0.707106888
+      ]
+    },
+    "right_shoulder_roll": {
+      "type": "revolute",
+      "parent": "right_shoulder_pitch_link",
+      "child": "right_shoulder_roll_link",
+      "axis": "X",
+      "pos0": [
+        -0.0055,
+        -0.056499958,
+        -0.016500115
+      ],
+      "rot0_xyzw": [
+        0.21643807,
+        0.0,
+        0.0,
+        0.976296365
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_shoulder_yaw": {
+      "type": "revolute",
+      "parent": "right_shoulder_roll_link",
+      "child": "right_shoulder_yaw_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        -0.134299994
+      ],
+      "rot0_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ]
+    },
+    "torso": {
+      "type": "revolute",
+      "parent": "pelvis",
+      "child": "torso_link",
+      "axis": "X",
+      "pos0": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot0_xyzw": [
+        0.0,
+        -0.707106709,
+        0.0,
+        0.707106829
+      ],
+      "pos1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot1_xyzw": [
+        0.0,
+        -0.707106829,
+        0.0,
+        0.707106829
+      ]
+    }
+  },
+  "rest": {
+    "left_ankle_link": {
+      "pos": [
+        0.039468002,
+        0.202859998,
+        -0.97420004
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_elbow_link": {
+      "pos": [
+        0.0185,
+        0.213529617,
+        0.106613636
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_hip_pitch_link": {
+      "pos": [
+        0.039468002,
+        0.202859998,
+        -0.174199998
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_hip_roll_link": {
+      "pos": [
+        0.039468002,
+        0.087499999,
+        -0.174199998
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_hip_yaw_link": {
+      "pos": [
+        0.0,
+        0.087499999,
+        -0.174199998
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_knee_link": {
+      "pos": [
+        0.039468002,
+        0.202859998,
+        -0.574200034
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_shoulder_pitch_link": {
+      "pos": [
+        0.0055,
+        0.15535,
+        0.429989934
+      ],
+      "rot_xyzw": [
+        0.216438073,
+        0.0,
+        0.0,
+        0.976296349
+      ]
+    },
+    "left_shoulder_roll_link": {
+      "pos": [
+        0.0,
+        0.213529617,
+        0.438913584
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "left_shoulder_yaw_link": {
+      "pos": [
+        0.0,
+        0.213529617,
+        0.30461359
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "pelvis": {
+      "pos": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_ankle_link": {
+      "pos": [
+        0.039468002,
+        -0.202859998,
+        -0.97420004
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_elbow_link": {
+      "pos": [
+        0.0185,
+        -0.213529617,
+        0.106613636
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_hip_pitch_link": {
+      "pos": [
+        0.039468002,
+        -0.202859998,
+        -0.174199998
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_hip_roll_link": {
+      "pos": [
+        0.039468002,
+        -0.087499999,
+        -0.174199998
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_hip_yaw_link": {
+      "pos": [
+        0.0,
+        -0.087499999,
+        -0.174199998
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_knee_link": {
+      "pos": [
+        0.039468002,
+        -0.202859998,
+        -0.574200034
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_shoulder_pitch_link": {
+      "pos": [
+        0.0055,
+        -0.15535,
+        0.429989934
+      ],
+      "rot_xyzw": [
+        -0.216438073,
+        0.0,
+        0.0,
+        0.976296349
+      ]
+    },
+    "right_shoulder_roll_link": {
+      "pos": [
+        0.0,
+        -0.213529617,
+        0.438913584
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "right_shoulder_yaw_link": {
+      "pos": [
+        0.0,
+        -0.213529617,
+        0.30461359
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "torso_link": {
+      "pos": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rot_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  }
+}

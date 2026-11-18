@@ -1,0 +1,32 @@
+# generation/dummy/skin/textures.lock — make_skin.py 가 내보낸 텍스처와, 사람을 만든 팩 파일의 정본. 파일마다 한 줄.
+# 다음 실행에서 이 표와 다르면 생성기가 멈춘다 (--update-lock 이 의도된 변경). 쓰거나 갱신할 때는
+# --pack <zip> 으로 팩과 바이트를 대조한 뒤에만 쓴다 — 자산 디렉터리에 있다는 것은 출처의 증명이 아니다.
+#
+# 열: name sha256 bytes source license
+#   name    내보낸 텍스처는 파일 이름, 팩 파일(.mhclo · .obj · .mhmat)은 팩 안의 경로
+#   source  pack:<MakeHuman 시스템 자산 팩 안의 경로> — 팩은 skin_spec.yaml source.system_assets
+#
+brown_eye.png 4659691c7295ad6206c78b003e5fd0e5f91dcd53032fa914a229bb48cabe424b 610817 pack:eyes/materials/brown_eye.png CC0-1.0
+eyebrow001.png 9940f7d0b1b223709a19b05156ba6f6e9e4dbdbced02d7574f4d51d72c58967b 89619 pack:eyebrows/eyebrow001/eyebrow001.png CC0-1.0
+male_worksuit01_diffuse.png 4b59b50f7a8a0325c33e86e29f160f59b2385a6f413fccc88287a1c951c39901 3230491 pack:clothes/male_worksuit01/male_worksuit01_diffuse.png CC0-1.0
+male_worksuit01_normal.png 53f51fd31ec6760c26d377b250bfcdde84be46953f4c72821892b76d13055073 7345267 pack:clothes/male_worksuit01/male_worksuit01_normal.png CC0-1.0
+middleage_lightskinned_male_diffuse2.png e897c4cc1b6ad5d10a7d2b2be92402feda4e772e6582dfaf0a1e8fc4621d8097 3730636 pack:skins/middleage_asian_male/middleage_lightskinned_male_diffuse2.png CC0-1.0
+shoes01_diffuse.png 50c9a406a7f1cb6aa7b42912348e78f09d0252aa3963c8229cf18dfe8353cdbf 1335772 pack:clothes/shoes01/shoes01_diffuse.png CC0-1.0
+shoes01_normal.png a9bfd7223e98b8f93100e89596135e3a94e6044f9db11b4d23cec625c37a4599 875473 pack:clothes/shoes01/shoes01_normal.png CC0-1.0
+short02_diffuse.png 47fe33831a3929567c733356dd66243116e05df2ace1f884ddca0080b728229f 3553543 pack:hair/short02/short02_diffuse.png CC0-1.0
+skins/middleage_asian_male/middleage_asian_male.mhmat 341a041eeb9c4bb51133fafb4d61e859a36dbd142c75c7cef4531606143c4e22 1463 pack:skins/middleage_asian_male/middleage_asian_male.mhmat CC0-1.0
+clothes/male_worksuit01/male_worksuit01.mhclo 77561689f0e9eb13537f67e0582ce4e8b93fc7291ea87f57fd86b38b9114d4e1 254911 pack:clothes/male_worksuit01/male_worksuit01.mhclo CC0-1.0
+clothes/male_worksuit01/male_worksuit01.obj d8ef4bf71aa6bd386958921c17e0eed263ef63abc8b50a2c8be6d482f6e1d3f7 302272 pack:clothes/male_worksuit01/male_worksuit01.obj CC0-1.0
+clothes/male_worksuit01/male_worksuit01.mhmat 9af03afa0f8cf2d24b4fceb0bd0e3c400ae0975b402e0ea491a33fa32c3b560b 1389 pack:clothes/male_worksuit01/male_worksuit01.mhmat CC0-1.0
+clothes/shoes01/shoes01.mhclo 7994e38f7cdcee0bd5f55101660badcce0162fcdfc7f432218dd1eb301626252 119049 pack:clothes/shoes01/shoes01.mhclo CC0-1.0
+clothes/shoes01/shoes01.obj eac355a842a8eb8ae2f09fac8dd18a877a24ef2521ed2d6bf38559b42ce4b49a 136910 pack:clothes/shoes01/shoes01.obj CC0-1.0
+clothes/shoes01/shoes01.mhmat db1711e2dfea4dd8c24459643603a190d9a9da603fd26da5542002a73d740be8 1161 pack:clothes/shoes01/shoes01.mhmat CC0-1.0
+hair/short02/short02.mhclo 625736cdb73e6d094df6e5a2df18f371781f1d2cd37b0ae15795c5d7051c3ec2 119240 pack:hair/short02/short02.mhclo CC0-1.0
+hair/short02/short02.mhmat 2ed04c8aad9c1a35d858ca72091525d32b1da3b61b5a031634dd528fd8530f6d 1323 pack:hair/short02/short02.mhmat CC0-1.0
+hair/short02/short02.obj 48f979114adfa712165a69cc55c45a70831af1fb3cba8e2a89120f0c87407b64 139742 pack:hair/short02/short02.obj CC0-1.0
+eyes/low-poly/low-poly.mhclo 68582e28e9176cba7cfcf35208f671b6201b8d1bc95c32decff61a3160ec34d8 1344 pack:eyes/low-poly/low-poly.mhclo CC0-1.0
+eyes/low-poly/low-poly.obj 783fe1e6331162c876520b4c2bed7a8ca06354ca15497e8ebd68bb1b59f4d3de 6604 pack:eyes/low-poly/low-poly.obj CC0-1.0
+eyes/materials/brown.mhmat 4abad93ce50541c08127721e77bce035640c9f16bed16cd0f5524b1cd5908465 1247 pack:eyes/materials/brown.mhmat CC0-1.0
+eyebrows/eyebrow001/eyebrow001.mhclo 54c8892c2ba577f4152d779ce1f20f7cd323beb8cbd9cb701796165c221b4f5b 9141 pack:eyebrows/eyebrow001/eyebrow001.mhclo CC0-1.0
+eyebrows/eyebrow001/eyebrow001.mhmat 976e5f4f1d3922d7a11c6e2db233f8b4584b068d00619d5749687e81c92d61fc 1098 pack:eyebrows/eyebrow001/eyebrow001.mhmat CC0-1.0
+eyebrows/eyebrow001/eyebrow001.obj 88b13146395133f3901715e11706cdfd293e5d6087ad7c5e01efe1485a26b513 8227 pack:eyebrows/eyebrow001/eyebrow001.obj CC0-1.0

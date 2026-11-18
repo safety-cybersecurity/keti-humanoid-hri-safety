@@ -1,0 +1,28 @@
+# generation/scene/textures.lock — 씬 텍스처 정본. 파일마다 출처 URL · 라이선스 · SHA256 한 줄.
+# fetch_textures.py 가 이대로 내려받아 해시를 검증하고, 맞지 않는 파일은 쓰지 않고 지운다.
+#
+# 열: name role map license source url sha256
+#   role    layout.py 의 materials.<name>.texture 가 가리키는 텍스처 세트
+#   map     diffuse | normal_gl | roughness | archive (zip 으로 배포되는 세트의 zip 자체)
+#   url     https 주소, 또는 zip 안의 파일이면 "zip:<멤버 이름>" (같은 role 의 archive 줄에서 꺼낸다)
+#
+# 라이선스 표기는 각 자산 페이지에서 확인했다 (2026-09-22): Poly Haven "CC0 License",
+# ambientCG "released under the Creative Commons CC0 license". 골판지는 Poly Haven 에 없어
+# ambientCG 에서 가져왔고, ambientCG 는 zip 으로만 배포하므로 zip 과 낱장을 모두 적는다.
+# 채널 수는 파일마다 다르다 (roughness 가 RGB 인 것도 L 인 것도 있다) — 읽는 쪽이 가정하지 말 것.
+concrete_floor_worn_001_diff_1k      concrete_floor_worn_001  diffuse    CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_worn_001/concrete_floor_worn_001_diff_1k.jpg  6e40c0fc908f4d66431836f5abe203f3a4eb064e88824378a91a46a26e2f464c
+concrete_floor_worn_001_nor_gl_1k    concrete_floor_worn_001  normal_gl  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_worn_001/concrete_floor_worn_001_nor_gl_1k.jpg  523bd94a1be5dd2f11c2ae2b7d7c77445cf5bd9e41604db515a7c8364dcba067
+concrete_floor_worn_001_rough_1k     concrete_floor_worn_001  roughness  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_worn_001/concrete_floor_worn_001_rough_1k.jpg  069efe4ca018e0ef61fd8cc9964395ba8272284ae239da68d7f87988e2e9f488
+corrugated_iron_02_diff_1k           corrugated_iron_02       diffuse    CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron_02/corrugated_iron_02_diff_1k.jpg  7a7b43099d015c1b08ebb175da5965caeae44b86de65a727b3fffa20a7c69a93
+corrugated_iron_02_nor_gl_1k         corrugated_iron_02       normal_gl  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron_02/corrugated_iron_02_nor_gl_1k.jpg  9743c93668689c36a67e9c4dc8d6a0870fe91202f82dcdaf70ddc330c12f9ecb
+corrugated_iron_02_rough_1k          corrugated_iron_02       roughness  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron_02/corrugated_iron_02_rough_1k.jpg  56ec8d8b04bac56b5d85ee2f35256b7b00d8c7a0ef13e6791cdabc5c05ed2f4b
+blue_metal_plate_diff_1k             blue_metal_plate         diffuse    CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/blue_metal_plate/blue_metal_plate_diff_1k.jpg  a0162bffce47d4a35613a12af22571b28c18412dc5805cbb69eac343554ef750
+blue_metal_plate_nor_gl_1k           blue_metal_plate         normal_gl  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/blue_metal_plate/blue_metal_plate_nor_gl_1k.jpg  970f0273c9e2e3b4fc8338bfd58a28c413b70ac4d1734d9dc8a136724bde56e6
+blue_metal_plate_rough_1k            blue_metal_plate         roughness  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/blue_metal_plate/blue_metal_plate_rough_1k.jpg  37168cf57144db28dd0743dab47fbebc09147fac919d5e2b5610b069c0b13a46
+Cardboard001_1K-JPG                  Cardboard001             archive    CC0  ambientcg https://ambientcg.com/get?file=Cardboard001_1K-JPG.zip  59c1f49dcac80ece23a95b4445127a4d56e3e05b9ffd0b051fd793bb2afc2230
+Cardboard001_1K-JPG_Color            Cardboard001             diffuse    CC0  ambientcg zip:Cardboard001_1K-JPG_Color.jpg  fe21687752fde80f9738d8a9609df1f2cfbeede343507963932a49f9527b336f
+Cardboard001_1K-JPG_NormalGL         Cardboard001             normal_gl  CC0  ambientcg zip:Cardboard001_1K-JPG_NormalGL.jpg  911bd808638272c671c250c22d17ce338c2a293439ca60d645c73295a8b6f87a
+Cardboard001_1K-JPG_Roughness        Cardboard001             roughness  CC0  ambientcg zip:Cardboard001_1K-JPG_Roughness.jpg  915fca7319a44c4dd436d30a34373b59ae7450fa2d0526428903c65aece1bf6c
+plywood_diff_1k                      plywood                  diffuse    CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_diff_1k.jpg  800905650fc6cab2fe7c77c41851f8ea89669f1287ad5ce67c48f435654c0af8
+plywood_nor_gl_1k                    plywood                  normal_gl  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_nor_gl_1k.jpg  a0d8459eb2586435790225440319586775c9b7dff8441062e077501fd0811e53
+plywood_rough_1k                     plywood                  roughness  CC0  polyhaven https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_rough_1k.jpg  c4600551fa90bf1222de07b5d92e09456501f0449a4f315c203770bfcbd97aaf

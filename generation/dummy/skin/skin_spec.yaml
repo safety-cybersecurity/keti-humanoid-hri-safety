@@ -1,0 +1,92 @@
+# generation/dummy/skin/skin_spec.yaml — 더미 시각 메시 생성 정본.
+#
+# make_skin.py 가 이 파일대로 MakeHuman(MPFB2, Blender 헤드리스)으로 사람 하나를 만들어
+# OBJ + 텍스처로 내보낸다. 키는 anthropometry.yaml 의 stature 를 읽어 맞추며, 두 파일이
+# 다른 키를 말하면 생성기가 멈춘다. 형상 치수의 정본은 anthropometry.yaml 이고 이 파일은
+# 「어떻게 보이는가」만 정한다 — 물리(콜라이더·질량·조인트)는 여기서 아무것도 바뀌지 않는다.
+#
+# 얼굴은 합성이다(실존 인물의 얼굴·스캔 없음). 산출 메시와 쓰인 시스템 자산은 CC0 —
+# 근거는 SKIN-LICENSE.md.
+
+skin_version: "0.1"
+
+source:
+  tool: "MakeHuman via MPFB2"
+  mpfb_version: "2.0.17"                 # Blender 확장 플랫폼 배포판. blender_version_min 4.2
+  mpfb_download:
+    url: https://extensions.blender.org/download/sha256:4f0a879d64a39bf646fbf5f53601ac678855da329d650617dca5737548239a87/add-on-mpfb-v2.0.17.zip
+    sha256: 4f0a879d64a39bf646fbf5f53601ac678855da329d650617dca5737548239a87
+  license_of_output: "CC0-1.0"           # MakeHuman 이 내보낸 모델 · 시스템 자산 팩 (SKIN-LICENSE.md)
+  system_assets:                         # 의복·피부·머리 — 없으면 make_skin.py 가 멈추고 아래를 안내한다
+    pack: makehuman_system_assets_cc0.zip
+    url: https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip
+    sha256: b542127a8e25547c7c29c19f2d1d2adb9a664c80396ecd694095dbc8028a0107
+    bytes: 280737770
+    license: "CC0-1.0"
+
+stature_from: generation/dummy/anthropometry.yaml   # 두 값이 다르면 make_skin.py 가 멈춘다
+stature_tolerance: 0.01                             # 목표 키 대비 허용 오차 (비율)
+
+# MPFB 매크로. height 는 여기 없다 — 내보낸 메시의 키가 stature 와 맞을 때까지 이분법으로 찾는다.
+macro:
+  gender: 0.9
+  age: 0.5
+  muscle: 0.5
+  weight: 0.5
+  proportions: 0.5
+  race: { asian: 1.0, caucasian: 0.0, african: 0.0 }
+
+# height 매크로의 탐색 구간. Phase 0 실측: 0.5 → 1.714 m · 0.6 → 1.844 m (비선형).
+height_search: { lo: 0.3, hi: 0.7, max_iter: 12 }
+
+skin: { subdir: skins, label: "Middleage asian male" }
+
+# 작업복 계열 — 사람 검출기는 옷 입은 사람으로 학습되어 있다 (설계 §4.2).
+# type 은 MPFB HumanService.add_mhclo_asset 의 asset_type.
+clothes:
+  - { subdir: clothes,  label: "Male worksuit01", type: Clothes }
+  - { subdir: clothes,  label: "Shoes01",         type: Clothes }
+  - { subdir: hair,     label: "Short02",         type: Hair }
+  - { subdir: eyes,     label: "Low-poly",        type: Eyes }
+  - { subdir: eyebrows, label: "Eyebrow001",      type: Eyebrow }
+
+# 자세. MakeHuman 의 기본 자세는 팔을 벌려 앞으로 내민 A 자세라 손이 골반에서 0.4 m 떨어지고,
+# 다리도 발 사이가 0.29 m 로 프리미티브(0.18 m)보다 넓다 (실측 2026-09-22). anthropometry.yaml 의
+# 팔·다리 프리미티브는 몸 옆에 곧게 내린 자세이므로, 내장 리그를 붙이고 뼈를 겨눈다 — 아니면
+# 시각 메시의 팔다리와 콜라이더가 서로 다른 곳에 있게 된다.
+# direction 은 리그 좌표계(MakeHuman: +x 왼쪽 · +z 위)에서 뼈(head→tail)가 향할 방향. null 인
+# 성분은 뼈의 지금 방향을 그대로 둔다 — 다리는 앞뒤 기울기를 두고 좌우만 수직으로 세운다(앞뒤까지
+# 세우면 다리가 10° 뒤로 돌아간다, 실측). 팔은 약간 벌린다(몸통과 겹치지 않게).
+pose:
+  rig: default                     # MPFB 내장 리그 (data/rigs/standard/rig.default.json)
+  aim:
+    - { bone: upperarm01.L, direction: [ 0.10, 0.0, -1.0] }
+    - { bone: lowerarm01.L, direction: [ 0.10, 0.0, -1.0] }
+    - { bone: wrist.L,      direction: [ 0.10, 0.0, -1.0] }
+    - { bone: upperarm01.R, direction: [-0.10, 0.0, -1.0] }
+    - { bone: lowerarm01.R, direction: [-0.10, 0.0, -1.0] }
+    - { bone: wrist.R,      direction: [-0.10, 0.0, -1.0] }
+    - { bone: upperleg01.L, direction: [ 0.0, null, -1.0] }
+    - { bone: lowerleg01.L, direction: [ 0.0, null, -1.0] }
+    - { bone: upperleg01.R, direction: [ 0.0, null, -1.0] }
+    - { bone: lowerleg01.R, direction: [ 0.0, null, -1.0] }
+
+# 내보낸 메시가 프리미티브에 얼마나 맞는가 — 부위마다 배정된 정점의 무게중심이 프리미티브
+# 중심에서 수평으로(xy) 이만큼 넘게 벗어나면 멈춘다. 발은 부위가 없어(12부위에 발 없음) BR-12 에
+# 붙고, 얼굴은 상자보다 몇 cm 앞에 있다 — 그 정도는 통과하고 A 자세의 팔(0.4 m)은 걸린다.
+fit: { max_lateral_offset_m: 0.08 }
+
+# GAMEENGINE 만 텍스처가 내보내기를 통과한다 (Phase 0: ENHANCED_SSS/MAKESKIN 은 노드 그룹이라
+# MTL 에 map_Kd 가 없고 USD 는 재질 11 중 5 만 옮긴다).
+material_type: GAMEENGINE
+
+# anthropometry.yaml 의 좌표계. 발바닥 중앙 원점 · +z 위 · +x 정면 · 따라서 +y 가 왼쪽.
+frame: { front: "+x", up: "+z", left: "+y" }
+
+export:
+  format: obj
+  yaw_deg: 90            # MakeHuman 은 Blender 에서 -y 를 본다(Phase 0). +90° 회전으로 +x 를 보게 한다
+  obj: build/keti_skin.obj
+  textures_dir: build/textures
+  manifest: build/skin_manifest.json
+  textures_lock: textures.lock          # 내보낸 텍스처의 SHA256 · 출처. 추적 대상

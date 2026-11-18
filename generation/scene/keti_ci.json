@@ -1,0 +1,10 @@
+{
+  "page": "https://keti.re.kr/introduce/ci.php",
+  "url": "https://keti.re.kr/file/KETI_CI.zip?a=1",
+  "archive_sha256": "9acb2a29e31708f80fa9dce407e3fb9e6fad8a81ced0c1094d27ef706c318922",
+  "member": "CI-가로타입#1.png",
+  "member_sha256": "3662762d6078e217dd96440ef3496bbf83fbee048bd8fab4fc8fe99fa3c729d2",
+  "file": "keti_ci_en.png",
+  "license": "LicenseRef-KETI-CI",
+  "note": "한국전자기술연구원(KETI)의 영문 대표 CI(가로형 PNG · 584 × 147 · 투명 바탕). 누리집 「CI 소개」(page)의 내려받기(url)가 주는 압축 파일 안의 파일이고, 들고 다니는 상자(keti_carried_box_v1)와 창고 씬(keti_logistics_aisle_v1)의 상자 라벨에 바이트 그대로 싣는다. 배포자 자신의 CI 라 데이터셋 라이선스와 따로 표기하며(LicenseRef-KETI-CI), 데이터셋 라이선스(CC BY 4.0 §2(b)(2))는 상표 사용을 허락하지 않는다. 압축 파일 안의 PNG 는 이름(한글 · #)이 아니라 SHA-256(member_sha256)으로 고르고, 압축 파일은 archive_sha256 과 같을 때만 연다 — generation/scene/fetch_keti_ci.py."
+}

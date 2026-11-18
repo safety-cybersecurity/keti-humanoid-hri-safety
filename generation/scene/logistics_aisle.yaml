@@ -1,0 +1,130 @@
+# generation/scene/logistics_aisle.yaml — 물류 통로 씬의 정본. 치수는 여기서만 정한다.
+#
+# layout.py 가 이것을 읽어 박스 목록을 만들고 build_logistics_scene.py 가 USD 로 쓴다.
+# 스크립트에는 치수를 두지 않는다 — 정본이 바뀌어도 스크립트에 박힌 숫자는 남기 때문이다
+# (더미 빌더와 같은 이유, 설계 §3.1). 표준 수치는 없다. 전부 과제가 정한 장면 치수다.
+scene_version: "0.4"       # 0.4 (2026-10-26): 상자의 라벨 — 선반 상자와 바닥 단의 큰 상자마다 y 를 보는 두 옆면에 흰 라벨과 KETI CI (labels)
+                           # 0.3 (2026-10-19): 랙 바닥 단의 짐 — 베이마다 팔레트와 큰 골판지 상자 둘 (rack.floor_loads)
+                           # 0.2 (2026-09-29): 사방을 벽으로 막은 실내 창고 — 벽 · 도크 도어 · 지붕 트러스 · 등기구 · 바닥 표시선
+name: keti_logistics_aisle_v1
+units: { length: m }
+
+aisle:
+  # 랙 안쪽 면까지. 2026-09-22 결정: 유도값 10 m 통로(설계 §3.3). S1dEnvCfg 의 리셋 항이 리셋마다
+  # 더미 대기 오프셋(derive_wait_y 의 실측값) + 더미 반폭 + guard_margin_m 보다 큰지 확인하고 작으면 멈춘다.
+  half_width: 5.0
+  # 위 확인의 여유. 로봇 헤딩 보정의 잔여 표류(수 도 × 24 m)를 덮는 값 (설계 §3.4).
+  guard_margin_m: 1.0
+  # 로봇 주행 범위. 20 s × 최고 1.2 m/s = 24 m 에 시작 여유 (설계 §3.2).
+  x_min: -6.0
+  x_max: 30.0
+
+# 랙·상자 말고는 전부 시각뿐이다 — 콜라이더가 없어 물리에 들어가지 않는다. 지면 물리는 Isaac Lab 의
+# 절차적 평면이 맡는다 (설계 §3.2). 바닥 가장자리가 곧 벽의 안쪽 면이다.
+floor:   { z: 0.002, margin: 4.0, material: concrete_floor }
+ceiling: { z: 8.0, material: ceiling_panels }
+
+# 바닥 가장자리 넷에 천장까지 세우는 외벽. 아랫단(base_height)은 콘크리트 — 창고의 지게차 보호벽 (2026-09-29).
+walls:
+  thickness: 0.25
+  material: wall_cladding
+  base_height: 1.2
+  base_material: concrete_wall
+  # 양 끝벽에서 메인 통로를 마주 보는 셔터 문. 통로 중심선에서 좌우 대칭으로 늘어선다.
+  dock_doors: { per_end_wall: 2, width: 3.5, height: 4.0, gap: 1.0, thickness: 0.06, material: dock_door }
+
+# 폭(y) 방향으로 걸친 워런 트러스를 길이(x) 방향으로 늘어놓고, 그 위에 길이 방향 중도리를 얹는다.
+# 트러스 간격은 목표값이다 — 실제 간격은 바닥 길이를 가장 가까운 정수 칸으로 나눈 값이다.
+roof:
+  truss_spacing_m: 6.0
+  truss_depth: 1.2           # 위·아래 현재 중심선 사이
+  chord_size: 0.15
+  web_size: 0.08
+  panel_m: 1.5               # 대각재가 한 번 오르거나 내리는 폭 방향 길이의 목표값
+  purlin_spacing_m: 3.0
+  purlin_size: [0.1, 0.15]   # 폭 · 높이
+  material: roof_steel
+
+# 통로마다(메인 통로 · 랙 줄 사이 · 벽 쪽 통로) 길이 방향으로 한 줄, 트러스 사이 칸마다 하나.
+# 등기구(발광 판)가 보이고, 그 바로 아래 면광원이 아래로 비춘다. fill 은 그림자 없는 채움광(돔) —
+# 아래로만 비추는 면광원은 천장과 벽 위쪽을 비추지 못해 검게 남기 때문이다.
+lights:
+  z: 6.1                     # 등기구 중심 높이 — 랙·상자 위, 트러스 아래 (validate_spec)
+  fixture_size: [1.2, 0.4, 0.1]
+  fixture_material: fixture_lens
+  intensity: 130000.0
+  color: [1.0, 0.97, 0.92]
+  fill: { intensity: 600.0, color: [1.0, 0.98, 0.95] }
+
+# 메인 통로 양쪽 가장자리의 노란 선 — 랙 안쪽 면에서 inset 만큼 들어와 벽에서 벽까지.
+# lift 는 바닥 윗면과 선 밑면의 틈이다 (두 면이 겹치지 않게).
+floor_markings: { width: 0.1, inset: 0.3, thickness: 0.001, lift: 0.0005, material: marking_yellow }
+
+rack:
+  bay_width: 2.7
+  depth: 1.0
+  beam_heights: [1.5, 3.0, 4.5]
+  upright_size: 0.09
+  beam_size: 0.12
+  shelf_thickness: 0.03
+  materials: { upright: steel_blue, beam: steel_orange, shelf: plywood }
+  rows_per_side: 3         # 앞줄 1 + 뒷줄 2. 뒷줄은 카메라에 「여러 줄」이 보이게 하는 용도
+  row_gap: 2.5             # 앞줄 뒤에서 다음 줄까지
+  # 바닥 단(첫 보 아래)의 짐 — 베이마다 per_bay 개, 각각 바닥의 팔레트 위에 큰 골판지 상자 하나. 줄의 깊이 한가운데,
+  # 베이 가운데를 기준으로 가로로 나란히(사이 gap_m) 놓이고 기둥과 첫 보에 닿지 않는다(layout.validate_spec).
+  # 이 단이 비어 있으면 랙 줄 너머가 훤히 보여, 줄 사이에서 사람이 선반 아래로 비쳐 보인다. 난수를 쓰지 않는다 —
+  # 선반 상자(boxes)의 배치는 짐이 있어도 그대로다. size 는 [x(베이 방향), y(줄 깊이 방향), z]. 과제가 정한 장면 치수다.
+  floor_loads:
+    per_bay: 2
+    gap_m: 0.1
+    pallet: { size: [1.2, 0.9, 0.15], material: pallet_grey }
+    carton: { size: [1.2, 0.9, 1.2], material: carton_large }
+
+boxes:
+  material: cardboard
+  size_min: [0.35, 0.35, 0.30]
+  size_max: [0.60, 0.60, 0.50]
+  stacks_per_bay: [1, 3]   # 한 베이에 놓이는 상자 열의 수 (균등 난수)
+  layers: [1, 3]           # 열마다 쌓는 층 수 (균등 난수, 위 보에 걸리면 거기서 멈춘다)
+  top_shelf_clearance: 1.2 # 맨 위 선반 위로 상자를 쌓을 수 있는 높이
+  edge_margin: 0.35        # 베이 양끝에서 상자 열 중심까지의 최소 거리
+  seed: 20260922           # 배치 난수. 씬 파일이 결정적이어야 자산 SHA256 이 고정된다
+
+# 상자의 라벨 — 선반 상자(boxes)와 바닥 단의 큰 상자(rack.floor_loads.carton)마다, y 를 보는 두 옆면(통로와 줄 사이
+# 틈을 보는 면)의 가운데에 흰 판 하나와 그 가운데의 KETI CI 하나. x 면 · 윗면 · 밑면과 상자가 아닌 것(팔레트 · 랙)에는 없다.
+# size 는 흰 판의 [폭, 높이], ci_width 는 CI 의 폭이고 CI 의 높이는 그림의 가로/세로 비에서 정한다(빌더가 PNG 머리에서 읽음).
+# lift_m 은 상자 면에서 흰 판까지, ci_lift_m 은 CI 까지의 거리다. 판은 콜라이더가 없고 붙은 상자의 의미 클래스(rack)를 가지며,
+# 박스 목록(layout.build_layout — 충돌체 · 가림 계산 · 통로 가드가 읽음)에 들지 않는다. 선반 상자의 라벨은 들고 다니는
+# 상자(carried_box.py)의 라벨과 같은 크기 · 흰 값 · 거칠기 · 띄우는 거리이고, 큰 상자의 것은 그 두 배다. 과제가 정한 값이다.
+labels:
+  material: label_white
+  ci_material: keti_ci
+  lift_m: 0.001
+  ci_lift_m: 0.002
+  shelf_box:    { size: [0.20, 0.07], ci_width: 0.18 }
+  floor_carton: { size: [0.40, 0.14], ci_width: 0.36 }
+
+# 재질은 셋 중 하나다. 텍스처 재질 — textures.lock 의 텍스처 세트(role). 같은 세트를 색조만 바꿔 다시
+# 쓸 수 있다(도색 강재는 CC0 세트가 하나뿐이라 보는 주황 tint 로 구분한다, Phase 0 Task 0.2). tile_m 은
+# 텍스처 한 장이 덮는 실제 길이, tint 는 OmniPBR diffuse_tint (선형 RGB, 없으면 흰색).
+# 단색 재질 — color(선형 RGB) · roughness · metallic, emissive_intensity 가 있으면 color 로 빛난다.
+# 텍스처 파일이 없으므로 라이선스가 걸리는 것이 없다.
+# 그림 재질 — picture 가 고정 파일 하나가 고정한 그림(keti_ci — keti_ci.json 이 고정한 KETI CI 의 PNG)을 바이트 그대로
+# USD 옆 textures/ 에 두고 판의 UV 에 붙이며 알파로 잘라 낸다. roughness 만 정한다. UV 가 있는 판(labels)에만 쓴다.
+materials:
+  concrete_floor: { texture: concrete_floor_worn_001, tile_m: 2.0 }
+  concrete_wall:  { texture: concrete_floor_worn_001, tile_m: 2.0, tint: [0.9, 0.9, 0.9] }
+  ceiling_panels: { texture: corrugated_iron_02, tile_m: 4.0 }
+  wall_cladding:  { texture: corrugated_iron_02, tile_m: 2.0, tint: [1.35, 1.38, 1.42] }
+  dock_door:      { texture: corrugated_iron_02, tile_m: 1.0, tint: [0.55, 0.75, 1.15] }
+  steel_blue:     { texture: blue_metal_plate, tile_m: 1.0 }
+  steel_orange:   { texture: blue_metal_plate, tile_m: 1.0, tint: [1.0, 0.45, 0.12] }
+  plywood:        { texture: plywood, tile_m: 1.0 }
+  cardboard:      { texture: Cardboard001, tile_m: 0.5 }
+  carton_large:   { texture: Cardboard001, tile_m: 1.2 }
+  roof_steel:     { color: [0.42, 0.44, 0.47], roughness: 0.55, metallic: 0.4 }
+  pallet_grey:    { color: [0.40, 0.42, 0.45], roughness: 0.6 }
+  marking_yellow: { color: [0.85, 0.55, 0.02], roughness: 0.6 }
+  fixture_lens:   { color: [1.0, 0.98, 0.94], emissive_intensity: 3000.0 }
+  label_white:    { color: [0.95, 0.95, 0.95], roughness: 0.85 }
+  keti_ci:        { picture: keti_ci, roughness: 0.85 }

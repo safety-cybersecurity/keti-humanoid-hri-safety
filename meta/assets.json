@@ -1,0 +1,567 @@
+{
+  "assets_version": "0.1",
+  "schema_version": "0.2",
+  "description": "에피소드 메타 scene_assets · robot_embodiment 의 정본. 라이선스 판정의 근거와 전체 조사 결과는 docs/assets/asset-license-inventory-v0.1.md 에 있고, 이 파일은 그 판정을 기계가 읽는 형태로만 옮긴다. 판정을 이 파일에서 새로 만들지 않는다.",
+  "editing_policy": "생성 스크립트가 실제로 로드한 경로만 올린다. 에피소드 사이드카의 asset_paths 가 이 파일의 usd_path 와 문자열로 일치해야 변환기가 조인할 수 있고, 일치하지 않으면 변환이 멈춘다 — 라이선스를 모르는 자산이 배포본에 들어가는 것보다 낫기 때문이다.",
+  "robots": {
+    "unitree_h1": {
+      "usd_path": "{ISAACLAB_NUCLEUS_DIR}/Robots/Unitree/H1/h1.usd",
+      "usd_sha256": "3292a154c5eff7dd6d2610cdee8b26fdb2836338b05201321517acf97f2e09d8",
+      "license": "BSD-3-Clause",
+      "license_holder": "HangZhou YuShu TECHNOLOGY CO.,LTD. (2016-2022)",
+      "redistributed": true,
+      "redistributed_note": "BSD-3 원본이라 저작권 고지 · 라이선스 전문 · 면책 문구와 함께 싣는다(NOTICE §3 · §4). 배포본의 assets/unitree_h1/ 에 h1.usd 와 그것이 상대 경로로 참조하는 instanceable_meshes.usd, 라이선스 파일 LICENSE.txt 가 바이트 그대로 실린다(ship) — 폴더째라 다른 로봇의 같은 이름 파일과 부딪치지 않는다. 받기는 generation/robots/fetch_robot.py 가 ship 행대로 하고 해시를 대조한다. usd_path 는 시뮬레이션이 푸는 Nucleus 토큰 그대로이며 에피소드의 자산 경로가 이것으로 이어진다. 질량은 이 USD 들이 실제로 싣는 값이라 usd_checked 가 없다 — 게시기의 금지 속성 검사는 assets/ 바로 아래의 USD 만 각자의 레이어로 열고, 이 폴더는 행의 고정 해시로 대조된다. 이 로봇을 쓰는 배치의 배포본에만 실린다.",
+      "ship": {
+        "dir": "unitree_h1",
+        "source_dir": "generation/robots/build/unitree_h1",
+        "license_file": "LICENSE.txt",
+        "files": [
+          {
+            "file": "h1.usd",
+            "sha256": "3292a154c5eff7dd6d2610cdee8b26fdb2836338b05201321517acf97f2e09d8",
+            "license": "BSD-3-Clause",
+            "url": "{ISAACLAB_NUCLEUS_DIR}/Robots/Unitree/H1/h1.usd"
+          },
+          {
+            "file": "instanceable_meshes.usd",
+            "sha256": "406163c72c0d515fc8df3642941dfbee421b891d80790287e31ac3cc96a8097f",
+            "license": "BSD-3-Clause",
+            "url": "{ISAACLAB_NUCLEUS_DIR}/Robots/Unitree/H1/instanceable_meshes.usd"
+          },
+          {
+            "file": "LICENSE.txt",
+            "sha256": "84aac59fd3246e3ddc49d1387644e8fcf43b0def4f0b9fe687f372e90446df2d",
+            "license": "BSD-3-Clause",
+            "url": "{ISAACLAB_NUCLEUS_DIR}/Robots/Unitree/LICENSE.txt"
+          }
+        ]
+      },
+      "embodiment": "biped",
+      "note": "경로마다 라이선스가 다르다 — IsaacLab/Robots/Unitree 경로만 BSD-3 이고 Robots/Unitree 는 MPL-2.0 이다(인벤토리 §2.1). BSD-3 경로의 사본을 폴더째 싣는다(ship · NOTICE §1 · §3). usd_sha256 은 meta/joint_map/unitree_h1.yaml provenance 와 같은 값이고, ship.files 의 h1.usd 행과도 같아야 한다."
+    }
+  },
+  "scene": {
+    "keti_dummy_ts15066_v1": {
+      "usd_path": "generation/dummy/build/keti_dummy_ts15066_v1.usd",
+      "built_by": "generation/dummy/build_dummy.py",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "redistributed": true,
+      "note": "자체 제작. ISO/TS 15066 Table A.2 의 부위 구분에 기반한 기하 프리미티브 더미이며 표준 문서 자체는 포함하지 않는다(NOTICE §2). *.usd 는 .gitignore 대상이라 저장소에는 없고 빌더가 만든다.",
+      "usd_sha256": "f7c7dbe6ce0c45dba59835352c57fd138c573e499f8db050a90f4ae17ff94a69",
+      "usd_sha256_note": "재배포하는 자산이므로 값을 고정한다. 원본은 build_dummy.py 가 만들고 git 이 추적하지 않으므로, 이 값만이 「어느 자산을 실었나」를 말한다.",
+      "mass_model": {
+        "rigid_body_mass": "geometry_x_engine_default_density",
+        "measured_total_kg": 87.6,
+        "note": "표 A.3 의 유효질량은 강체 질량이 **아니다** — 두 물체 충돌 모형(식 A.1~A.4)의 파라미터다. 그것을 physics:mass 로 쓰면 12부위 합이 인체가 아닌 크기가 되어 중력·지면반력·낙상 동역학이 그 질량으로 계산된다. 그래서 강체 질량을 명시하지 않고 물리 엔진이 형상과 기본 밀도로 계산하며, 실측 총 87.6 kg 이다(생성 로그의 홀드력 859 N 과 일치). **유효질량·스프링상수는 이 USD 에도 이 파일에도 싣지 않는다** — 이 값들을 자산에 적으면 물리 엔진과 읽는 사람이 강체 질량으로 오독할 여지가 있기 때문이다. 값이 필요한 곳은 판정이고, 판정 규칙 파일 meta/rules.json 이 값과 조항 참조를 함께 싣는다. 밀도를 명시하지 않은 것은 과제 결정이 아니라 이 v1 인형의 현 상태다 — 부위 질량을 형상마다 밀도로 적는 것은 관절 인형(v2)이다."
+      },
+      "usd_checked": {
+        "sha256": "f7c7dbe6ce0c45dba59835352c57fd138c573e499f8db050a90f4ae17ff94a69",
+        "checked_at": "2026-08-26",
+        "attrs_absent": [
+          "keti:effectiveMass",
+          "keti:springConstant",
+          "physics:mass"
+        ],
+        "note": "pxr 로 열어 금지 속성이 없음을 확인했다. 해시가 내용을 고정하므로, pxr 이 없는 인터프리터는 해시 일치로 이 확인을 물려받는다."
+      }
+    },
+    "keti_dummy_ts15066_v1_skin": {
+      "usd_path": "generation/dummy/build/keti_dummy_ts15066_v1_skin.usd",
+      "built_by": "generation/dummy/build_dummy.py",
+      "build_args": "--skin generation/dummy/skin/build/keti_skin.obj",
+      "spec": "generation/dummy/skin/skin_spec.yaml",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "skin_source": "MakeHuman/MPFB2 2.0.17 · 시스템 자산 팩 CC0-1.0 · generation/dummy/skin/SKIN-LICENSE.md",
+      "physics_identical_to": "keti_dummy_ts15066_v1",
+      "physics_identical_note": "콜라이더 형상·중심·고정조인트·질량(형상과 기본 밀도)은 v1 과 같고 시각 메시만 더한다. 프림 배치는 다르다 — v1 은 형상 프림 자체가 강체이고, 이 자산은 강체가 Xform 이며 형상은 자식 collider(purpose guide), 시각 메시는 자식 skin 이다. Hydra 가 guide 프림의 서브트리를 통째로 버리므로 형상을 숨기려면 이 배치여야 한다 (2026-09-22 실측). 접촉 분해 검사(check_contact_resolution.py)는 두 자산 모두 17/17. 「같다」는 물리엔진이 읽는 float32 값으로 같다는 뜻이다 — v1 은 상자 부위에 붙는 고정조인트 앵커를 상자의 배율이 들어간 프레임에 적고 엔진이 배율을 곱해 되돌리므로, 이 자산은 그 곱(build_dummy.engine_anchor)을 적는다. 배율 없는 오프셋을 그대로 적으면 앵커 16개 중 4개가 float32 한 칸 달라지고, 질량·관성·무게중심이 비트까지 같아도 S1a 에피소드 0 이 v0.1 배치와 갈린다(699 스텝 낙상 → 999 스텝 시간 초과, 2026-09-23 실측). check_skin_physics.py 가 강체·형상·조인트를 엔진 값으로 대조해 같고, S1a seq 0–1 을 이 자산으로 돌리면 v0.1 배치와 C9 대조 배열 16개가 두 에피소드 모두 비트 동일하다(run_s1a.py --compare-with, 2026-09-23).",
+      "redistributed": true,
+      "redistributed_note": "S1d 배치의 자산이다. 26.11 배포본(S1e · S1f · S1g)의 인체 모델은 keti_dummy_ts15066_v2_vest 라 이 자산은 그 배포본에 싣지 않는다. keti_logistics_aisle_v1 과 같은 규칙으로 실린다 — 이 자산을 인체 모델로 쓰는 배치의 배포본에 USD 가 assets/ 에, 텍스처가 assets/textures/ 에. 이 자산을 쓰지 않는 배치(S1a)를 변환한 배포본에는 실리지 않는다.",
+      "usd_sha256": "49f797eab2bf46a423cf510b3e971eab69be250eefbf612e0787b9f2529dce09",
+      "usd_sha256_note": "빌드는 결정적이다 — 같은 OBJ 로 두 번 빌드해 바이트 동일(2026-09-22). skin_spec.yaml · anthropometry.yaml · textures.lock · build_dummy.py 가 바뀌면 이 값도 바뀐다. OBJ 자체는 make_skin.py 가 결정적으로 만든다(두 번 실행해 SHA256 동일). 빌더는 OBJ 옆의 skin_manifest.json 으로 OBJ·MTL·텍스처·팩 파일·명세·치수 정본의 해시를 대조하므로, 명세나 정본을 고친 뒤에는 make_skin.py 를 다시 돌려야 빌드가 된다.",
+      "usd_checked": {
+        "sha256": "49f797eab2bf46a423cf510b3e971eab69be250eefbf612e0787b9f2529dce09",
+        "checked_at": "2026-09-23",
+        "attrs_absent": [
+          "keti:effectiveMass",
+          "keti:springConstant",
+          "physics:mass"
+        ],
+        "note": "빌더가 산출물을 다시 열어 부위 프림마다 collider·skin 자식, 시맨틱 라벨 class=BR-xx, 물리 API 없는 시각 메시, 텍스처 경로 해석을 확인한다(verify_skin_usd). 표준 수치를 쓸 자리는 v1 과 같이 없다."
+      },
+      "bundle": {
+        "textures_dir": "generation/dummy/build/textures",
+        "textures_lock": "generation/dummy/skin/textures.lock",
+        "textures_lock_sha256": "397b7fd2ebde3f534f98368d5416c1908a0f4511932fd2d8be789dcc62f74678",
+        "textures_license": "CC0-1.0",
+        "textures_sources": [
+          "MakeHuman 시스템 자산 팩 makehuman_system_assets_cc0.zip (files.makehumancommunity.org, CC0) — 피부 · 작업복 · 안전화 · 머리 · 눈 · 눈썹 텍스처 8장과, 사람을 만든 팩 파일 16개(.mhclo · .obj · .mhmat)"
+        ],
+        "files": [
+          {
+            "file": "brown_eye.png",
+            "sha256": "4659691c7295ad6206c78b003e5fd0e5f91dcd53032fa914a229bb48cabe424b",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "eyes/materials/brown_eye.png"
+          },
+          {
+            "file": "eyebrow001.png",
+            "sha256": "9940f7d0b1b223709a19b05156ba6f6e9e4dbdbced02d7574f4d51d72c58967b",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "eyebrows/eyebrow001/eyebrow001.png"
+          },
+          {
+            "file": "male_worksuit01_diffuse.png",
+            "sha256": "4b59b50f7a8a0325c33e86e29f160f59b2385a6f413fccc88287a1c951c39901",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/male_worksuit01/male_worksuit01_diffuse.png"
+          },
+          {
+            "file": "male_worksuit01_normal.png",
+            "sha256": "53f51fd31ec6760c26d377b250bfcdde84be46953f4c72821892b76d13055073",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/male_worksuit01/male_worksuit01_normal.png"
+          },
+          {
+            "file": "middleage_lightskinned_male_diffuse2.png",
+            "sha256": "e897c4cc1b6ad5d10a7d2b2be92402feda4e772e6582dfaf0a1e8fc4621d8097",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "skins/middleage_asian_male/middleage_lightskinned_male_diffuse2.png"
+          },
+          {
+            "file": "shoes01_diffuse.png",
+            "sha256": "50c9a406a7f1cb6aa7b42912348e78f09d0252aa3963c8229cf18dfe8353cdbf",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/shoes01/shoes01_diffuse.png"
+          },
+          {
+            "file": "shoes01_normal.png",
+            "sha256": "a9bfd7223e98b8f93100e89596135e3a94e6044f9db11b4d23cec625c37a4599",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/shoes01/shoes01_normal.png"
+          },
+          {
+            "file": "short02_diffuse.png",
+            "sha256": "47fe33831a3929567c733356dd66243116e05df2ace1f884ddca0080b728229f",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "hair/short02/short02_diffuse.png"
+          }
+        ],
+        "note": "USD 가 ./textures/<파일> 로 상대 참조하므로 배포본은 USD 를 assets/ 에, files 의 파일을 assets/textures/ 에 싣는다. files 는 파일마다의 출처(팩 URL 과 팩 안 경로 member) · 라이선스 · SHA256 이며 lock 의 텍스처 행을 옮긴 것이다 — 배포본에는 lock 이 없으므로 출처가 이 파일로 함께 간다. 둘이 다르면 변환기가 멈추고 tests/generation/test_assets_canon.py 가 빨갛다. lock 의 팩 파일 행(.mhclo · .obj · .mhmat)은 사람을 만든 입력이라 싣지 않는다. lock 은 모든 행을 팩 zip(스펙 source.system_assets 의 SHA256)과 바이트로 대조한 뒤에만 쓴다 — 자산 디렉터리에 있다는 것은 출처의 증명이 아니다. 상대 경로는 스폰하는 쪽이 USD 를 절대 경로로 참조할 때만 풀린다 — UsdFileCfg(usd_path=<상대 경로>) 면 Kit 이 텍스처를 못 찾는다 (2026-09-22 실측, build_dummy._skin_material)."
+      },
+      "semantics": {
+        "class": [
+          "BR-01",
+          "BR-02",
+          "BR-03",
+          "BR-04",
+          "BR-05",
+          "BR-06",
+          "BR-07",
+          "BR-08",
+          "BR-09",
+          "BR-10",
+          "BR-11",
+          "BR-12"
+        ],
+        "note": "부위마다 skin 자식 메시에 class=BR-xx. 좌우 한 쌍은 같은 코드를 갖는다. Replicator 의 idToLabels 는 소문자(br-01)로 돌려준다 (2026-09-22 확인)."
+      },
+      "note": "v1 더미에 MakeHuman(MPFB2) 시각 메시를 입힌 S1d 용 자산. 얼굴은 합성. 정점은 가장 가까운 anthropometry.yaml 프리미티브로 갈라 그 강체의 자식으로 붙이므로 물리가 부위를 옮기면 함께 움직인다. 메시가 프리미티브 밖으로 나오는 곳(옷 · 손끝 · 발 — 12부위에 발은 없다)은 접촉 계측 대상이 아니다."
+    },
+    "keti_dummy_ts15066_v2_jointed": {
+      "usd_path": "generation/dummy/build/keti_dummy_ts15066_v2_jointed.usd",
+      "built_by": "generation/dummy/build_dummy.py",
+      "build_args": "--jointed --gait generation/dummy/build/keti_gait_100style.json",
+      "spec": "generation/dummy/joints.yaml",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "redistributed": false,
+      "redistributed_note": "물리 대조의 기준이다 — 조끼 입은 관절 인형(keti_dummy_ts15066_v2_vest)은 물리엔진이 읽는 값으로 이 자산과 같고, 빌더가 그 자산을 지을 때마다 같은 입력으로 이 자산을 임시로 다시 지어 대조한다. 배포본에는 조끼 입은 판이 실리고 이 파일은 싣지 않는다.",
+      "usd_sha256": "f7c9ea8303b3ed8427352db0f8d2e57e7d0746caabe8866dda160c09c3dc3a9d",
+      "usd_sha256_note": "빌드는 결정적이다 — 같은 입력으로 다시 지어 바이트가 같다(2026-11-12). anthropometry.yaml · joints.yaml · 걸음 표(keti_gait_100style.json — 해시가 USD 안에 실림) · build_dummy.py · jointed.py 가 바뀌면 이 값도 바뀐다. 걸음 표는 generation/dummy/gait/build_gait.py 가 100STYLE 원본(gait.lock 이 고정)에서 만든다.",
+      "gait_source": {
+        "dataset": "100STYLE",
+        "credit": "The 100STYLE Dataset - Ian Mason",
+        "license": "CC-BY-4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "page": "https://www.ianxmason.com/100style/",
+        "changes": "인형 관절로 옮기고(리타깃) 디딤발을 바닥에 맞추고 주기를 평균해 속도별로 정리함 — 원본 미포함"
+      },
+      "note": "관절 인형(v2) — v1 의 부위 프리미티브에 관절 10(엉덩이 · 무릎 · 발목 · 어깨 · 팔꿈치, 좌우)과 발 둘을 더하고, 부위 질량을 형상마다 밀도로 적으며(physics:mass 없음), 걸음 표를 USD 안(/KetiDummy/Gait)에 싣는다. 관절 · 가동 범위 · 발 · 부위 질량은 과제가 정한 값이며 표준 수치가 아니다(joints.yaml). 시각 메시가 없다."
+    },
+    "keti_dummy_ts15066_v2_vest": {
+      "usd_path": "generation/dummy/build/keti_dummy_ts15066_v2_jointed_skin_vest.usd",
+      "built_by": "generation/dummy/build_dummy.py",
+      "build_args": "--jointed --gait generation/dummy/build/keti_gait_100style.json --skin generation/dummy/skin/build/keti_skin.obj --vest generation/dummy/vest.yaml --seams generation/dummy/skin_seams.yaml --split-worksuit",
+      "spec": "generation/dummy/skin/skin_spec.yaml",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "skin_source": "MakeHuman/MPFB2 2.0.17 · 시스템 자산 팩 CC0-1.0 · generation/dummy/skin/SKIN-LICENSE.md",
+      "physics_identical_to": "keti_dummy_ts15066_v2_jointed",
+      "physics_identical_note": "콜라이더 · 관절 · 구동 · 범위 · 밀도 · 걸음 표는 같은 입력의 맨몸 관절 인형과 같고, 시각 메시(피부)와 조끼만 더한다 — 피부의 이음새 섞는 비율도 피부 메시의 속성일 뿐 물리에 들지 않는다. 빌더가 이 자산을 지을 때마다 같은 입력의 맨몸을 임시로 지어 물리엔진이 읽는 값으로 대조하고(check_skin_physics.compare_assets), 다르면 산출물을 지운다. 프림 배치는 v1 입힌 인형과 같다 — 강체는 Xform, 형상은 자식 collider(purpose guide), 시각 메시는 자식 skin, 조끼는 몸통 · 골반 부위 몸의 자식 vest.",
+      "redistributed": true,
+      "redistributed_note": "관절 인형을 인체 모델로 쓰는 배치의 자산이다. 배포본에는 그 배치의 에피소드가 참조하는(scene_assets) 재배포 자산만 실리므로 이 자산을 쓰는 배치의 배포본에만 USD 가 assets/ 에, 피부 텍스처가 assets/textures/ 에 실린다. 조끼는 텍스처가 없어 따로 싣는 파일이 없고, 걸음 표는 USD 안에 있다.",
+      "usd_sha256": "e05116b54222e4b5d9df1e9a0c56d2d3149c454b12f73aeb819273bdddbfe0c7",
+      "usd_sha256_note": "빌드는 결정적이다 — 같은 입력으로 다시 지어 바이트가 같다(2026-11-13). 맨몸 관절 인형의 입력에 더해 피부 내보내기(keti_skin.obj — 빌더가 skin_manifest.json 으로 해시를 대조) · skin_spec.yaml · textures.lock · vest.yaml · skin_seams.yaml(둘 다 해시가 USD 안에 실림)이 바뀌면 이 값도 바뀐다. 피부 내보내기와 텍스처 lock 은 v1 입힌 인형과 함께 쓰므로 조끼와 피부 이음새는 거기가 아니라 vest.yaml · skin_seams.yaml 에 있다 — 거기를 고치면 v1 입힌 인형의 고정 해시가 깨진다. 작업복을 상의 · 바지 재질로 가르는 것도 같은 까닭으로 피부 내보내기가 아니라 빌더(--split-worksuit)가 한다.",
+      "usd_checked": {
+        "sha256": "e05116b54222e4b5d9df1e9a0c56d2d3149c454b12f73aeb819273bdddbfe0c7",
+        "checked_at": "2026-11-13",
+        "attrs_absent": [
+          "keti:effectiveMass",
+          "keti:springConstant",
+          "physics:mass"
+        ],
+        "note": "pxr 로 열어 금지 속성이 없음을 확인했다(publish_dataset.redistributed_usd_has_no_standard_values — 같은 파일의 피부 메시 하나에 physics:mass 를 써 넣은 대조본은 걸렸다). 질량은 형상마다 밀도(physics:density)로만 적혀 있고, 조끼와 피부에는 물리 속성이 없다 — 피부가 싣는 이음새 섞는 비율(keti:seamBlend:*)은 보이기만 하는 값이다."
+      },
+      "bundle": {
+        "textures_dir": "generation/dummy/build/textures",
+        "textures_lock": "generation/dummy/skin/textures.lock",
+        "textures_lock_sha256": "397b7fd2ebde3f534f98368d5416c1908a0f4511932fd2d8be789dcc62f74678",
+        "textures_license": "CC0-1.0",
+        "textures_sources": [
+          "MakeHuman 시스템 자산 팩 makehuman_system_assets_cc0.zip (files.makehumancommunity.org, CC0) — 피부 · 작업복 · 안전화 · 머리 · 눈 · 눈썹 텍스처 8장과, 사람을 만든 팩 파일 16개(.mhclo · .obj · .mhmat)"
+        ],
+        "files": [
+          {
+            "file": "brown_eye.png",
+            "sha256": "4659691c7295ad6206c78b003e5fd0e5f91dcd53032fa914a229bb48cabe424b",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "eyes/materials/brown_eye.png"
+          },
+          {
+            "file": "eyebrow001.png",
+            "sha256": "9940f7d0b1b223709a19b05156ba6f6e9e4dbdbced02d7574f4d51d72c58967b",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "eyebrows/eyebrow001/eyebrow001.png"
+          },
+          {
+            "file": "male_worksuit01_diffuse.png",
+            "sha256": "4b59b50f7a8a0325c33e86e29f160f59b2385a6f413fccc88287a1c951c39901",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/male_worksuit01/male_worksuit01_diffuse.png"
+          },
+          {
+            "file": "male_worksuit01_normal.png",
+            "sha256": "53f51fd31ec6760c26d377b250bfcdde84be46953f4c72821892b76d13055073",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/male_worksuit01/male_worksuit01_normal.png"
+          },
+          {
+            "file": "middleage_lightskinned_male_diffuse2.png",
+            "sha256": "e897c4cc1b6ad5d10a7d2b2be92402feda4e772e6582dfaf0a1e8fc4621d8097",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "skins/middleage_asian_male/middleage_lightskinned_male_diffuse2.png"
+          },
+          {
+            "file": "shoes01_diffuse.png",
+            "sha256": "50c9a406a7f1cb6aa7b42912348e78f09d0252aa3963c8229cf18dfe8353cdbf",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/shoes01/shoes01_diffuse.png"
+          },
+          {
+            "file": "shoes01_normal.png",
+            "sha256": "a9bfd7223e98b8f93100e89596135e3a94e6044f9db11b4d23cec625c37a4599",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "clothes/shoes01/shoes01_normal.png"
+          },
+          {
+            "file": "short02_diffuse.png",
+            "sha256": "47fe33831a3929567c733356dd66243116e05df2ace1f884ddca0080b728229f",
+            "license": "CC0-1.0",
+            "url": "https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+            "member": "hair/short02/short02_diffuse.png"
+          }
+        ],
+        "note": "USD 가 ./textures/<파일> 로 상대 참조하므로 배포본은 USD 를 assets/ 에, files 의 파일을 assets/textures/ 에 싣는다. files 는 파일마다의 출처(팩 URL 과 팩 안 경로 member) · 라이선스 · SHA256 이며 lock 의 텍스처 행을 옮긴 것이다 — 배포본에는 lock 이 없으므로 출처가 이 파일로 함께 간다. 둘이 다르면 변환기가 멈추고 tests/generation/test_assets_canon.py 가 빨갛다. lock 의 팩 파일 행(.mhclo · .obj · .mhmat)은 사람을 만든 입력이라 싣지 않는다. lock 은 모든 행을 팩 zip(스펙 source.system_assets 의 SHA256)과 바이트로 대조한 뒤에만 쓴다 — 자산 디렉터리에 있다는 것은 출처의 증명이 아니다. 상대 경로는 스폰하는 쪽이 USD 를 절대 경로로 참조할 때만 풀린다 — UsdFileCfg(usd_path=<상대 경로>) 면 Kit 이 텍스처를 못 찾는다 (2026-09-22 실측, build_dummy._skin_material)."
+      },
+      "gait_source": {
+        "dataset": "100STYLE",
+        "credit": "The 100STYLE Dataset - Ian Mason",
+        "license": "CC-BY-4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "page": "https://www.ianxmason.com/100style/",
+        "changes": "인형 관절로 옮기고(리타깃) 디딤발을 바닥에 맞추고 주기를 평균해 속도별로 정리함 — 원본 미포함"
+      },
+      "vest": {
+        "spec": "generation/dummy/vest.yaml",
+        "license": "CC-BY-4.0",
+        "license_holder": "한국전자기술연구원",
+        "source": "자체 제작 — 피부 내보내기의 작업복(MakeHuman male_worksuit01, CC0) 가운데 몸통 · 골반 부위(BR-04 · BR-05 · BR-06 · BR-07)에 든 옷의 바깥 둘레를 가슴 안쪽에서 쏜 광선으로 재서 그 위를 덮듯 고른 판을 만들고, 아랫단 · 띠의 위아래 경계(수평면) · 진동둘레(타원체) · 목둘레(수직 원기둥) · V넥(두 평면)으로 자른 메시. 텍스처 없이 단색 재질 둘(형광 노랑 · 밝은 회색 반사 띠).",
+        "note": "덮는 부위 · 둘레를 재고 고르는 값 · 띄우는 거리 · 아랫단 · 띠 · 진동둘레 · 목둘레 · V넥의 자리 · 색 · 광택은 과제가 정한 값이다(자체 설정 — vest.yaml). 판은 한 장의 격자이고 조각은 그 면을 가장 가까운 부위 프리미티브로 나눈 것이라 조각 사이 이음매가 벌어지지 않는다. 판은 격자점마다 그 광선이 닿은 옷에서 띄우는 거리 이상 떨어져 작업복의 버클 · 주머니 덮개가 판 위로 비치지 않는다. 조각은 부위 몸마다 하나이고 그 몸과 강체로 움직이며, 관절 인형에서 어떤 관절도 움직이지 않는 몸통 · 골반에만 둔다 — 골반은 아랫단 위의 좁은 가장자리(1.04–1.08 m)만 남는다. 물리 속성이 없어 접촉 · 질량 · 관절은 맨몸과 같다. 안전모는 없다."
+      },
+      "seams": {
+        "spec": "generation/dummy/skin_seams.yaml",
+        "note": "피부는 한 장의 메시를 부위 몸마다 갈라 붙여, 관절이 굽으면 갈린 가장자리가 떨어진다. 그래서 빌더가 엉뚱한 몸에 든 조각(늘어뜨린 손 옆의 바지 · 허벅지 옆의 손가락 피부 · 겨드랑이의 셔츠 · 발 상자에 걸린 바짓단)을 둘레의 몸으로 옮겨 가르고, 관절 이음새에서 반경 안의 피부 정점마다 이웃 몸과 섞는 비율을 그 피부 메시의 속성(keti:seamBlend:points · bodies · weights)으로 싣는다. 시나리오 실행은 렌더할 때마다 그 정점을 몸들의 지금 자세 사이로 옮긴다(generation/envs/s1d/skin_blend.py) — 영상과 사람 상자에만 들고 물리 · 기록 배열은 그대로다. 옮기는 기준과 관절마다의 반경은 과제가 정한 값이다(자체 설정 — skin_seams.yaml). 조끼는 옮기기 전의 라벨로 고른 옷 위에 그대로다."
+      },
+      "semantics": {
+        "class": [
+          "BR-01",
+          "BR-02",
+          "BR-03",
+          "BR-04",
+          "BR-05",
+          "BR-06",
+          "BR-07",
+          "BR-08",
+          "BR-09",
+          "BR-10",
+          "BR-11",
+          "BR-12"
+        ],
+        "note": "부위마다 skin 자식 메시에 class=BR-xx(발은 BR-12). 엉뚱한 몸에 든 피부 조각은 둘레의 몸으로 옮겨 가르므로(seams) 그 조각의 화소도 그 몸의 부위로 셈된다. 조끼 조각도 그 몸의 부위 코드(BR-04 · BR-05 · BR-06 · BR-07)를 가지므로 조끼의 화소는 그 부위의 사람 화소로 셈된다. 좌우 한 쌍은 같은 코드를 갖는다."
+      },
+      "note": "관절 인형(v2)에 MakeHuman(MPFB2) 시각 메시와 자체 제작 형광 조끼를 입힌 자산. 얼굴은 합성. 걸음 표는 100STYLE(CC BY 4.0)의 걷기 동작에서 유도한 표이고(gait_source — 바꾼 것 포함), 원본 동작 파일(BVH)은 저장소에도 배포본에도 싣지 않는다. 메시가 프리미티브 밖으로 나오는 곳(옷 · 조끼 · 손끝 · 발)은 접촉 계측 대상이 아니다."
+    },
+    "isaaclab_terrain_plane": {
+      "usd_path": "isaaclab://TerrainImporter/plane",
+      "license": "BSD-3-Clause",
+      "license_holder": "The Isaac Lab Project Developers (2022-2025)",
+      "redistributed": false,
+      "note": "환경이 있는 시나리오(S1a · S1d · S1e · S1f · S1g)의 지면(S1d 는 S1a 의, S1e · S1f · S1g 는 S1d 의 환경 설정을 물려받아 같은 평면 위에 통로를 세운다). 파일이 아니라 Isaac Lab TerrainImporter 가 terrain_type=\"plane\" 으로 실행 시점에 생성하는 절차적 평면이다(H1FlatEnvCfg 상속, flat_env_cfg.py:43). 경로는 파일 경로가 아니라 출처 표기이며 usd_path 형식을 맞추기 위한 것이다."
+    },
+    "keti_logistics_aisle_v1": {
+      "usd_path": "generation/scene/build/keti_logistics_aisle_v1.usd",
+      "built_by": "generation/scene/build_logistics_scene.py",
+      "spec": "generation/scene/logistics_aisle.yaml",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "redistributed": true,
+      "redistributed_note": "S1d 와 S1e · S1f · S1g 배치가 쓰는 자산이고 26.11 배포본(S1e · S1f · S1g)이 싣는다. 배포본에는 그 배치의 에피소드가 참조하는(scene_assets) 재배포 자산만 실리므로(generation/assets.shipped_asset_files — 변환기가 그대로 싣고 게시기가 대조하며, 검증기 C6 가 같은 규칙을 배포본만으로 본다) 이 씬을 쓰지 않는 배치(S1a)를 변환한 배포본에는 없고, 이 씬을 쓰는 배포본에는 USD 가 assets/ 에, 텍스처와 상자 라벨의 KETI CI 가 assets/textures/ 에 실린다 — 들고 다니는 상자(keti_carried_box_v1)도 같은 CI 를 같은 이름으로 싣으므로 둘이 함께 실리는 배포본에는 한 벌이다.",
+      "usd_sha256": "3bd15e5d650d2f514fb4186d15d05901915962a0b8c73943fc74d25d3dc1f278",
+      "usd_sha256_note": "빌드는 결정적이다 — check_scene_build.py 가 재빌드가 바이트 단위로 같은지 본다. logistics_aisle.yaml 이나 textures.lock, KETI CI 의 바이트(keti_ci.json 이 고정 — USD 에 그 SHA-256 이 실림)가 바뀌면 이 값도 바뀐다. 씬은 사방을 막은 실내 창고다(벽 · 도크 도어 · 지붕 트러스 · 등기구와 채움광 · 바닥 표시선 — 모두 콜라이더 없음). 콜라이더는 랙 · 선반 상자 1,848 개와 랙 바닥 단의 짐(베이마다 팔레트와 큰 골판지 상자 둘씩 — 난수를 쓰지 않고 선반 상자 뒤에 붙음)을 합해 2,184 개다. 선반 상자와 바닥 단의 큰 상자마다 y 를 보는 두 옆면의 흰 라벨과 KETI CI 는 콜라이더가 없는 메시 둘(흰 판 2,160 장 · CI 2,160 장)이고 박스 목록 밖이다.",
+      "usd_checked": {
+        "sha256": "3bd15e5d650d2f514fb4186d15d05901915962a0b8c73943fc74d25d3dc1f278",
+        "checked_at": "2026-10-26",
+        "attrs_absent": [
+          "keti:effectiveMass",
+          "keti:springConstant",
+          "physics:mass"
+        ],
+        "note": "pxr 로 열어 금지 속성이 없음을 확인했다(publish_dataset.redistributed_usd_has_no_standard_values — 같은 파일의 CI 메시에 physics:mass 를 써 넣은 대조본은 걸렸다). 이 자산에는 애초에 표준 수치를 쓸 자리가 없다 — 치수는 전부 과제가 정한 장면 치수다."
+      },
+      "bundle": {
+        "textures_dir": "generation/scene/build/textures",
+        "textures_lock": [
+          "generation/scene/textures.lock",
+          "generation/scene/keti_ci.json"
+        ],
+        "textures_lock_sha256": [
+          "d09a001159d290abe9bc8d4e01eaaa9e4c7434f5d1de502dc03f1d9f5b4a2f57",
+          "b4fbbd908c1734fb3eadd7447cdca3a984a365f33029173273035c8f4d3e4b28"
+        ],
+        "textures_license": [
+          "CC0-1.0",
+          "LicenseRef-KETI-CI"
+        ],
+        "textures_sources": [
+          "Poly Haven (polyhaven.com) — concrete_floor_worn_001 · corrugated_iron_02 · blue_metal_plate · plywood",
+          "ambientCG (ambientcg.com) — Cardboard001",
+          "한국전자기술연구원 누리집 「CI 소개」(https://keti.re.kr/introduce/ci.php) — 영문 대표 CI 의 가로형 PNG 한 장(내려받기 https://keti.re.kr/file/KETI_CI.zip?a=1 안의 파일)"
+        ],
+        "files": [
+          {
+            "file": "concrete_floor_worn_001_diff_1k.jpg",
+            "sha256": "6e40c0fc908f4d66431836f5abe203f3a4eb064e88824378a91a46a26e2f464c",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_worn_001/concrete_floor_worn_001_diff_1k.jpg"
+          },
+          {
+            "file": "concrete_floor_worn_001_nor_gl_1k.jpg",
+            "sha256": "523bd94a1be5dd2f11c2ae2b7d7c77445cf5bd9e41604db515a7c8364dcba067",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_worn_001/concrete_floor_worn_001_nor_gl_1k.jpg"
+          },
+          {
+            "file": "concrete_floor_worn_001_rough_1k.jpg",
+            "sha256": "069efe4ca018e0ef61fd8cc9964395ba8272284ae239da68d7f87988e2e9f488",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_worn_001/concrete_floor_worn_001_rough_1k.jpg"
+          },
+          {
+            "file": "corrugated_iron_02_diff_1k.jpg",
+            "sha256": "7a7b43099d015c1b08ebb175da5965caeae44b86de65a727b3fffa20a7c69a93",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron_02/corrugated_iron_02_diff_1k.jpg"
+          },
+          {
+            "file": "corrugated_iron_02_nor_gl_1k.jpg",
+            "sha256": "9743c93668689c36a67e9c4dc8d6a0870fe91202f82dcdaf70ddc330c12f9ecb",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron_02/corrugated_iron_02_nor_gl_1k.jpg"
+          },
+          {
+            "file": "corrugated_iron_02_rough_1k.jpg",
+            "sha256": "56ec8d8b04bac56b5d85ee2f35256b7b00d8c7a0ef13e6791cdabc5c05ed2f4b",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron_02/corrugated_iron_02_rough_1k.jpg"
+          },
+          {
+            "file": "blue_metal_plate_diff_1k.jpg",
+            "sha256": "a0162bffce47d4a35613a12af22571b28c18412dc5805cbb69eac343554ef750",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/blue_metal_plate/blue_metal_plate_diff_1k.jpg"
+          },
+          {
+            "file": "blue_metal_plate_nor_gl_1k.jpg",
+            "sha256": "970f0273c9e2e3b4fc8338bfd58a28c413b70ac4d1734d9dc8a136724bde56e6",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/blue_metal_plate/blue_metal_plate_nor_gl_1k.jpg"
+          },
+          {
+            "file": "blue_metal_plate_rough_1k.jpg",
+            "sha256": "37168cf57144db28dd0743dab47fbebc09147fac919d5e2b5610b069c0b13a46",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/blue_metal_plate/blue_metal_plate_rough_1k.jpg"
+          },
+          {
+            "file": "Cardboard001_1K-JPG_Color.jpg",
+            "sha256": "fe21687752fde80f9738d8a9609df1f2cfbeede343507963932a49f9527b336f",
+            "license": "CC0-1.0",
+            "url": "https://ambientcg.com/get?file=Cardboard001_1K-JPG.zip",
+            "member": "Cardboard001_1K-JPG_Color.jpg"
+          },
+          {
+            "file": "Cardboard001_1K-JPG_NormalGL.jpg",
+            "sha256": "911bd808638272c671c250c22d17ce338c2a293439ca60d645c73295a8b6f87a",
+            "license": "CC0-1.0",
+            "url": "https://ambientcg.com/get?file=Cardboard001_1K-JPG.zip",
+            "member": "Cardboard001_1K-JPG_NormalGL.jpg"
+          },
+          {
+            "file": "Cardboard001_1K-JPG_Roughness.jpg",
+            "sha256": "915fca7319a44c4dd436d30a34373b59ae7450fa2d0526428903c65aece1bf6c",
+            "license": "CC0-1.0",
+            "url": "https://ambientcg.com/get?file=Cardboard001_1K-JPG.zip",
+            "member": "Cardboard001_1K-JPG_Roughness.jpg"
+          },
+          {
+            "file": "plywood_diff_1k.jpg",
+            "sha256": "800905650fc6cab2fe7c77c41851f8ea89669f1287ad5ce67c48f435654c0af8",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_diff_1k.jpg"
+          },
+          {
+            "file": "plywood_nor_gl_1k.jpg",
+            "sha256": "a0d8459eb2586435790225440319586775c9b7dff8441062e077501fd0811e53",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_nor_gl_1k.jpg"
+          },
+          {
+            "file": "plywood_rough_1k.jpg",
+            "sha256": "c4600551fa90bf1222de07b5d92e09456501f0449a4f315c203770bfcbd97aaf",
+            "license": "CC0-1.0",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_rough_1k.jpg"
+          },
+          {
+            "file": "keti_ci_en.png",
+            "sha256": "3662762d6078e217dd96440ef3496bbf83fbee048bd8fab4fc8fe99fa3c729d2",
+            "license": "LicenseRef-KETI-CI",
+            "url": "https://keti.re.kr/file/KETI_CI.zip?a=1",
+            "member": "CI-가로타입#1.png"
+          }
+        ],
+        "note": "USD 가 ./textures/<파일> 로 상대 참조하므로 배포본은 USD 를 assets/ 에, files 의 파일을 assets/textures/ 에 싣는다. lock 이 둘이다 — 재질의 CC0 텍스처(textures.lock)와 상자 라벨의 KETI CI(keti_ci.json). textures_lock · textures_lock_sha256 · textures_license 는 그 순서로 lock 마다 하나이고, files 는 두 lock 의 행을 그 순서로 이은 것이다(generation/assets.bundle_per_lock) — 파일마다의 출처 URL(ambientCG 와 KETI CI 는 압축 파일과 그 안의 member) · 라이선스 · SHA256. 배포본에는 lock 이 없으므로 출처가 이 파일로 함께 간다. 둘이 다르면 변환기가 멈추고 tests/generation/test_assets_canon.py 가 빨갛다. 내려받을 때는 fetch_textures.py 가 textures.lock 으로, fetch_keti_ci.py 가 keti_ci.json 으로 해시를 검증한다. CC0 라 표기 의무는 없으나 인벤토리 §1 원칙대로 NOTICE 에 출처를 남긴다. KETI CI 는 배포자(한국전자기술연구원) 자신의 것이라 데이터셋 라이선스와 따로 표기하며(LicenseRef-KETI-CI), 데이터셋 라이선스(CC BY 4.0 §2(b)(2))는 상표 사용을 허락하지 않는다 — 들고 다니는 상자(keti_carried_box_v1)의 행과 같은 행이다."
+      },
+      "semantics": {
+        "class": [
+          "rack"
+        ],
+        "note": "랙·상자 프림과 상자 라벨의 메시 둘에 class=rack — 라벨의 화소도 그것이 붙은 상자의 것으로 읽힌다. 바닥·천장·조명은 라벨이 없다. 라벨은 자산에 구워야 한다 — 스폰 뒤 붙이면 PhysX 텐서 뷰가 무효화된다."
+      },
+      "note": "자체 제작 물류 통로 씬(S1d · S1e · S1f · S1g 가 쓴다). 치수의 정본은 logistics_aisle.yaml 이고 표준 수치는 없다. 바닥·천장은 시각 전용이며 지면 물리는 Isaac Lab 의 절차적 평면이 맡는다. 랙·상자는 정적 박스 콜라이더다. 선반 상자와 바닥 단의 큰 상자마다 y 를 보는 두 옆면(통로와 줄 사이 틈을 보는 면)의 가운데에 흰 라벨과 그 가운데의 KETI CI 를 붙인다 — 선반 상자의 것은 들고 다니는 상자의 라벨과 같은 크기(0.20 × 0.07 m · CI 폭 0.18 m), 큰 상자의 것은 그 두 배이고 CI 의 높이는 그림의 비율이다. 크기 · 색 · 띄우는 거리는 과제가 정한 값이다(자체 설정 — logistics_aisle.yaml labels). 라벨은 콜라이더가 없는 시각 메시다."
+    },
+    "keti_carried_box_v1": {
+      "usd_path": "generation/scene/build/keti_carried_box_v1.usd",
+      "built_by": "generation/scene/carried_box.py",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "redistributed": true,
+      "redistributed_note": "로봇이 상자를 들고 다니는 시나리오의 자산이다. 배포본에는 그 배치의 에피소드가 참조하는(scene_assets) 재배포 자산만 실리므로 이 상자를 쓰는 배치의 배포본에만 USD 가 assets/ 에, KETI CI 가 assets/textures/ 에 실린다 — 창고 씬(keti_logistics_aisle_v1)도 같은 CI 를 같은 이름으로 싣으므로 둘이 함께 실리는 배포본에는 한 벌이다.",
+      "usd_sha256": "28ee176be88c8e0504bc31b2538e84a3ed69e2decf9d0a15b8b46867d710e8b9",
+      "usd_sha256_note": "빌드는 결정적이다 — 같은 입력으로 다시 지으면 바이트가 같다(tests/generation/test_carried_box.py 가 두 번 지어 대조). carried_box.py 의 수(크기 · 라벨 · 색)나 KETI CI 의 바이트(keti_ci.json)가 바뀌면 이 값도 바뀐다. 기본 크기(0.40 × 0.275 × 0.25 m)로 지어 있고, 다른 크기는 이 USD 를 참조하는 쪽이 apply_box_size 로 맞춘다 — 몸만 늘이고 라벨은 면 가운데로 옮길 뿐 늘이지 않는다.",
+      "usd_checked": {
+        "sha256": "28ee176be88c8e0504bc31b2538e84a3ed69e2decf9d0a15b8b46867d710e8b9",
+        "checked_at": "2026-10-19",
+        "attrs_absent": [
+          "keti:effectiveMass",
+          "keti:springConstant",
+          "physics:mass"
+        ],
+        "note": "pxr 로 열어 금지 속성이 없음을 확인했다(publish_dataset.redistributed_usd_has_no_standard_values — 같은 파일의 몸에 physics:mass 를 써 넣은 대조본은 걸렸다). 상자에는 질량도 강체도 없다 — 들고 다니는 쪽이 붙인다."
+      },
+      "bundle": {
+        "textures_dir": "generation/scene/build/textures",
+        "textures_lock": "generation/scene/keti_ci.json",
+        "textures_lock_sha256": "b4fbbd908c1734fb3eadd7447cdca3a984a365f33029173273035c8f4d3e4b28",
+        "textures_license": "LicenseRef-KETI-CI",
+        "textures_sources": [
+          "한국전자기술연구원 누리집 「CI 소개」(https://keti.re.kr/introduce/ci.php) — 영문 대표 CI 의 가로형 PNG 한 장(내려받기 https://keti.re.kr/file/KETI_CI.zip?a=1 안의 파일)"
+        ],
+        "files": [
+          {
+            "file": "keti_ci_en.png",
+            "sha256": "3662762d6078e217dd96440ef3496bbf83fbee048bd8fab4fc8fe99fa3c729d2",
+            "license": "LicenseRef-KETI-CI",
+            "url": "https://keti.re.kr/file/KETI_CI.zip?a=1",
+            "member": "CI-가로타입#1.png"
+          }
+        ],
+        "note": "KETI 의 CI — 배포자(한국전자기술연구원) 자신의 것이다. 원본 PNG 를 바이트 그대로 싣고 데이터셋 라이선스와 따로 표기하며(LicenseRef-KETI-CI), 데이터셋 라이선스(CC BY 4.0 §2(b)(2))는 상표 사용을 허락하지 않는다. USD 가 ./textures/keti_ci_en.png 로 상대 참조하므로 배포본은 USD 를 assets/ 에, CI 를 assets/textures/ 에 싣는다(씬 텍스처와 같은 자리 — 창고 씬의 상자 라벨이 같은 파일을 같은 이름으로 쓰고, 다른 텍스처와는 이름이 겹치지 않는다). files 의 행은 generation/scene/keti_ci.json 을 옮긴 것이고(배포본에는 그 파일이 없다), 내려받을 때는 fetch_keti_ci.py 가 압축 파일과 PNG 의 SHA-256 을 그 파일과 대조한다."
+      },
+      "note": "자체 제작 — 로봇이 몸 앞에 들고 다니는 골판지 상자. 단색 골판지 몸에 흰 라벨(0.20 × 0.07 m)과 그 위의 KETI CI(폭 0.18 m · 높이는 그림의 비율)를 네 옆면과 윗면의 가운데에 둔다. 크기 · 색 · 라벨과 CI 의 크기는 과제가 정한 값이다(자체 설정 — carried_box.py). 표준 수치는 없다. 몸 하나가 상자로 근사한 충돌체이고 질량과 강체는 없다(들고 다니는 쪽이 붙인다). 크기를 바꿀 때는 apply_box_size 가 몸만 늘이고 라벨은 면 가운데로 옮긴다."
+    },
+    "keti_hri_stage_v1": {
+      "usd_path": "generation/scene/build/keti_hri_stage_v1.usd",
+      "built_by": "generation/scene/build_stage.py",
+      "license": "CC-BY-4.0",
+      "license_holder": "한국전자기술연구원",
+      "redistributed": true,
+      "redistributed_note": "엮은 장면(Stage)이다 — composes 에 적은 자산(창고 · H1 · 조끼 입은 관절 인형 · 들고 다니는 상자)을 그것들이 배포본에 실리는 이름으로, 자기 자리(assets/)에서 상대 경로로 참조한다. 그래서 그 넷이 모두 실리는 배포본에만 assets/ 에 실린다(generation/assets.composed_shipped — 변환기가 싣고 게시기가 대조하며, 검증기 C6 가 같은 규칙을 배포본만으로 본다). 상자를 쓰지 않는 시나리오만 담은 배포본에는 실리지 않는다. 에피소드가 이 파일을 참조하지는 않는다.",
+      "composes": [
+        "keti_logistics_aisle_v1",
+        "unitree_h1",
+        "keti_dummy_ts15066_v2_vest",
+        "keti_carried_box_v1"
+      ],
+      "usd_sha256": "827a4fa32c4406b48ce575e9a57f74caf27e9eeedaacd060a543d59eee382eb1",
+      "usd_sha256_note": "빌드는 결정적이다 — 같은 입력으로 다시 지으면 바이트가 같다(generation/scene/check_stage.py 가 다시 지어 대조). 시나리오의 자리(meta/scenarios.json scene.site) · S1e 의 든 상자의 자리와 팔 자세(같은 파일의 carry) · H1 의 관절 틀(generation/robots/unitree_h1_joints.json) · 카메라 정본(meta/cameras.json) · 엮는 자산이 실리는 이름(meta/assets.json) · H1 의 서는 높이(받아 둔 h1.usd 에서 잼) · build_stage.py 가 바뀌면 이 값도 바뀐다. 엮는 자산의 바이트는 들어 있지 않고 참조만 한다.",
+      "robot_rest": {
+        "lowest_z_m": 0.055799975991249084,
+        "root_link_m": [
+          0.0,
+          0.0,
+          1.100000023841858
+        ]
+      },
+      "plan_sha256": "8d467fed24b952d65aa0a201a76c320e0b08d6618905ea10b0c0b051c3d3bd54",
+      "plan_sha256_note": "plan_sha256 은 build_stage.py 가 정본에서 놓는 Stage 의 배치(stage_plan — 프림마다 종류 · 참조 · 자리 · 방향 · 렌즈 · 표식의 크기와 색 · 팔 링크의 자세를 덮어쓰는지, 수는 소수 여섯째 자리까지)를 robot_rest 와 함께 해시한 값이다(plan_digest). robot_rest 는 받아 둔 h1.usd 에서 잰 H1 의 가장 낮은 점과 뿌리 링크의 자리(m, 로봇 USD 의 뿌리 프림 기준)이고 check_stage.py 가 다시 재어 대조한다. pxr 없이 도는 시험(tests/generation/test_stage.py)이 지금 정본에서 배치를 다시 놓아 이 값과 대조하므로, 시나리오의 자리 · 든 상자의 자리와 팔 자세(carry) · H1 의 관절 틀 · 카메라 정본 · 엮는 자산이 실리는 이름 · 놓는 값을 고치고 Stage 를 다시 짓지 않으면 make check 가 빨강이다. 다시 지으면 build_stage.py 가 두 값을 찍는다. 배치를 USD 로 쓰는 코드의 변경은 이 값이 보지 않는다 — check_stage.py 가 다시 지어 바이트로 대조한다.",
+      "usd_checked": {
+        "sha256": "827a4fa32c4406b48ce575e9a57f74caf27e9eeedaacd060a543d59eee382eb1",
+        "checked_at": "2026-10-21",
+        "attrs_absent": [
+          "keti:effectiveMass",
+          "keti:springConstant",
+          "physics:mass"
+        ],
+        "note": "pxr 로 자기 레이어만 열어 금지 속성이 없음을 확인했다(publish_dataset.redistributed_usd_has_no_standard_values — 같은 파일의 한 프림에 physics:mass 를 써 넣은 대조본은 걸렸다). 참조하는 H1 의 질량은 H1 파일의 것이라 이 확인 밖이다(로봇 폴더는 행의 고정 해시로 대조한다)."
+      },
+      "note": "자체 제작 — 엮은 장면. Isaac Sim 에서 열면 창고에 H1(S1e 의 출발 자리 · 팔은 상자를 받치는 자세 — S1e 의 carry) · 조끼 입은 관절 인형(S1e 의 사람 자리) · 두 아래팔 사이에 든 상자 · 로봇 카메라 다섯(머리 앞 둘 · 머리 뒤쪽 · 양 손목) · 자리마다 3인칭 카메라와 CCTV(S1g 는 사람이 오는 쪽마다 하나씩) · 자리의 출발과 목표 원판 · 사람 자리 사각형(보이기만 함)이 보인다. 조명은 창고의 것이다. 시나리오를 돌리는 것(대본 · 조건표 · 판정 · 기록)은 코드 저장소의 명령이고 이 파일만으로는 돌지 않는다. 물리 · 텍스처 파일 · 표준 수치는 없다. 놓는 자리 · 표식의 크기와 색은 과제가 정한 값이다(자체 설정 — build_stage.py)."
+    }
+  }
+}

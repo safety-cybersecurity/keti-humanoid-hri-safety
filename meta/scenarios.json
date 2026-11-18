@@ -1,0 +1,1785 @@
+{
+  "scenarios_version": "0.1",
+  "schema_version": "0.2",
+  "status": "draft",
+  "description": "시나리오 정의의 정본. 각 시나리오가 어떤 판정 규칙의 적용 대상인지를 선언한다. 검증기 C8 은 여기 선언된 규칙의 inputs 만 데이터에 요구한다 — 이 파일이 없으면 전 규칙의 입력을 요구하므로, 단일 시나리오만 담은 데이터셋은 통과할 수 없다.",
+  "editing_policy": "시나리오의 서술 정본은 docs/scenarios/scenario-catalog-v0.1.md 이고, 이 파일은 그것을 기계가 읽는 형태로 옮긴 것이다. 문서를 고치면 이 파일도 함께 고친다. rules 에 적는 규칙 id 는 meta/rules.json 에 실재해야 한다.",
+  "safety_function_note": "스키마 §5 의 필수 에피소드 필드. 지금은 S1a · S1d(`ssm`)와 S1e · S1f · S1g(`none` — 기록 데이터의 로봇에 안전 기능이 없다)에만 있다 — 나머지 11개는 시나리오마다 어느 안전기능이 개입하는지가 카탈로그 §2·§4 를 읽고 정할 문제이고, enum 을 잘못 넣는 것이 비워 두는 것보다 나쁘다. 각 시나리오를 변환하기 전에 채운다.",
+  "rule_selector_note": "R-TS15066-A2-* 와일드카드는 여기서만 쓴다. meta/rules.json 은 부위별 12개로 전개되어 있으므로 이 선택자는 실재하는 규칙 위에서만 확장되며, 존재하지 않는 부위 코드를 통과시키지 않는다. rules.json 쪽에 와일드카드를 두는 것은 다른 문제이고 검증기 C4 가 경고한다.",
+  "common_randomization": "전 시나리오 공통 랜덤화(물리·제어·센서·씬·인체)의 계획은 docs/scenarios/scenario-catalog-v0.1.md §6 에 있다. 환경이 구현된 시나리오(S1a·S1d)의 항목은 계획이 아니라 환경이 실제로 하는 것을 적는다 — randomization 은 에피소드마다 뽑는 축 전부와 그 범위, randomization_distribution 은 균등이 아닌 축, randomization_fixed 는 랜덤화하지 않고 고정한 값, policy_observation_noise 는 보행 정책의 입력에 매 스텝 더하는 잡음이다. 이 네 블록은 손으로 적지 않는다 — generation/envs/s1a/check_randomization.py 가 환경 설정에서 읽어 쓰고 대조한다. 그 밖의 시나리오의 randomization 은 계획한 고유 축이고 범위는 구현할 때 정한다.",
+  "seed_rule": "seed = hash(scenario_id, episode_seq). generation/seeding.py 가 SHA-256 으로 구현하고 run_s1a.py 가 매 에피소드의 리셋 직전에 적용한다. 재현은 현재 실행 단위로만 성립한다 — 같은 --seq·--episodes 로 다시 실행하면 비트 단위로 같지만, 에피소드 하나만 따로 재현하는 것은 아직 되지 않는다(실측: 기록된 랜덤화 입력은 전부 일치하는데 궤적이 0 스텝부터 갈라진다). 원인을 좁히거나 이 규칙을 실행 단위로 확정하는 것은 아직 미결이다 — generation/README.md 참고 (§6). 그 실행이 몇 번에서 시작했는지는 에피소드 메타 run_start_seq 에 실린다 — 재현 명령은 --seq run_start_seq --episodes (episode_seq − run_start_seq + 1) 이다.",
+  "outcome_target_note": "목표 비율은 시나리오마다 `outcome_target` 에 적는다 — 규격서 §9 가 그 뜻과 검증기의 경고 하한을 말한다",
+  "spec_level_note": "full = 카탈로그 §4 에 상세 명세가 있음. summary = §5 요약만 있고 씬·랜덤화 범위는 구현 시 확정한다.",
+  "scenarios": [
+    {
+      "scenario_id": "S1a",
+      "hazard_class": "collision",
+      "safety_function": "ssm",
+      "domain": "baseline",
+      "task_archetype": "locomotion",
+      "priority": 1,
+      "spec_level": "full",
+      "objective": "이동 중 인체 진입에 대한 SSM 반응 특성 확보",
+      "scene": {
+        "assets": [
+          "isaaclab://TerrainImporter/plane"
+        ],
+        "layout": "평면 바닥. 장애물 없음 — 차폐는 S1c. 지면은 Isaac Lab TerrainImporter 가 terrain_type=plane 으로 실행 시점에 만드는 절차적 평면이며 파일이 아니다(H1FlatEnvCfg 상속). 2026-08-22 이전에는 존재하지 않는 keti/scene_flat_primitive.usd 를 선언하고 있었다 — 작업영역 경계 표시를 실제로 넣으려면 자산을 먼저 만들어야 한다",
+        "human_model": "keti_dummy_ts15066_v1",
+        "asset_policy": "자체 제작 기하 씬. 제3자 자산 회신과 무관하게 진행 가능"
+      },
+      "robot_task": "직선 경로를 일정 속도로 보행. 인체 감지 시 SSM 규칙에 따라 감속 또는 보호정지",
+      "human_behavior": "정지 대기 → 트리거 시점에 로봇 경로로 진입 → 통과 또는 정지",
+      "randomization": {
+        "human_entry_speed": [
+          0.4,
+          1.6
+        ],
+        "human_entry_angle_deg": [
+          30,
+          150
+        ],
+        "entry_trigger_distance": [
+          1.0,
+          4.0
+        ],
+        "robot_walk_speed": [
+          0.3,
+          1.2
+        ],
+        "sensor_delay_ms": [
+          0,
+          100
+        ],
+        "robot_base_mass_scale": [
+          0.8,
+          1.25
+        ],
+        "robot_start_offset_x": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_offset_y": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_velocity_x": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_velocity_z": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_roll_rate": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_pitch_rate": [
+          -0.5,
+          0.5
+        ]
+      },
+      "randomization_distribution": {
+        "robot_base_mass_scale": "log_uniform"
+      },
+      "randomization_fixed": {
+        "robot_static_friction": 0.8,
+        "robot_dynamic_friction": 0.6,
+        "terrain_static_friction": 1.0,
+        "terrain_dynamic_friction": 1.0
+      },
+      "policy_observation_noise": {
+        "base_lin_vel": 0.1,
+        "base_ang_vel": 0.2,
+        "projected_gravity": 0.05,
+        "joint_pos": 0.01,
+        "joint_vel": 1.5
+      },
+      "randomization_note": "모든 축을 서로 독립으로 뽑는다 — robot_base_mass_scale 만 로그균등이고 나머지는 균등이다. 경계 구간 별도 배분(진입 트리거 거리 하단 × 로봇 속도 상단)은 계획했으나 적용하지 않았다(카탈로그 §9-6 미결). outcome 비율은 이 랜덤화의 결과이고 outcome_target 에 맞춘 것이 아니다.",
+      "randomization_wiring_note": "단위 — 속도 m/s · 거리와 위치 m · 각도 deg · 각속도 rad/s · 지연 ms · robot_base_mass_scale 은 배율. robot_base_mass_scale: 로봇 base 링크(H1 은 torso_link) 하나의 질량에 곱하며(그 링크의 관성도 같은 배율로 다시 계산된다) 에피소드마다 새로 뽑는다(2026-08-20 부터 — 그 전에는 실행마다 한 번). 실현값은 에피소드 메타 randomization.robot_base_mass_kg_realized. sensor_delay_ms: 이 구간에서 뽑아 기록 주기(20 ms) 단위로 내림하므로 실현되는 지연은 0·20·40·60·80 ms 다섯 값이다(randomization.sensor_delay_steps). robot_start_*: 리셋 때 로봇의 시작 위치와 시작 속도에 더하는 값이고 따로 기록하지 않는다. 첫 기록 스텝은 리셋에서 제어 한 스텝(0.02 s) 뒤라 시작 위치는 약 1 cm 안에서 보이지만 시작 속도는 이미 달라져 있어 되읽을 수 없다. 마찰은 랜덤화하지 않는다 — randomization_fixed 의 robot_*_friction 은 로봇 전체 바디의 재질이고(실현값 randomization.robot_static_friction_realized · robot_dynamic_friction_realized), terrain_*_friction 은 지면의 재질이다. 2026-10-03 까지 이 항목은 floor_friction [0.3, 1.0] 과 robot_mass_deviation [-0.05, 0.05] 를 선언했으나 그 값으로 생성한 에피소드는 없다 — 카탈로그의 계획을 옮긴 선언이었다. 마찰 랜덤화는 S3b 의 축이다. policy_observation_noise: 보행 정책이 받는 관측에 매 스텝 더하는 균등 잡음의 반폭이며(base_lin_vel m/s · base_ang_vel rad/s · projected_gravity 무차원 · joint_pos rad · joint_vel rad/s), 데이터에 기록되는 로봇 상태는 잡음 없는 시뮬레이터 값이다.",
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.stability_margin",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 400
+    },
+    {
+      "scenario_id": "S1b",
+      "hazard_class": "collision",
+      "domain": "manufacturing",
+      "task_archetype": "machine_tending",
+      "priority": 2,
+      "spec_level": "summary",
+      "objective": "상지 작업 중 측방에서 접근하는 인체에 대한 반응 특성 확보",
+      "scene": {
+        "assets": [],
+        "layout": "작업대 + 고정 설비(기하 프리미티브)",
+        "human_model": "keti_dummy_ts15066_v1"
+      },
+      "robot_task": "고정 작업대에서 상지 작업 수행",
+      "human_behavior": "측방에서 작업 반경으로 접근",
+      "randomization": {
+        "work_height": null,
+        "work_distance": null
+      },
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 250
+    },
+    {
+      "scenario_id": "S1c",
+      "hazard_class": "collision",
+      "domain": "logistics",
+      "task_archetype": "transport",
+      "priority": 3,
+      "spec_level": "summary",
+      "objective": "차폐물로 가려진 사각지대에서 인체가 출현할 때의 반응 여유 확보",
+      "scene": {
+        "assets": [],
+        "layout": "통로 + 차폐물 배치",
+        "human_model": "keti_dummy_ts15066_v1"
+      },
+      "robot_task": "통로를 따라 이동",
+      "human_behavior": "차폐물 뒤에서 대기하다 근거리에서 출현",
+      "randomization": {
+        "occluder_layout": null
+      },
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 150
+    },
+    {
+      "scenario_id": "S1d",
+      "hazard_class": "collision",
+      "safety_function": "ssm",
+      "domain": "logistics",
+      "task_archetype": "locomotion",
+      "priority": 2,
+      "spec_level": "summary",
+      "objective": "이동 중 인체 진입에 대한 SSM 반응 특성을 물류 통로에서 확보 · 카메라 일곱 대의 영상 포함 · 사람 인형이 자기가 가는 쪽을 봄 (진입 구도는 S1a 와 같다)",
+      "scene": {
+        "assets": [
+          "isaaclab://TerrainImporter/plane",
+          "generation/scene/build/keti_logistics_aisle_v1.usd",
+          "generation/dummy/build/keti_dummy_ts15066_v1_skin.usd"
+        ],
+        "layout": "철제 랙 여러 줄 사이의 물류 통로. 통로 반폭은 손으로 적지 않는다 — `derive_wait_y` 가 정하는 대기 위치 상한 + 더미 반폭 + 스폰 여유에서 유도하며, `S1dEnvCfg` 가 스폰 시점에 계산해 랙 안쪽 면과 대조하고 못 미치면 실행을 멈춘다. 현재 유도값은 반폭 약 5 m(통로 폭 약 10 m, 2026-09-22 결정)",
+        "human_model": "keti_dummy_ts15066_v1_skin",
+        "asset_policy": "자체 제작 물류 씬(CC0 텍스처 · 상자 라벨의 KETI CI 는 배포자 자신의 CI — 데이터셋 라이선스가 상표 사용을 허락하지 않는다) + MakeHuman/MPFB2 시각 메시(CC0). 물리는 keti_dummy_ts15066_v1 과 동일하고 콜라이더 없는 시각 메시만 더한다"
+      },
+      "robot_task": "직선 경로를 일정 속도로 보행. 인체 감지 시 SSM 규칙에 따라 감속 또는 보호정지",
+      "human_behavior": "정지 대기 → 트리거 시점에 로봇 경로로 진입 → 통과 또는 정지. 인형은 처음부터 끝까지 자기가 가는 쪽을 본다 — 방향은 진입 각도에 반 바퀴를 더한 값이라 에피소드마다 다르고(난수는 더 뽑지 않는다) randomization.human_facing_yaw_deg 에 남는다. S1a 의 인형은 로봇이 걷는 쪽(+x)을 봐 로봇에게 등을 보인다. 접촉이 나는 부위는 진입 각도를 따른다 — 로봇 쪽으로 비스듬히 들어오는 진입(90° 미만)에서는 인형의 앞쪽이 로봇을 향한다(2026-10-01 사용자 결정, reset_dummy_entry(face_travel) · entry_geometry.travel_facing_yaw_deg. 2026-09-29 부터 그때까지는 로봇을 마주 본 180° 고정이었고 인형이 옆으로 건넜다). 통로를 건너면 로봇 진로를 사이에 둔 건너편 대기 위치에서 멈춰 선다 — 계속 걸으면 건너편 랙에 서보가 걸린 채 눌린다(2026-10-01 슬라이스에서 발견 · 사용자 결정, reset_dummy_entry(stop_at_far_side)). 인형은 걷지 않는다 — 세워 두는 제어기가 붙잡고 옮기며, 붙잡는 동안은 그 제어기가 인형의 무게까지 들어 발이 바닥에서 5 mm 떠 있다. 발로 선 채 끌면 발의 마찰이 인형을 수직축으로 돌렸다(진입 속도 약 1 m/s 부터 12~24°). 로봇이 가까워져 붙잡기가 풀리면 내려앉아 두 발로 서고, 그 뒤는 자유 물체다(2026-10-02 사용자 결정, S1dEnvCfg.HOLD_CLEARANCE_M)",
+      "randomization": {
+        "human_entry_speed": [
+          0.4,
+          1.6
+        ],
+        "human_entry_angle_deg": [
+          30,
+          150
+        ],
+        "entry_trigger_distance": [
+          1.0,
+          4.0
+        ],
+        "robot_walk_speed": [
+          0.3,
+          1.2
+        ],
+        "sensor_delay_ms": [
+          0,
+          100
+        ],
+        "robot_base_mass_scale": [
+          0.8,
+          1.25
+        ],
+        "robot_start_offset_x": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_offset_y": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_velocity_x": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_velocity_z": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_roll_rate": [
+          -0.5,
+          0.5
+        ],
+        "robot_start_pitch_rate": [
+          -0.5,
+          0.5
+        ]
+      },
+      "randomization_distribution": {
+        "robot_base_mass_scale": "log_uniform"
+      },
+      "randomization_fixed": {
+        "robot_static_friction": 0.8,
+        "robot_dynamic_friction": 0.6,
+        "terrain_static_friction": 1.0,
+        "terrain_dynamic_friction": 1.0
+      },
+      "policy_observation_noise": {
+        "base_lin_vel": 0.1,
+        "base_ang_vel": 0.2,
+        "projected_gravity": 0.05,
+        "joint_pos": 0.01,
+        "joint_vel": 1.5
+      },
+      "randomization_note": "모든 축을 서로 독립으로 뽑는다 — robot_base_mass_scale 만 로그균등이고 나머지는 균등이다. 경계 구간 별도 배분(진입 트리거 거리 하단 × 로봇 속도 상단)은 계획했으나 적용하지 않았다(카탈로그 §9-6 미결). outcome 비율은 이 랜덤화의 결과이고 outcome_target 에 맞춘 것이 아니다.",
+      "randomization_wiring_note": "단위 — 속도 m/s · 거리와 위치 m · 각도 deg · 각속도 rad/s · 지연 ms · robot_base_mass_scale 은 배율. robot_base_mass_scale: 로봇 base 링크(H1 은 torso_link) 하나의 질량에 곱하며(그 링크의 관성도 같은 배율로 다시 계산된다) 에피소드마다 새로 뽑는다(2026-08-20 부터 — 그 전에는 실행마다 한 번). 실현값은 에피소드 메타 randomization.robot_base_mass_kg_realized. sensor_delay_ms: 이 구간에서 뽑아 기록 주기(20 ms) 단위로 내림하므로 실현되는 지연은 0·20·40·60·80 ms 다섯 값이다(randomization.sensor_delay_steps). robot_start_*: 리셋 때 로봇의 시작 위치와 시작 속도에 더하는 값이고 따로 기록하지 않는다. 첫 기록 스텝은 리셋에서 제어 한 스텝(0.02 s) 뒤라 시작 위치는 약 1 cm 안에서 보이지만 시작 속도는 이미 달라져 있어 되읽을 수 없다. 마찰은 랜덤화하지 않는다 — randomization_fixed 의 robot_*_friction 은 로봇 전체 바디의 재질이고(실현값 randomization.robot_static_friction_realized · robot_dynamic_friction_realized), terrain_*_friction 은 지면의 재질이다. 2026-10-03 까지 이 항목은 floor_friction [0.3, 1.0] 과 robot_mass_deviation [-0.05, 0.05] 를 선언했으나 그 값으로 생성한 에피소드는 없다 — 카탈로그의 계획을 옮긴 선언이었다. 마찰 랜덤화는 S3b 의 축이다. policy_observation_noise: 보행 정책이 받는 관측에 매 스텝 더하는 균등 잡음의 반폭이며(base_lin_vel m/s · base_ang_vel rad/s · projected_gravity 무차원 · joint_pos rad · joint_vel rad/s), 데이터에 기록되는 로봇 상태는 잡음 없는 시뮬레이터 값이다. `S1dEnvCfg` 가 `S1aEnvCfg` 를 상속하므로 이 블록들은 S1a 와 같다.",
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.stability_margin",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 400
+    },
+    {
+      "scenario_id": "S1e",
+      "hazard_class": "collision",
+      "safety_function": "none",
+      "domain": "logistics",
+      "task_archetype": "transport",
+      "priority": 1,
+      "spec_level": "summary",
+      "objective": "랙에 가린 모퉁이 — 상자를 든 로봇이 랙 줄 끝을 U자로 돌아 반대쪽 면으로 들어서다, 그 면의 모퉁이에 바짝 붙어 서 있는 사람과 부딪히는 상황. 기록 데이터의 로봇은 사람에 반응하지 않는 기준 로봇이다(공개 H1 보행 정책이 과제만 수행)",
+      "scene": {
+        "assets": [
+          "isaaclab://TerrainImporter/plane",
+          "generation/scene/build/keti_logistics_aisle_v1.usd",
+          "generation/scene/build/keti_carried_box_v1.usd",
+          "generation/dummy/build/keti_dummy_ts15066_v2_jointed_skin_vest.usd"
+        ],
+        "human_model": "keti_dummy_ts15066_v2_vest",
+        "asset_policy": "자체 제작 물류 씬(CC0 텍스처 · 상자 라벨의 KETI CI) + MakeHuman/MPFB2 시각 메시(CC0)에 자체 제작 형광 조끼를 입힌 관절 인형 + 자체 제작 상자(라벨의 KETI CI — 씬과 같은 파일) + BSD-3 원본 H1(저작권 고지 · 라이선스 전문 · 면책 문구와 함께 동봉). KETI CI 는 배포자 자신의 CI 이고 데이터셋 라이선스가 상표 사용을 허락하지 않는다. 인형의 물리는 keti_dummy_ts15066_v2_jointed 와 동일하고 콜라이더 없는 시각 메시와 조끼만 더한다. 걸음 표는 100STYLE(CC BY 4.0)에서 유도한 것이고 원본 동작 파일은 싣지 않는다",
+        "site": {
+          "robot_start": {
+            "xy_m": [
+              -4.5,
+              7.25
+            ],
+            "yaw_deg": 180.0
+          },
+          "robot_goal": {
+            "xy_m": [
+              -2.0,
+              3.75
+            ],
+            "yaw_deg": 0.0
+          },
+          "path": {
+            "kind": "u_turn",
+            "turn_center_xy_m": [
+              -6.045,
+              5.5
+            ],
+            "radius_m": 1.75
+          },
+          "human_region": {
+            "x_m": [
+              -5.745,
+              -4.545
+            ],
+            "y_m": [
+              4.2,
+              4.7
+            ]
+          }
+        },
+        "site_note": "자체 설정. 좌표는 씬 레이아웃(= 환경)의 m, 방향은 +x 에서 반시계 방향의 도. human_region 은 사람이 서 있거나 부딪히는 곳의 범위다. 로봇은 랙 줄 사이 통로에서 출발해 앞줄의 끝을 반원으로 돌아 메인 통로의 랙 면을 따라 걷는다. 여기 적은 반지름(1.75 m)과 사람 구역은 Stage 와 카메라 확인의 기본 자리이고, 에피소드마다 돌아 나오는 반지름(들어가는 길 · 나오는 길의 y 가 함께 움직임)과 사람의 자리(그 면에서 0.3~0.8 m · 줄 끝에서 0.3~1.5 m)는 조건표(conditions)의 행이 정한다."
+      },
+      "carry": {
+        "asset": "keti_carried_box_v1",
+        "link": "torso_link",
+        "bottom_m": [
+          0.27,
+          0.0,
+          -0.111
+        ],
+        "yaw_deg": -90.0,
+        "arm_hold_rad": {
+          "shoulder_pitch": 0.28,
+          "shoulder_roll": 0.0,
+          "shoulder_yaw": 0.0,
+          "elbow": 0.52
+        },
+        "release": "first_human_contact",
+        "determined_by": "project",
+        "note": "상자는 몸통 링크에 고정하고 팔은 정책의 기본 자세로 잡는다. 상자 밑면은 아래팔 끝 높이, 가운데는 두 아래팔 끝 사이에서 앞으로 0.12 m. 사람과 처음 닿은 스텝에 놓는다. 자체 설정."
+      },
+      "conditions": {
+        "rows": 50,
+        "columns": {
+          "corner_distance_m": {
+            "range": [
+              0.3,
+              1.5
+            ]
+          },
+          "face_distance_m": {
+            "range": [
+              0.3,
+              0.8
+            ]
+          },
+          "facing_yaw_deg": {
+            "range": [
+              60.0,
+              120.0
+            ]
+          },
+          "turn_radius_m": {
+            "range": [
+              1.25,
+              2.0
+            ]
+          },
+          "robot_speed_mps": {
+            "range": [
+              0.85,
+              1.0
+            ]
+          },
+          "box_mass_kg": {
+            "range": [
+              1.0,
+              3.0
+            ]
+          },
+          "box_depth_m": {
+            "range": [
+              0.25,
+              0.3
+            ]
+          },
+          "box_height_m": {
+            "range": [
+              0.2,
+              0.3
+            ]
+          },
+          "sensor_delay_ms": {
+            "range": [
+              0.0,
+              100.0
+            ]
+          }
+        },
+        "fixed": {},
+        "determined_by": "project",
+        "note": "자체 설정 — 에피소드마다 한 행이다(rows 와 격자의 칸(7 × 7)을 더한 수가 episodes 이고 행 i 는 생성의 --seq i). 행 i 의 n 번째 시도는 SHA-256(\"S1e:condition:i:n\") 의 앞 8바이트(빅 엔디언)를 시드로 columns 를 적힌 차례대로 뽑고(range 는 고른 분포 · choice 는 같은 확률), fixed 는 행마다 같다. 가드(로봇 몸 반폭 0.30 m 와 든 상자가 행의 길을 따라 높이 0~2 m 충돌체에서 0.15 m 밖이고 건물 안쪽으로 0.15 m 들어와 있음 · 사람의 선 자리가 충돌체에서 0.3 m 밖이고 건물 벽에서 0.4 m 안쪽)에 걸리면 다음 시도이고, 200번이 모두 걸리면 그 행은 만들지 않는다(generation/conditions.py). corner_distance_m · face_distance_m 은 사람이 줄 끝 · 랙 면에서 떨어진 거리, facing_yaw_deg 는 사람이 보는 쪽, turn_radius_m 은 로봇이 줄 끝을 돌아 나오는 반지름(들어가는 길과 나오는 길이 줄 끝 가운데에서 그만큼 떨어짐), robot_speed_mps 는 과제의 걷는 속도, box_mass_kg · box_depth_m · box_height_m 은 든 상자의 무게와 앞뒤 · 높이(폭은 0.40 m 로 고정), sensor_delay_ms 는 행동 층이 본 사람을 받는 늦음이다. 창은 결과 비율(목표 40/30/30)을 보고 고치며 판정의 정의는 고치지 않는다.",
+        "grid": {
+          "cells": 7,
+          "robot_axis": {
+            "quantity": "turn_radius_m",
+            "range": [
+              1.25,
+              2.0
+            ]
+          },
+          "human_axis": {
+            "quantity": "face_distance_m",
+            "range": [
+              0.3,
+              0.8
+            ]
+          },
+          "fixed": {
+            "corner_distance_m": 0.9,
+            "facing_yaw_deg": 90.0,
+            "robot_speed_mps": 0.925,
+            "box_mass_kg": 2.0,
+            "box_depth_m": 0.275,
+            "box_height_m": 0.25,
+            "sensor_delay_ms": 50.0
+          },
+          "note": "자체 설정 — 무작위 행 뒤에 이어 붙는 7 × 7 격자 49행이다. 로봇 축은 turn_radius_m(로봇이 줄 끝을 돌아 나오는 반지름 1.25~2.0 m), 사람 축은 face_distance_m(사람이 랙 면에서 떨어진 거리 0.3~0.8 m)이고, 각 축의 구간을 같은 폭의 일곱 칸으로 나눠 칸의 가운데 값을 쓴다. 두 축이 적지 않는 열은 fixed 의 값이다. 행 번호는 무작위 행 수 + 로봇 축의 칸 + 7 × 사람 축의 칸이다. 격자 행은 결과 비율과 점수표의 네 칸에 세지 않는다. 칸의 값은 가드를 통과해야 하며 다시 뽑지 않는다."
+        }
+      },
+      "appearance": {
+        "determined_by": "project",
+        "axes": {
+          "vest_color": {
+            "choice": {
+              "fluorescent_yellow": null,
+              "fluorescent_orange": [
+                1.0,
+                0.18,
+                0.0
+              ],
+              "fluorescent_green": [
+                0.35,
+                1.0,
+                0.1
+              ]
+            }
+          },
+          "shirt_color": {
+            "choice": {
+              "white": null,
+              "light_grey": [
+                0.42,
+                0.42,
+                0.45
+              ],
+              "navy": [
+                0.03,
+                0.045,
+                0.17
+              ],
+              "black": [
+                0.04,
+                0.04,
+                0.04
+              ],
+              "red": [
+                0.7,
+                0.13,
+                0.13
+              ],
+              "blue": [
+                0.18,
+                0.36,
+                0.66
+              ],
+              "green": [
+                0.18,
+                0.49,
+                0.2
+              ],
+              "khaki": [
+                0.5,
+                0.44,
+                0.25
+              ]
+            }
+          },
+          "trousers_color": {
+            "choice": {
+              "blue": null,
+              "navy": [
+                0.12,
+                0.22,
+                0.8
+              ],
+              "black": [
+                0.13,
+                0.13,
+                0.13
+              ],
+              "grey": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "khaki": [
+                1.6,
+                1.4,
+                1.0
+              ],
+              "olive": [
+                0.8,
+                0.85,
+                0.45
+              ]
+            }
+          },
+          "box_color": {
+            "choice": {
+              "medium_cardboard": null,
+              "light_cardboard": [
+                0.82,
+                0.69,
+                0.48
+              ],
+              "dark_cardboard": [
+                0.36,
+                0.25,
+                0.12
+              ],
+              "white": [
+                0.93,
+                0.93,
+                0.93
+              ],
+              "grey": [
+                0.32,
+                0.32,
+                0.33
+              ]
+            }
+          },
+          "light_scale": {
+            "range": [
+              0.6,
+              1.3
+            ]
+          },
+          "light_temperature_k": {
+            "range": [
+              3500.0,
+              10000.0
+            ]
+          },
+          "upright_color": {
+            "choice": {
+              "blue": null,
+              "grey": [
+                3.0,
+                3.6,
+                4.8
+              ],
+              "green": [
+                0.45,
+                2.2,
+                1.0
+              ],
+              "navy": [
+                0.2,
+                0.4,
+                1.7
+              ]
+            }
+          },
+          "beam_color": {
+            "choice": {
+              "orange": null,
+              "yellow": [
+                6.0,
+                6.0,
+                0.4
+              ],
+              "red": [
+                1.4,
+                0.25,
+                0.2
+              ]
+            }
+          },
+          "floor_wall_scale": {
+            "range": [
+              0.85,
+              1.1
+            ]
+          }
+        },
+        "note": "자체 설정입니다 — 표준이 정한 값이 아닙니다. 에피소드마다 달라지는 겉모습의 축이고 물리 배열 · 사람 상자 · 카메라 자세는 바꾸지 않습니다. vest_color 는 조끼, shirt_color 는 작업복 상의, trousers_color 는 작업복 바지, box_color 는 든 상자, light_scale 은 등기구와 채움 빛에 같은 배로 곱하는 밝기, light_temperature_k 는 빛의 색온도(K), upright_color 는 랙 기둥, beam_color 는 랙 보, floor_wall_scale 은 바닥과 벽의 밝기 배율입니다. 색 축의 값 null 은 지은 그대로이고, 그 밖의 색은 셰이더 입력에 그대로 쓰는 [r, g, b] 입니다 — 상의는 흰 텍스처에 곱하는 색조, 바지 · 기둥 · 보는 채도를 뺀 텍스처에 곱하는 색조, 조끼 · 상자는 단색입니다. 행 i 는 SHA-256(\"<시나리오>:appearance:<i>\") 의 앞 8바이트(big-endian)를 시드로 numpy.random.default_rng 를 만들어 축을 적힌 차례대로 뽑습니다 (색 축은 같은 확률로 고르고 범위 축은 고르게 뽑음). 조건표의 난수와 다른 흐름이라 행의 물리 조건은 겉모습에 따라 달라지지 않습니다. 렌더하지 않는 실행도 같은 값을 뽑아 기록합니다. 조끼의 반사 띠 · 상자 라벨 · KETI CI 는 그대로입니다. 랙 기둥과 보의 색조가 1 을 넘는 값을 가지는 것은 랙 텍스처가 어두워(선형 알베도 약 2~7 %) 색조를 곱해도 칠한 색으로 보일 만한 밝기가 되도록 하기 위해서입니다. 색온도의 색은 창고의 빛이 지은 색(등기구 [1.0, 0.97, 0.92] · 채움 빛 [1.0, 0.98, 0.95] — 조금 따뜻함)에 곱해지므로 6500 K 도 중립에 가깝게 보입니다 — 그래서 위 끝은 USD 의 색온도가 받는 가장 높은 값 10000 K 입니다."
+      },
+      "randomization": {},
+      "randomization_distribution": {},
+      "randomization_fixed": {
+        "robot_static_friction": 0.8,
+        "robot_dynamic_friction": 0.6,
+        "terrain_static_friction": 1.0,
+        "terrain_dynamic_friction": 1.0
+      },
+      "policy_observation_noise": {
+        "base_lin_vel": 0.1,
+        "base_ang_vel": 0.2,
+        "projected_gravity": 0.05,
+        "joint_pos": 0.01,
+        "joint_vel": 1.5
+      },
+      "randomization_note": "randomization 이 비어 있는 것은 환경 설정이 에피소드마다 뽑는 축이 없다는 뜻이다 — 에피소드마다 바뀌는 것은 conditions 의 행(로봇의 출발 자리 · 사람의 대본 · 든 상자의 크기와 무게 · 과제의 걷는 속도 · 센서 지연)과 appearance 의 겉모습 아홉 축이다. 행은 환경을 만들기 전에 generation/conditions.py 가 만든다 — 무작위 행은 뽑고 격자 행은 conditions.grid 의 칸에서 읽는다. 겉모습은 조건표와 다른 난수 흐름으로 뽑는다(appearance 의 note). S1d 의 몸통 질량 랜덤화와 로봇 시작 위치 · 시작 속도의 흔들림은 쓰지 않는다(방향을 따진 S_p 가 읽는 정지 시험 표를 잰 로봇 그대로). randomization_fixed · policy_observation_noise 의 뜻과 단위는 S1d 와 같다.",
+      "robot_task": "상자를 들고 좁은 통로를 걷다 랙 줄 끝을 U자로 돌아 반대쪽 면을 따라 걸어 그 면의 끝점에 선다",
+      "human_behavior": "반대쪽 면의 모퉁이 가까이(면에서 0.3~0.8 m · 줄 끝에서 0.3~1.5 m)에서 랙 쪽을 보고 서 있다. 움직이지 않고 로봇을 보지 않는다. 인형을 세워 두는 제어기(붙잡기)는 로봇 몸이나 든 상자가 처음 닿은 스텝에 풀리고 거리로 미리 풀지 않는다 — 그 뒤 인형은 균형 제어가 없는 수동 몸이다",
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.approach_speed_robot",
+        "safety.approach_speed_human",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-02",
+        "R-HRI-CONTACT-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 99
+    },
+    {
+      "scenario_id": "S1f",
+      "hazard_class": "collision",
+      "safety_function": "none",
+      "domain": "logistics",
+      "task_archetype": "transport",
+      "priority": 1,
+      "spec_level": "summary",
+      "objective": "옆에서 일하던 사람의 끼어들기 — 상자를 든 로봇이 좁은 통로를 걸어 랙을 보고 일하던 사람의 등 뒤에서 와 옆을 지나가다, 로봇을 보지 못한 채 돌아서 로봇이 가는 쪽으로 길에 들어서는 사람과 부딪히는 상황. 기록 데이터의 로봇은 사람에 반응하지 않는 기준 로봇이다(공개 H1 보행 정책이 과제만 수행)",
+      "scene": {
+        "assets": [
+          "isaaclab://TerrainImporter/plane",
+          "generation/scene/build/keti_logistics_aisle_v1.usd",
+          "generation/scene/build/keti_carried_box_v1.usd",
+          "generation/dummy/build/keti_dummy_ts15066_v2_jointed_skin_vest.usd"
+        ],
+        "human_model": "keti_dummy_ts15066_v2_vest",
+        "asset_policy": "자체 제작 물류 씬(CC0 텍스처 · 상자 라벨의 KETI CI) + MakeHuman/MPFB2 시각 메시(CC0)에 자체 제작 형광 조끼를 입힌 관절 인형 + 자체 제작 상자(라벨의 KETI CI — 씬과 같은 파일) + BSD-3 원본 H1(저작권 고지 · 라이선스 전문 · 면책 문구와 함께 동봉). KETI CI 는 배포자 자신의 CI 이고 데이터셋 라이선스가 상표 사용을 허락하지 않는다. 인형의 물리는 keti_dummy_ts15066_v2_jointed 와 동일하고 콜라이더 없는 시각 메시와 조끼만 더한다. 걸음 표는 100STYLE(CC BY 4.0)에서 유도한 것이고 원본 동작 파일은 싣지 않는다",
+        "site": {
+          "robot_start": {
+            "xy_m": [
+              -3.5,
+              -7.25
+            ],
+            "yaw_deg": 0.0
+          },
+          "robot_goal": {
+            "xy_m": [
+              4.5,
+              -7.25
+            ],
+            "yaw_deg": 0.0
+          },
+          "path": {
+            "kind": "straight"
+          },
+          "human_region": {
+            "x_m": [
+              0.5,
+              2.5
+            ],
+            "y_m": [
+              -6.35,
+              -6.35
+            ]
+          }
+        },
+        "site_note": "자체 설정. 좌표는 씬 레이아웃(= 환경)의 m, 방향은 +x 에서 반시계 방향의 도. human_region 은 사람이 서 있거나 부딪히는 곳의 범위다. 로봇은 랙 줄 사이 통로 가운데를 곧게 걷고, 사람 자리는 로봇 길 옆 랙 면에서 0.35 m 떨어진 선 위다. 그 선의 어디에 서는지는 조건표(conditions)의 행이 정한다."
+      },
+      "carry": {
+        "asset": "keti_carried_box_v1",
+        "link": "torso_link",
+        "bottom_m": [
+          0.27,
+          0.0,
+          -0.111
+        ],
+        "yaw_deg": -90.0,
+        "arm_hold_rad": {
+          "shoulder_pitch": 0.28,
+          "shoulder_roll": 0.0,
+          "shoulder_yaw": 0.0,
+          "elbow": 0.52
+        },
+        "release": "first_human_contact",
+        "determined_by": "project",
+        "note": "상자는 몸통 링크에 고정하고 팔은 정책의 기본 자세로 잡는다. 상자 밑면은 아래팔 끝 높이, 가운데는 두 아래팔 끝 사이에서 앞으로 0.12 m. 사람과 처음 닿은 스텝에 놓는다. 자체 설정."
+      },
+      "conditions": {
+        "rows": 50,
+        "columns": {
+          "human_start_x_m": {
+            "range": [
+              0.5,
+              2.5
+            ]
+          },
+          "trigger_lead_s": {
+            "range": [
+              1.4,
+              2.2
+            ]
+          },
+          "turn_time_s": {
+            "range": [
+              0.8,
+              1.2
+            ]
+          },
+          "entry_angle_deg": {
+            "range": [
+              20.0,
+              40.0
+            ]
+          },
+          "human_speed_mps": {
+            "range": [
+              0.8,
+              1.6
+            ]
+          },
+          "robot_speed_mps": {
+            "range": [
+              0.6,
+              1.0
+            ]
+          },
+          "box_mass_kg": {
+            "range": [
+              1.0,
+              3.0
+            ]
+          },
+          "box_depth_m": {
+            "range": [
+              0.25,
+              0.3
+            ]
+          },
+          "box_height_m": {
+            "range": [
+              0.2,
+              0.3
+            ]
+          },
+          "sensor_delay_ms": {
+            "range": [
+              0.0,
+              100.0
+            ]
+          }
+        },
+        "fixed": {},
+        "determined_by": "project",
+        "note": "자체 설정 — 에피소드마다 한 행이다(rows 와 격자의 칸(7 × 7)을 더한 수가 episodes 이고 행 i 는 생성의 --seq i). 행 i 의 n 번째 시도는 SHA-256(\"S1f:condition:i:n\") 의 앞 8바이트(빅 엔디언)를 시드로 columns 를 적힌 차례대로 뽑고(range 는 고른 분포 · choice 는 같은 확률), fixed 는 행마다 같다. 가드(로봇 몸 반폭 0.30 m 와 든 상자가 행의 길을 따라 높이 0~2 m 충돌체에서 0.15 m 밖이고 건물 안쪽으로 0.15 m 들어와 있음 · 사람의 선 자리와 걷는 길이 충돌체에서 0.3 m 밖이고 건물 벽에서 0.4 m 안쪽)에 걸리면 다음 시도이고, 200번이 모두 걸리면 그 행은 만들지 않는다(generation/conditions.py). human_start_x_m 은 사람이 서는 x, trigger_lead_s 는 뒤에서 오는 로봇이 사람 옆(같은 x)에 오기 몇 초 전의 자리에서 사람이 돌기 시작하는가 — 방아쇠는 로봇의 자리로 걸리고, 그 거리(통로를 따라 로봇의 뿌리에서 사람까지)는 trigger_lead_s × robot_speed_mps 이다. turn_time_s 는 사람이 제자리에서 도는 시간, entry_angle_deg 는 로봇이 가는 쪽에서 로봇 길 쪽으로 잰 걷는 방향(사람은 랙을 보고 서 있다가 그쪽으로 돈다), human_speed_mps 는 사람의 걷는 속도, robot_speed_mps 는 과제의 걷는 속도, box_mass_kg · box_depth_m · box_height_m 은 든 상자의 무게와 앞뒤 · 높이(폭은 0.40 m 로 고정), sensor_delay_ms 는 행동 층이 본 사람을 받는 늦음이다. 창은 결과 비율(목표 실패 70 %)을 보고 고치며 판정의 정의는 고치지 않는다.",
+        "grid": {
+          "cells": 7,
+          "robot_axis": {
+            "quantity": "robot_speed_mps",
+            "range": [
+              0.6,
+              1.0
+            ]
+          },
+          "human_axis": {
+            "quantity": "trigger_distance_m",
+            "range": [
+              0.25,
+              2.75
+            ]
+          },
+          "fixed": {
+            "human_start_x_m": 1.5,
+            "turn_time_s": 1.0,
+            "entry_angle_deg": 30.0,
+            "human_speed_mps": 1.2,
+            "box_mass_kg": 2.0,
+            "box_depth_m": 0.275,
+            "box_height_m": 0.25,
+            "sensor_delay_ms": 50.0
+          },
+          "note": "자체 설정 — 무작위 행 뒤에 이어 붙는 7 × 7 격자 49행이다. 로봇 축은 robot_speed_mps(과제의 걷는 속도 0.6~1.0 m/s), 사람 축은 trigger_distance_m(사람이 돌기 시작할 때 통로를 따라 로봇의 뿌리에서 사람까지의 거리 0.25~2.75 m = trigger_lead_s × robot_speed_mps)이며 trigger_lead_s 열에 trigger_distance_m ÷ robot_speed_mps 로 적힌다. 각 축의 구간을 같은 폭의 일곱 칸으로 나눠 칸의 가운데 값을 쓰고, 두 축이 적지 않는 열은 fixed 의 값이다. 행 번호는 무작위 행 수 + 로봇 축의 칸 + 7 × 사람 축의 칸이다. 격자 행은 결과 비율과 점수표의 네 칸에 세지 않는다. 칸의 값은 가드를 통과해야 하며 다시 뽑지 않는다."
+        }
+      },
+      "appearance": {
+        "determined_by": "project",
+        "axes": {
+          "vest_color": {
+            "choice": {
+              "fluorescent_yellow": null,
+              "fluorescent_orange": [
+                1.0,
+                0.18,
+                0.0
+              ],
+              "fluorescent_green": [
+                0.35,
+                1.0,
+                0.1
+              ]
+            }
+          },
+          "shirt_color": {
+            "choice": {
+              "white": null,
+              "light_grey": [
+                0.42,
+                0.42,
+                0.45
+              ],
+              "navy": [
+                0.03,
+                0.045,
+                0.17
+              ],
+              "black": [
+                0.04,
+                0.04,
+                0.04
+              ],
+              "red": [
+                0.7,
+                0.13,
+                0.13
+              ],
+              "blue": [
+                0.18,
+                0.36,
+                0.66
+              ],
+              "green": [
+                0.18,
+                0.49,
+                0.2
+              ],
+              "khaki": [
+                0.5,
+                0.44,
+                0.25
+              ]
+            }
+          },
+          "trousers_color": {
+            "choice": {
+              "blue": null,
+              "navy": [
+                0.12,
+                0.22,
+                0.8
+              ],
+              "black": [
+                0.13,
+                0.13,
+                0.13
+              ],
+              "grey": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "khaki": [
+                1.6,
+                1.4,
+                1.0
+              ],
+              "olive": [
+                0.8,
+                0.85,
+                0.45
+              ]
+            }
+          },
+          "box_color": {
+            "choice": {
+              "medium_cardboard": null,
+              "light_cardboard": [
+                0.82,
+                0.69,
+                0.48
+              ],
+              "dark_cardboard": [
+                0.36,
+                0.25,
+                0.12
+              ],
+              "white": [
+                0.93,
+                0.93,
+                0.93
+              ],
+              "grey": [
+                0.32,
+                0.32,
+                0.33
+              ]
+            }
+          },
+          "light_scale": {
+            "range": [
+              0.6,
+              1.3
+            ]
+          },
+          "light_temperature_k": {
+            "range": [
+              3500.0,
+              10000.0
+            ]
+          },
+          "upright_color": {
+            "choice": {
+              "blue": null,
+              "grey": [
+                3.0,
+                3.6,
+                4.8
+              ],
+              "green": [
+                0.45,
+                2.2,
+                1.0
+              ],
+              "navy": [
+                0.2,
+                0.4,
+                1.7
+              ]
+            }
+          },
+          "beam_color": {
+            "choice": {
+              "orange": null,
+              "yellow": [
+                6.0,
+                6.0,
+                0.4
+              ],
+              "red": [
+                1.4,
+                0.25,
+                0.2
+              ]
+            }
+          },
+          "floor_wall_scale": {
+            "range": [
+              0.85,
+              1.1
+            ]
+          }
+        },
+        "note": "자체 설정입니다 — 표준이 정한 값이 아닙니다. 에피소드마다 달라지는 겉모습의 축이고 물리 배열 · 사람 상자 · 카메라 자세는 바꾸지 않습니다. vest_color 는 조끼, shirt_color 는 작업복 상의, trousers_color 는 작업복 바지, box_color 는 든 상자, light_scale 은 등기구와 채움 빛에 같은 배로 곱하는 밝기, light_temperature_k 는 빛의 색온도(K), upright_color 는 랙 기둥, beam_color 는 랙 보, floor_wall_scale 은 바닥과 벽의 밝기 배율입니다. 색 축의 값 null 은 지은 그대로이고, 그 밖의 색은 셰이더 입력에 그대로 쓰는 [r, g, b] 입니다 — 상의는 흰 텍스처에 곱하는 색조, 바지 · 기둥 · 보는 채도를 뺀 텍스처에 곱하는 색조, 조끼 · 상자는 단색입니다. 행 i 는 SHA-256(\"<시나리오>:appearance:<i>\") 의 앞 8바이트(big-endian)를 시드로 numpy.random.default_rng 를 만들어 축을 적힌 차례대로 뽑습니다 (색 축은 같은 확률로 고르고 범위 축은 고르게 뽑음). 조건표의 난수와 다른 흐름이라 행의 물리 조건은 겉모습에 따라 달라지지 않습니다. 렌더하지 않는 실행도 같은 값을 뽑아 기록합니다. 조끼의 반사 띠 · 상자 라벨 · KETI CI 는 그대로입니다. 랙 기둥과 보의 색조가 1 을 넘는 값을 가지는 것은 랙 텍스처가 어두워(선형 알베도 약 2~7 %) 색조를 곱해도 칠한 색으로 보일 만한 밝기가 되도록 하기 위해서입니다. 색온도의 색은 창고의 빛이 지은 색(등기구 [1.0, 0.97, 0.92] · 채움 빛 [1.0, 0.98, 0.95] — 조금 따뜻함)에 곱해지므로 6500 K 도 중립에 가깝게 보입니다 — 그래서 위 끝은 USD 의 색온도가 받는 가장 높은 값 10000 K 입니다."
+      },
+      "randomization": {},
+      "randomization_distribution": {},
+      "randomization_fixed": {
+        "robot_static_friction": 0.8,
+        "robot_dynamic_friction": 0.6,
+        "terrain_static_friction": 1.0,
+        "terrain_dynamic_friction": 1.0
+      },
+      "policy_observation_noise": {
+        "base_lin_vel": 0.1,
+        "base_ang_vel": 0.2,
+        "projected_gravity": 0.05,
+        "joint_pos": 0.01,
+        "joint_vel": 1.5
+      },
+      "randomization_note": "randomization 이 비어 있는 것은 환경 설정이 에피소드마다 뽑는 축이 없다는 뜻이다 — 에피소드마다 바뀌는 것은 conditions 의 행(사람의 자리와 대본 · 든 상자의 크기와 무게 · 과제의 걷는 속도 · 센서 지연)과 appearance 의 겉모습 아홉 축이다. 행은 환경을 만들기 전에 generation/conditions.py 가 만든다 — 무작위 행은 뽑고 격자 행은 conditions.grid 의 칸에서 읽는다. 겉모습은 조건표와 다른 난수 흐름으로 뽑는다(appearance 의 note). S1d 의 몸통 질량 랜덤화와 로봇 시작 위치 · 시작 속도의 흔들림은 쓰지 않는다(방향을 따진 S_p 가 읽는 정지 시험 표를 잰 로봇 그대로). randomization_fixed · policy_observation_noise 의 뜻과 단위는 S1d 와 같다.",
+      "robot_task": "상자를 들고 좁은 통로의 가운데를 따라 걸어 사람 옆을 지나 통로의 끝점에 선다",
+      "human_behavior": "랙 면 앞(로봇 길에서 약 0.9 m 옆)에서 랙을 보고 서 있다가, 뒤에서 오는 로봇이 옆에 오기 정해진 시간 전의 자리에 이르면 제자리에서 로봇이 가는 쪽으로 돌아서(0.8~1.2 s — 로봇이 오는 쪽은 지나지 않는다) 로봇이 가는 쪽으로 대각선(20~40°)으로 길에 들어서(0.8~1.6 m/s) 건너편 랙 면 0.45 m 앞에서 멈춘다. 로봇에 반응하지 않는다. 인형을 세워 두는 제어기(붙잡기)는 로봇 몸이나 든 상자가 처음 닿은 스텝에 풀리고 거리로 미리 풀지 않는다 — 미리 풀면 닿지 않고 스치는 근접사고에서 균형 제어가 없는 인형이 보조 없이 걷다 닿기 전에 기운다",
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.approach_speed_robot",
+        "safety.approach_speed_human",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-02",
+        "R-HRI-CONTACT-01"
+      ],
+      "outcome_target": {
+        "fail": 0.7,
+        "near_miss": 0.3,
+        "nominal": 0.0
+      },
+      "episodes": 99
+    },
+    {
+      "scenario_id": "S1g",
+      "hazard_class": "collision",
+      "safety_function": "none",
+      "domain": "logistics",
+      "task_archetype": "transport",
+      "priority": 1,
+      "spec_level": "summary",
+      "objective": "돌아설 때의 뒤 — 상자를 든 로봇이 랙 B 앞에서 돌아서 랙 A 로 가다, 통로를 따라 지나가던 사람과 부딪히는 상황. 기록 데이터의 로봇은 사람에 반응하지 않는 기준 로봇이다(공개 H1 보행 정책이 과제만 수행)",
+      "scene": {
+        "assets": [
+          "isaaclab://TerrainImporter/plane",
+          "generation/scene/build/keti_logistics_aisle_v1.usd",
+          "generation/scene/build/keti_carried_box_v1.usd",
+          "generation/dummy/build/keti_dummy_ts15066_v2_jointed_skin_vest.usd"
+        ],
+        "human_model": "keti_dummy_ts15066_v2_vest",
+        "asset_policy": "자체 제작 물류 씬(CC0 텍스처 · 상자 라벨의 KETI CI) + MakeHuman/MPFB2 시각 메시(CC0)에 자체 제작 형광 조끼를 입힌 관절 인형 + 자체 제작 상자(라벨의 KETI CI — 씬과 같은 파일) + BSD-3 원본 H1(저작권 고지 · 라이선스 전문 · 면책 문구와 함께 동봉). KETI CI 는 배포자 자신의 CI 이고 데이터셋 라이선스가 상표 사용을 허락하지 않는다. 인형의 물리는 keti_dummy_ts15066_v2_jointed 와 동일하고 콜라이더 없는 시각 메시와 조끼만 더한다. 걸음 표는 100STYLE(CC BY 4.0)에서 유도한 것이고 원본 동작 파일은 싣지 않는다",
+        "site": {
+          "robot_start": {
+            "xy_m": [
+              2.0,
+              10.3
+            ],
+            "yaw_deg": -90.0
+          },
+          "robot_goal": {
+            "xy_m": [
+              2.0,
+              11.3
+            ],
+            "yaw_deg": 90.0
+          },
+          "path": {
+            "kind": "turn_then_walk",
+            "turn_deg": 180.0,
+            "walk_m": 1.0
+          },
+          "human_region": {
+            "x_m": [
+              1.0,
+              3.0
+            ],
+            "y_m": [
+              10.45,
+              11.05
+            ]
+          }
+        },
+        "site_note": "자체 설정. 좌표는 씬 레이아웃(= 환경)의 m, 방향은 +x 에서 반시계 방향의 도. human_region 은 사람이 서 있거나 부딪히는 곳의 범위다. 로봇은 통로 남쪽 랙(랙 B)의 바닥 단 짐을 보고 그 앞에 서 있다가, 제자리에서 반 바퀴 돌아 북쪽 랙(랙 A) 쪽으로 1.0 m 걷는다. 여기 적은 반시계 돌기는 기본 자리이고, 에피소드의 돌기 방향(사람이 오는 쪽의 반대 — 도는 동안 앞이 사람이 걸어가는 쪽을 지남)과 사람이 걷는 선(통로 가운데에서 옆으로 −0.05~0.1 m)은 조건표(conditions)의 행이 정한다. 사람 자리는 로봇과 랙 A 사이를 지나는 구간이다."
+      },
+      "carry": {
+        "asset": "keti_carried_box_v1",
+        "link": "torso_link",
+        "bottom_m": [
+          0.27,
+          0.0,
+          -0.111
+        ],
+        "yaw_deg": -90.0,
+        "arm_hold_rad": {
+          "shoulder_pitch": 0.28,
+          "shoulder_roll": 0.0,
+          "shoulder_yaw": 0.0,
+          "elbow": 0.52
+        },
+        "release": "first_human_contact",
+        "determined_by": "project",
+        "note": "상자는 몸통 링크에 고정하고 팔은 정책의 기본 자세로 잡는다. 상자 밑면은 아래팔 끝 높이, 가운데는 두 아래팔 끝 사이에서 앞으로 0.12 m. 사람과 처음 닿은 스텝에 놓는다. 자체 설정."
+      },
+      "conditions": {
+        "rows": 50,
+        "columns": {
+          "approach_side": {
+            "choice": [
+              "west",
+              "east"
+            ]
+          },
+          "lateral_offset_m": {
+            "range": [
+              -0.05,
+              0.1
+            ]
+          },
+          "human_speed_mps": {
+            "range": [
+              0.8,
+              1.6
+            ]
+          },
+          "turn_rate_rad_s": {
+            "range": [
+              0.85,
+              1.0
+            ]
+          },
+          "pass_offset_s": {
+            "range": [
+              -1.1,
+              -0.3
+            ]
+          },
+          "box_mass_kg": {
+            "range": [
+              1.0,
+              3.0
+            ]
+          },
+          "box_depth_m": {
+            "range": [
+              0.25,
+              0.3
+            ]
+          },
+          "box_height_m": {
+            "range": [
+              0.2,
+              0.3
+            ]
+          },
+          "sensor_delay_ms": {
+            "range": [
+              0.0,
+              100.0
+            ]
+          }
+        },
+        "fixed": {
+          "walk_speed_mps": 0.5,
+          "run_up_s": 1.5
+        },
+        "determined_by": "project",
+        "note": "자체 설정 — 에피소드마다 한 행이다(rows 와 격자의 칸(7 × 7)을 더한 수가 episodes 이고 행 i 는 생성의 --seq i). 행 i 의 n 번째 시도는 SHA-256(\"S1g:condition:i:n\") 의 앞 8바이트(빅 엔디언)를 시드로 columns 를 적힌 차례대로 뽑고(range 는 고른 분포 · choice 는 같은 확률), fixed 는 행마다 같다. 가드(로봇 몸 반폭 0.30 m 와 든 상자가 행의 길을 따라 높이 0~2 m 충돌체에서 0.15 m 밖이고 건물 안쪽으로 0.15 m 들어와 있음 · 제자리 돌기가 쓸고 가는 원이 충돌체에서 0.15 m 밖 · 사람의 선 자리와 걷는 길이 충돌체에서 0.3 m 밖이고 건물 벽에서 0.4 m 안쪽 — 사람이 어느 쪽에서 오든(approach_side 만 바꾼 같은 행도 통과해야 하므로 걸어오는 쪽에 따라 때가 치우치지 않음))에 걸리면 다음 시도이고, 200번이 모두 걸리면 그 행은 만들지 않는다(generation/conditions.py). approach_side 는 사람이 걸어오는 쪽, lateral_offset_m 은 사람이 걷는 선이 통로 가운데에서 옆으로 떨어진 거리(+ 는 랙 A 쪽), human_speed_mps 는 사람의 걷는 속도, turn_rate_rad_s 는 로봇이 도는 빠르기, pass_offset_s 는 명목 돌기 시간 π / turn_rate_rad_s(돌기 속도 열로 셈 — 실제로 다 돈 때가 아님)에서 사람이 로봇의 x 를 지나는 때까지의 시간(음수면 명목 돌기 시간 안에 지남)이다. 창이 음수라 사람은 명목 돌기 시간이 끝나기 전에 로봇의 x 를 지난다. 로봇에게 과제가 오는 사람 거리(통로를 따라 로봇의 x 까지)는 human_speed_mps × (π / turn_rate_rad_s + pass_offset_s) 이다. fixed 의 walk_speed_mps 는 돈 뒤 걷는 속도, run_up_s 는 사람이 걷기 시작해 그 거리에 닿기까지의 시간(걸음의 1 s 가속을 넣어 출발 자리를 정함)이다. box_mass_kg · box_depth_m · box_height_m 은 든 상자의 무게와 앞뒤 · 높이(폭은 0.40 m 로 고정), sensor_delay_ms 는 행동 층이 본 사람을 받는 늦음이다. 창은 결과 비율(목표 실패 90 % · 근접사고 10 %)을 보고 고치며 판정의 정의는 고치지 않는다.",
+        "grid": {
+          "cells": 7,
+          "robot_axis": {
+            "quantity": "turn_rate_rad_s",
+            "range": [
+              0.5,
+              1.0
+            ]
+          },
+          "human_axis": {
+            "quantity": "arrival_s",
+            "range": [
+              1.0,
+              5.9
+            ]
+          },
+          "fixed": {
+            "approach_side": "west",
+            "lateral_offset_m": 0.025,
+            "human_speed_mps": 1.2,
+            "box_mass_kg": 2.0,
+            "box_depth_m": 0.275,
+            "box_height_m": 0.25,
+            "sensor_delay_ms": 50.0
+          },
+          "note": "자체 설정 — 무작위 행 뒤에 이어 붙는 7 × 7 격자 49행이다. 로봇 축은 turn_rate_rad_s(로봇이 도는 빠르기 0.5~1.0 rad/s), 사람 축은 arrival_s(로봇에게 과제가 온 때부터 사람이 로봇의 x 에 닿는 때까지의 시간 1.0~5.9 s = π ÷ turn_rate_rad_s + pass_offset_s)이며 pass_offset_s 열에 arrival_s − π ÷ turn_rate_rad_s 로 적힌다. 각 축의 구간을 같은 폭의 일곱 칸으로 나눠 칸의 가운데 값을 쓰고, 두 축이 적지 않는 열은 fixed 의 값이다. 행 번호는 무작위 행 수 + 로봇 축의 칸 + 7 × 사람 축의 칸이다. 격자 행은 결과 비율과 점수표의 네 칸에 세지 않는다. 칸의 값은 가드를 통과해야 하며 다시 뽑지 않는다."
+        }
+      },
+      "appearance": {
+        "determined_by": "project",
+        "axes": {
+          "vest_color": {
+            "choice": {
+              "fluorescent_yellow": null,
+              "fluorescent_orange": [
+                1.0,
+                0.18,
+                0.0
+              ],
+              "fluorescent_green": [
+                0.35,
+                1.0,
+                0.1
+              ]
+            }
+          },
+          "shirt_color": {
+            "choice": {
+              "white": null,
+              "light_grey": [
+                0.42,
+                0.42,
+                0.45
+              ],
+              "navy": [
+                0.03,
+                0.045,
+                0.17
+              ],
+              "black": [
+                0.04,
+                0.04,
+                0.04
+              ],
+              "red": [
+                0.7,
+                0.13,
+                0.13
+              ],
+              "blue": [
+                0.18,
+                0.36,
+                0.66
+              ],
+              "green": [
+                0.18,
+                0.49,
+                0.2
+              ],
+              "khaki": [
+                0.5,
+                0.44,
+                0.25
+              ]
+            }
+          },
+          "trousers_color": {
+            "choice": {
+              "blue": null,
+              "navy": [
+                0.12,
+                0.22,
+                0.8
+              ],
+              "black": [
+                0.13,
+                0.13,
+                0.13
+              ],
+              "grey": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "khaki": [
+                1.6,
+                1.4,
+                1.0
+              ],
+              "olive": [
+                0.8,
+                0.85,
+                0.45
+              ]
+            }
+          },
+          "box_color": {
+            "choice": {
+              "medium_cardboard": null,
+              "light_cardboard": [
+                0.82,
+                0.69,
+                0.48
+              ],
+              "dark_cardboard": [
+                0.36,
+                0.25,
+                0.12
+              ],
+              "white": [
+                0.93,
+                0.93,
+                0.93
+              ],
+              "grey": [
+                0.32,
+                0.32,
+                0.33
+              ]
+            }
+          },
+          "light_scale": {
+            "range": [
+              0.6,
+              1.3
+            ]
+          },
+          "light_temperature_k": {
+            "range": [
+              3500.0,
+              10000.0
+            ]
+          },
+          "upright_color": {
+            "choice": {
+              "blue": null,
+              "grey": [
+                3.0,
+                3.6,
+                4.8
+              ],
+              "green": [
+                0.45,
+                2.2,
+                1.0
+              ],
+              "navy": [
+                0.2,
+                0.4,
+                1.7
+              ]
+            }
+          },
+          "beam_color": {
+            "choice": {
+              "orange": null,
+              "yellow": [
+                6.0,
+                6.0,
+                0.4
+              ],
+              "red": [
+                1.4,
+                0.25,
+                0.2
+              ]
+            }
+          },
+          "floor_wall_scale": {
+            "range": [
+              0.85,
+              1.1
+            ]
+          }
+        },
+        "note": "자체 설정입니다 — 표준이 정한 값이 아닙니다. 에피소드마다 달라지는 겉모습의 축이고 물리 배열 · 사람 상자 · 카메라 자세는 바꾸지 않습니다. vest_color 는 조끼, shirt_color 는 작업복 상의, trousers_color 는 작업복 바지, box_color 는 든 상자, light_scale 은 등기구와 채움 빛에 같은 배로 곱하는 밝기, light_temperature_k 는 빛의 색온도(K), upright_color 는 랙 기둥, beam_color 는 랙 보, floor_wall_scale 은 바닥과 벽의 밝기 배율입니다. 색 축의 값 null 은 지은 그대로이고, 그 밖의 색은 셰이더 입력에 그대로 쓰는 [r, g, b] 입니다 — 상의는 흰 텍스처에 곱하는 색조, 바지 · 기둥 · 보는 채도를 뺀 텍스처에 곱하는 색조, 조끼 · 상자는 단색입니다. 행 i 는 SHA-256(\"<시나리오>:appearance:<i>\") 의 앞 8바이트(big-endian)를 시드로 numpy.random.default_rng 를 만들어 축을 적힌 차례대로 뽑습니다 (색 축은 같은 확률로 고르고 범위 축은 고르게 뽑음). 조건표의 난수와 다른 흐름이라 행의 물리 조건은 겉모습에 따라 달라지지 않습니다. 렌더하지 않는 실행도 같은 값을 뽑아 기록합니다. 조끼의 반사 띠 · 상자 라벨 · KETI CI 는 그대로입니다. 랙 기둥과 보의 색조가 1 을 넘는 값을 가지는 것은 랙 텍스처가 어두워(선형 알베도 약 2~7 %) 색조를 곱해도 칠한 색으로 보일 만한 밝기가 되도록 하기 위해서입니다. 색온도의 색은 창고의 빛이 지은 색(등기구 [1.0, 0.97, 0.92] · 채움 빛 [1.0, 0.98, 0.95] — 조금 따뜻함)에 곱해지므로 6500 K 도 중립에 가깝게 보입니다 — 그래서 위 끝은 USD 의 색온도가 받는 가장 높은 값 10000 K 입니다."
+      },
+      "randomization": {},
+      "randomization_distribution": {},
+      "randomization_fixed": {
+        "robot_static_friction": 0.8,
+        "robot_dynamic_friction": 0.6,
+        "terrain_static_friction": 1.0,
+        "terrain_dynamic_friction": 1.0
+      },
+      "policy_observation_noise": {
+        "base_lin_vel": 0.1,
+        "base_ang_vel": 0.2,
+        "projected_gravity": 0.05,
+        "joint_pos": 0.01,
+        "joint_vel": 1.5
+      },
+      "randomization_note": "randomization 이 비어 있는 것은 환경 설정이 에피소드마다 뽑는 축이 없다는 뜻이다 — 에피소드마다 바뀌는 것은 conditions 의 행(사람의 대본 · 로봇이 도는 빠르기와 방향 · 든 상자의 크기와 무게 · 센서 지연)과 appearance 의 겉모습 아홉 축이다. 행은 환경을 만들기 전에 generation/conditions.py 가 만든다 — 무작위 행은 뽑고 격자 행은 conditions.grid 의 칸에서 읽는다. 겉모습은 조건표와 다른 난수 흐름으로 뽑는다(appearance 의 note). S1d 의 몸통 질량 랜덤화와 로봇 시작 위치 · 시작 속도의 흔들림은 쓰지 않는다(방향을 따진 S_p 가 읽는 정지 시험 표를 잰 로봇 그대로). randomization_fixed · policy_observation_noise 의 뜻과 단위는 S1d 와 같다.",
+      "robot_task": "통로 한쪽 랙(랙 B)을 보고 그 앞에 상자를 든 채 서 있다가, 과제가 오면 사람이 오는 쪽의 반대로 제자리에서 반 바퀴 돌아 건너편 랙(랙 A) 쪽으로 1.0 m 걸어가 그 랙을 보고 선다. 과제는 통로를 따라 걸어오는 사람이 정해진 거리까지 오면 온다",
+      "human_behavior": "통로 가운데쯤(가운데에서 옆으로 −0.05~0.1 m)을 따라 곧게 걸어와(0.8~1.6 m/s) 로봇과 랙 A 사이를 지나 로봇을 3 m 지난 곳에서 멈춘다. 이 선은 서 있는 로봇의 등에서 떨어져 있어, 닿는다면 돌아선 로봇의 상자나 몸이 사람에게 간다. 로봇에게 과제가 오는 때는 사람의 위치로 정하므로 어느 정책에나 같고, 사람은 로봇에 반응하지 않는다. 인형을 세워 두는 제어기(붙잡기)는 로봇 몸이나 든 상자가 처음 닿은 스텝에 풀리고 거리로 미리 풀지 않는다 — 미리 풀면 닿지 않고 스치는 근접사고에서 균형 제어가 없는 인형이 보조 없이 걷다 닿기 전에 기운다",
+      "required_fields": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.approach_speed_robot",
+        "safety.approach_speed_human",
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-02",
+        "R-HRI-CONTACT-01"
+      ],
+      "outcome_target": {
+        "fail": 0.9,
+        "near_miss": 0.1,
+        "nominal": 0.0
+      },
+      "episodes": 99
+    },
+    {
+      "scenario_id": "S2a",
+      "hazard_class": "entrapment",
+      "domain": "manufacturing",
+      "task_archetype": "machine_tending",
+      "priority": 2,
+      "spec_level": "summary",
+      "objective": "로봇과 고정 설비 사이 협착 조건에서의 준정적 접촉 하중 확보",
+      "scene": {
+        "assets": [],
+        "layout": "로봇 + 고정 설비, 간격 랜덤화",
+        "human_model": "keti_dummy_ts15066_v1"
+      },
+      "robot_task": "고정 설비 방향으로 접근",
+      "human_behavior": "로봇과 설비 사이에 위치. 후퇴 불가",
+      "randomization": {
+        "gap_distance": null,
+        "approach_speed": null
+      },
+      "contact_type_note": "인체가 후퇴할 수 없으므로 준정적(quasistatic) 한계를 적용한다. 같은 하중이라도 과도적 접촉과 판정이 다르다 (스키마 §8.1)",
+      "required_fields": [
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type",
+        "observation.state.joint_torque"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 200
+    },
+    {
+      "scenario_id": "S2b",
+      "hazard_class": "entrapment",
+      "domain": "baseline",
+      "task_archetype": "hri",
+      "priority": 4,
+      "spec_level": "summary",
+      "objective": "관절 구동부 끼임 조건에서의 준정적 접촉 하중 확보",
+      "scene": {
+        "assets": [],
+        "layout": "로봇 단독, 관절 구동부 근접",
+        "human_model": "keti_dummy_ts15066_v1"
+      },
+      "robot_task": "관절 구동",
+      "human_behavior": "구동부 인접 위치. 후퇴 불가",
+      "randomization": {
+        "body_region": null,
+        "timing": null
+      },
+      "contact_type_note": "S2a 와 동일하게 준정적 한계를 적용한다",
+      "required_fields": [
+        "safety.event",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type",
+        "observation.state.joint_torque"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 100
+    },
+    {
+      "scenario_id": "S3a",
+      "hazard_class": "fall",
+      "domain": "baseline",
+      "task_archetype": "locomotion",
+      "priority": 2,
+      "spec_level": "summary",
+      "objective": "경사·단차 보행 중 외란에 대한 자세 안정성과 회복 특성 확보",
+      "scene": {
+        "assets": [],
+        "layout": "경사면·단차(기하 프리미티브)",
+        "human_model": null
+      },
+      "robot_task": "경사·단차 구간 보행",
+      "human_behavior": "없음 — 로봇 자신의 전도가 위험원",
+      "randomization": {
+        "slope_angle": null,
+        "external_force": null
+      },
+      "randomization_note": "회복 사례(near_miss)가 실패 사례만큼 중요하다. 외란 크기를 경계 구간에 집중 배분한다",
+      "required_fields": [
+        "safety.com",
+        "safety.zmp",
+        "safety.stability_margin",
+        "safety.event"
+      ],
+      "rules": [
+        "R-25785-STAB-01",
+        "R-25785-STAB-02"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 250
+    },
+    {
+      "scenario_id": "S3b",
+      "hazard_class": "fall",
+      "domain": "baseline",
+      "task_archetype": "locomotion",
+      "priority": 3,
+      "spec_level": "summary",
+      "objective": "저마찰 노면 미끄러짐에 대한 자세 안정성과 회복 특성 확보",
+      "scene": {
+        "assets": [],
+        "layout": "평면 바닥, 저마찰 구간",
+        "human_model": null
+      },
+      "robot_task": "저마찰 구간 보행",
+      "human_behavior": "없음",
+      "randomization": {
+        "floor_friction": null
+      },
+      "hazard_class_note": "enum 에 slip 이 따로 있으나 카탈로그 §3 총괄표가 fall 로 분류했다. 전도로 이어지는 미끄러짐이므로 판정 규칙도 전도 규칙이다",
+      "required_fields": [
+        "safety.com",
+        "safety.zmp",
+        "safety.stability_margin",
+        "safety.event"
+      ],
+      "rules": [
+        "R-25785-STAB-01",
+        "R-25785-STAB-02"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 150
+    },
+    {
+      "scenario_id": "S4a",
+      "hazard_class": "drop",
+      "domain": "logistics",
+      "task_archetype": "transport",
+      "priority": 3,
+      "spec_level": "summary",
+      "objective": "파지물 무게중심 급변 시 낙하와 자세 교란 특성 확보",
+      "scene": {
+        "assets": [],
+        "layout": "평면 바닥 + 운반물",
+        "human_model": null
+      },
+      "robot_task": "파지물 운반 중 무게중심 급변",
+      "human_behavior": "없음",
+      "randomization": {
+        "object_mass": null,
+        "object_eccentricity": null
+      },
+      "required_fields": [
+        "observation.object.names",
+        "observation.object.position",
+        "observation.object.grasped",
+        "safety.com",
+        "safety.stability_margin",
+        "safety.event"
+      ],
+      "rules": [
+        "R-OBJ-DROP-01",
+        "R-25785-STAB-01",
+        "R-25785-STAB-02"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 150
+    },
+    {
+      "scenario_id": "S4b",
+      "hazard_class": "drop",
+      "domain": "logistics",
+      "task_archetype": "pick_place",
+      "priority": 4,
+      "spec_level": "summary",
+      "objective": "파지 실패에 의한 낙하와 반력에 의한 자세 교란 특성 확보",
+      "scene": {
+        "assets": [],
+        "layout": "평면 바닥 + 파지 대상물",
+        "human_model": null
+      },
+      "robot_task": "대상물 파지 후 이동",
+      "human_behavior": "없음",
+      "randomization": {
+        "grasp_force": null,
+        "object_shape": null
+      },
+      "gripper_note": "H1 은 손이 없으므로 단순 파지 기구를 부착한 변형으로 구현한다. 기구 사양은 미결(§9-3)",
+      "required_fields": [
+        "observation.object.names",
+        "observation.object.position",
+        "observation.object.grasped",
+        "safety.com",
+        "safety.stability_margin",
+        "safety.event"
+      ],
+      "rules": [
+        "R-OBJ-DROP-01",
+        "R-25785-STAB-01",
+        "R-25785-STAB-02"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 100
+    },
+    {
+      "scenario_id": "S5a",
+      "hazard_class": "malfunction",
+      "domain": "baseline",
+      "task_archetype": "locomotion",
+      "priority": 3,
+      "spec_level": "summary",
+      "objective": "센서 노이즈·지연 주입 시 제어 출력 이상과 안전상태 전환 성립 여부 확보",
+      "scene": {
+        "assets": [],
+        "layout": "평면 바닥",
+        "human_model": null
+      },
+      "robot_task": "보행 중 센서 결함 주입",
+      "human_behavior": "없음",
+      "randomization": {
+        "noise_sigma": null,
+        "delay_ms": null,
+        "dropout_rate": null
+      },
+      "required_fields": [
+        "action",
+        "safety.event",
+        "observation.state.joint_vel",
+        "observation.root_vel"
+      ],
+      "rules": [
+        "R-22440-CTRL-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 150
+    },
+    {
+      "scenario_id": "S5b",
+      "hazard_class": "malfunction",
+      "domain": "baseline",
+      "task_archetype": "locomotion",
+      "priority": 4,
+      "spec_level": "summary",
+      "objective": "제어 출력 이상(이득 교란) 시 안전상태 전환 성립 여부 확보",
+      "scene": {
+        "assets": [],
+        "layout": "평면 바닥",
+        "human_model": null
+      },
+      "robot_task": "보행 중 제어 이득 교란 주입",
+      "human_behavior": "없음",
+      "randomization": {
+        "gain_perturbation": null
+      },
+      "required_fields": [
+        "action",
+        "safety.event",
+        "observation.state.joint_vel",
+        "observation.root_vel"
+      ],
+      "rules": [
+        "R-22440-CTRL-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 100
+    },
+    {
+      "scenario_id": "S6a",
+      "hazard_class": "comm_error",
+      "domain": "baseline",
+      "task_archetype": "hri",
+      "priority": 2,
+      "spec_level": "summary",
+      "objective": "정지명령 지연·손실 상황에서 안전상태 전환이 성립하는지 확인",
+      "scene": {
+        "assets": [],
+        "layout": "평면 바닥",
+        "human_model": "keti_dummy_ts15066_v1"
+      },
+      "robot_task": "보행 중 정지명령 수신. 명령 지연·손실 주입",
+      "human_behavior": "정지명령을 유발하는 위치로 진입",
+      "randomization": {
+        "command_delay_ms": null,
+        "command_loss_rate": null
+      },
+      "rule_gap_note": "comm_error 전용 판정 규칙이 없다. safety.event 에 comm_timeout 값은 있으나 이를 읽는 규칙이 rules.json 에 없어, 통신오류 자체는 R-10218-STOP-01(정지 미달성)로만 판정된다. 전용 규칙 신설 여부는 open_issues 참조",
+      "required_fields": [
+        "safety.event",
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "observation.contact.force",
+        "observation.contact.region_names",
+        "observation.contact.type",
+        "observation.state.joint_vel",
+        "observation.root_vel"
+      ],
+      "rules": [
+        "R-TS15066-A2-*",
+        "R-TS15066-SSM-01",
+        "R-10218-STOP-01"
+      ],
+      "outcome_target": {
+        "fail": 0.4,
+        "near_miss": 0.3,
+        "nominal": 0.3
+      },
+      "episodes": 200,
+      "contact_rule_note": "인체 더미가 진입하는 구성이므로 정지 지연 시 접촉이 성립할 수 있다. 접촉·이격거리 규칙을 함께 선언해 그 경우를 라벨링할 수 있게 한다. 접촉이 기하학적으로 불가능한 구성으로 확정하면 규칙과 필드를 함께 줄인다"
+    }
+  ],
+  "open_issues": [
+    "comm_error 전용 판정 규칙 부재 — safety.event 의 comm_timeout 을 읽는 규칙이 없다. 신설하면 rules.json(규칙 수 20→21) · 스키마 §9.1 · validator/README 를 함께 고쳐야 한다. 다른 기관의 보안 데이터셋과의 필드 정합 협의(§9-4) 결과와 함께 결정",
+    "R-10218-STOP-01 의 hazard_class 는 malfunction 인데 S6a·S1x 에도 적용된다. 규칙의 hazard_class 는 규칙이 검출하는 위험원을 뜻하고 시나리오 분류와 별개라는 해석을 스키마에 명시할지 결정 필요",
+    "hazard_class enum 의 slip 을 쓰는 시나리오가 없다 — S3b 를 fall 로 분류했기 때문. enum 에서 뺄지 S3b 를 slip 으로 옮길지 결정 필요",
+    "domain·task_archetype 은 카탈로그 §3 총괄표에 없어 시나리오 서술에서 유도했다. 검토 필요",
+    "spec_level=summary 인 시나리오 중 S1d · S1e · S1f · S1g 를 제외한 11개의 씬 자산·랜덤화 범위는 구현 시 확정한다 — 그 넷은 summary 이지만 씬(generation/scene/logistics_aisle.yaml)과 랜덤화(S1d 는 이 파일의 randomization 블록, S1e · S1f · S1g 는 conditions 의 조건표)가 이미 확정돼 있다",
+    "S3·S4·S5 는 인체 더미가 없는 구성이라 접촉 규칙을 선언하지 않았다. 더미를 두는 변형을 추가하면 R-TS15066-A2-* 를 함께 선언해야 한다",
+    "S6a 에 접촉·이격거리 규칙을 함께 선언했다 — 더미가 진입하는 구성이라 정지 지연 시 접촉이 성립할 수 있기 때문. 카탈로그 §5 의 주 계측 목록에는 접촉이 없으므로, 씬 설계 확정 시 접촉 가능 여부를 명시하고 규칙을 조정할 것"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "what": "meta/rules.json contact_limits 의 determined_by=standard 항목을 (부위, 항목, 값, 단위, standard_ref, not_applicable) 로 직렬화한 sha256.",
+  "why": "전사본 대조 시험은 전사본이 있는 저장소에서만 돈다. 전사본이 없는 저장소에서는 유한한 오답 999 가 출처 대조 없이 배포될 수 있다. 이 지문은 사본 없이도 「그 뒤로 아무도 값을 손대지 않았다」를 지킨다.",
+  "how_to_update": "값·단위·참조를 의식적으로 바꿨다면 `python tests/generation/refreeze_standard_digest.py` 로 다시 굳히고, 왜 바꿨는지 커밋 메시지에 적는다.",
+  "frozen": "2026-08-27",
+  "entries": 84,
+  "sha256": "0d68e71f3e84cd41662b51e8e148e232e560ce82e572576f5d3382c483e19dff"
+}

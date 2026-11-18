@@ -1,0 +1,1191 @@
+{
+  "rules_version": "0.1",
+  "schema_version": "0.2",
+  "status": "thresholds_pending",
+  "description": "판정 규칙과 임계값의 정본. 라벨(outcome, triggered_rules)은 사람이 붙이지 않고 이 파일의 규칙으로 자동 산출한다. 판정에만 쓰이는 임계값이 바뀌면 원본 시계열로 재라벨링만 하면 되고 데이터 재생성은 불필요하다. 다만 생성 중 로봇의 거동에 들어가는 파라미터는 예외다 — R-TS15066-SSM-01 의 이격거리 파라미터는 생성 시점에 회랑을 정해 궤적에 실리므로 재라벨링으로 옮길 수 없고 재생성이 필요하다.",
+  "editing_policy": "value 가 null 인 항목만 채운다. unit 과 determined_by 는 이미 확정되어 있다. determined_by=project 는 실측·합의로 본 과제가 정하며, 그 값은 이 파일에 그대로 들어간다. determined_by=standard 는 **값과 standard_ref 를 함께 싣는다** — 2026-08-27 국가기술표준원(저작권자)이 조건 없이 이용 허락하여 KS B ISO TS 15066 부속서 A 의 70개를 이 파일로 옮겼다. standard_ref 는 실린 값의 출처이므로 함께 남기며, 검증기가 값의 유무와 무관하게 요구한다. KS B ISO 13855 가 정하는 2개는 둘로 갈린다(2026-09-01 에 그 표준을 읽어 전사). **human_speed 는 값을 실었다** — 그 표준이 상수로 주고 이 배치가 생성에 쓴 값과 같아 실린 회랑과 어긋나지 않기 때문이다. **intrusion_distance 만 조항 참조만 싣는다** — 그 표준이 이것을 상수로 주지 않고 감지 구성별 식으로 주므로 어느 구성을 우리 계측에 대응시킬지가 과제 판단으로 남았고, separation_required 를 통해 **생성 시점에 궤적으로 구워지므로** 정하는 순간 재생성이 따라온다. robot_stop_time 과 같은 형태다. 전사 근거 사본은 비공개 원본에 남겨 두며, 라벨러의 실행 시 병합은 이미 채워진 값을 덮지 않는다.",
+  "unit_changes": [
+    {
+      "path": "rules.R-10218-STOP-01.parameters.stop_speed_threshold",
+      "from": "rad/s",
+      "to": "m/s",
+      "date": "2026-08-22",
+      "reason": "editing_policy 는 unit 을 확정으로 두지만, 실측이 이 단위로는 판정이 불가능함을 보였다. S1a 10 에피소드·보호정지 8건·3,369 스텝에서 관절 max|v| 는 0.397~21.5 rad/s 단봉으로 정지와 보행을 가르지 못한다(정지 평탄부 중앙값 2.42·최대 7.71) — 서 있는 이족 로봇은 균형 제어기가 관절을 계속 움직이기 때문이다. 같은 스텝의 루트 |v_x| 는 두 군집으로 갈린다(체류 <0.083 m/s 1,151 · 보행 >0.83 m/s 1,332). 근거: generation/envs/s1a/measure_stop_time.py"
+    }
+  ],
+  "standard_refs": {
+    "contact_limits": "KS B ISO TS 15066:2016 (2022 확인) 부속서 A — 표 A.2(힘·압력·동적 배수), 표 A.3(유효 질량·탄성 계수), 표 A.4(전달 에너지). 층위가 둘이다: 힘은 12 신체 부위, 압력은 29 특정 신체 영역 단위",
+    "ssm": "KS B ISO/TS 15066 (속도·분리 모니터링)",
+    "stability": "ISO/CD 25785-1",
+    "protective_stop": "KS B ISO 10218-1",
+    "ai_control": "ISO/IEC CD TS 22440-1",
+    "terminology": "KS A ISO/IEC Guide 51"
+  },
+  "contact_types": {
+    "transient": "과도적 접촉 — 인체가 후퇴할 수 있는 자유 충돌",
+    "quasistatic": "준정적 접촉 — 협착 등 인체가 후퇴할 수 없는 상태. 같은 하중이라도 한계가 다르다"
+  },
+  "contact_limits": {
+    "BR-01": {
+      "name_ko": "두개골/이마",
+      "name_en": "skull and forehead",
+      "contact_permitted": false,
+      "contact_prohibited_ref": "KS B ISO TS 15066:2016 (2022 확인) 5.5.5.3 — 이 부위와의 접촉은 허용되지 않는다",
+      "limits": {
+        "force_quasistatic": {
+          "value": 130,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 110,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 0.23,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": null,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "not_applicable": true,
+        "reason": "표 A.2 가 이 부위의 동적 접촉 칸을 「해당 없음」으로 둔다 — 접촉 자체가 허용되지 않기 때문"
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 4.4,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 150,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-02": {
+      "name_ko": "얼굴",
+      "name_en": "face",
+      "contact_permitted": false,
+      "contact_prohibited_ref": "KS B ISO TS 15066:2016 (2022 확인) 5.5.5.3 — 이 부위와의 접촉은 허용되지 않는다",
+      "limits": {
+        "force_quasistatic": {
+          "value": 65,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 110,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 0.11,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": null,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "not_applicable": true,
+        "reason": "표 A.2 가 이 부위의 동적 접촉 칸을 「해당 없음」으로 둔다 — 접촉 자체가 허용되지 않기 때문"
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 4.4,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 75,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-03": {
+      "name_ko": "목",
+      "name_en": "neck",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 150,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 140,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 0.84,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 1.2,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 50,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-04": {
+      "name_ko": "등/어깨",
+      "name_en": "back and shoulders",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 210,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 160,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 2.5,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 40,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 35,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-05": {
+      "name_ko": "흉부",
+      "name_en": "chest",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 140,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 120,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 1.6,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 40,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 25,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-06": {
+      "name_ko": "복부",
+      "name_en": "abdomen",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 110,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 140,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 2.4,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 40,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 10,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-07": {
+      "name_ko": "골반",
+      "name_en": "pelvis",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 180,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 210,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 2.6,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 40,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 25,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-08": {
+      "name_ko": "상완/팔꿈치",
+      "name_en": "upper arms and elbow joints",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 150,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 190,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 1.5,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 3,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 30,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-09": {
+      "name_ko": "전완/손목",
+      "name_en": "lower arms and wrist joints",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 160,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 180,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 1.3,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 2,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 40,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-10": {
+      "name_ko": "손/손가락",
+      "name_en": "hands and fingers",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 140,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 190,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 0.49,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 0.6,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 75,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-11": {
+      "name_ko": "대퇴/무릎",
+      "name_en": "thighs and knees",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 220,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 220,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 1.9,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 75,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 50,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    },
+    "BR-12": {
+      "name_ko": "하퇴",
+      "name_en": "lower legs",
+      "contact_permitted": true,
+      "limits": {
+        "force_quasistatic": {
+          "value": 130,
+          "unit": "N",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 힘, 12 신체 부위 단위)"
+        },
+        "pressure_quasistatic": {
+          "value": 210,
+          "unit": "N/cm^2",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (최대 허용 압력, 29 특정 신체 영역 단위)",
+          "reduction": "부위 단위로 쓰려면 소속 영역들의 최솟값을 취한다 — 표 A.2 의 압력은 12부위가 아니라 29영역 단위다",
+          "unused_in_v0_1": "접촉 면적을 기록하지 않아 압력을 산출할 수 없다 (스키마 §6 조건부 필드)"
+        },
+        "energy_transient": {
+          "value": 0.52,
+          "unit": "J",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.4 (신체 부위 모델에 기반한 에너지 한계치)",
+          "unused_in_v0_1": "v_rel 은 observation.contact.v_rel 로 기록하지만 근사이고(접촉점을 얻을 수 없어 최근접 바디 쌍으로 대신함) 힘과 다른 시점의 값이라 전달 에너지 비교에 쓰지 않는다 — 식 (A.2) E=½μv_rel². 같은 서브스텝에서 표집하도록 고치는 것이 선행되어야 한다 (규격서 §6)"
+        }
+      },
+      "transient_multiplier": {
+        "value": 2,
+        "unit": "1",
+        "determined_by": "standard",
+        "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.2 (동적 접촉 최대 허용 힘·압력 배수 F_T·P_T)",
+        "floor_note": "표 A.2 footnote c — 동적 한계는 준정적 한계에 배수를 적용한 값이며, 표준은 그 배수의 **하한만** 규정한다. 이 과제는 그 하한을 쓴다: 배수가 작을수록 비교 임계가 낮아져 초과 판정이 가장 많이 나오므로, 표준이 허용하는 범위 안에서 가장 보수적인 선택이다. 배수를 키우는 쪽이 놓치는 방향이다. 값은 이 파일에 싣는다 — 2026-08-27 이용 허락에 따라 옮겼으며 standard_ref 가 출처를 가리킨다."
+      },
+      "biomechanical": {
+        "effective_mass": {
+          "value": 75,
+          "unit": "kg",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 질량 m_H)"
+        },
+        "spring_constant": {
+          "value": 60,
+          "unit": "N/mm",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 표 A.3 (신체 모델의 유효 탄성 계수 K)"
+        }
+      }
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "R-TS15066-A2-01",
+      "body_region": "BR-01",
+      "condition": "BR-01(두개골/이마)의 접촉력 또는 압력이 contact_limits[BR-01] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-01",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-02",
+      "body_region": "BR-02",
+      "condition": "BR-02(얼굴)의 접촉력 또는 압력이 contact_limits[BR-02] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-02",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-03",
+      "body_region": "BR-03",
+      "condition": "BR-03(목)의 접촉력 또는 압력이 contact_limits[BR-03] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-03",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-04",
+      "body_region": "BR-04",
+      "condition": "BR-04(등/어깨)의 접촉력 또는 압력이 contact_limits[BR-04] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-04",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-05",
+      "body_region": "BR-05",
+      "condition": "BR-05(흉부)의 접촉력 또는 압력이 contact_limits[BR-05] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-05",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-06",
+      "body_region": "BR-06",
+      "condition": "BR-06(복부)의 접촉력 또는 압력이 contact_limits[BR-06] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-06",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-07",
+      "body_region": "BR-07",
+      "condition": "BR-07(골반)의 접촉력 또는 압력이 contact_limits[BR-07] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-07",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-08",
+      "body_region": "BR-08",
+      "condition": "BR-08(상완/팔꿈치)의 접촉력 또는 압력이 contact_limits[BR-08] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-08",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-09",
+      "body_region": "BR-09",
+      "condition": "BR-09(전완/손목)의 접촉력 또는 압력이 contact_limits[BR-09] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-09",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-10",
+      "body_region": "BR-10",
+      "condition": "BR-10(손/손가락)의 접촉력 또는 압력이 contact_limits[BR-10] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-10",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-11",
+      "body_region": "BR-11",
+      "condition": "BR-11(대퇴/무릎)의 접촉력 또는 압력이 contact_limits[BR-11] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-11",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-A2-12",
+      "body_region": "BR-12",
+      "condition": "BR-12(하퇴)의 접촉력 또는 압력이 contact_limits[BR-12] 한계를 초과",
+      "outcome": "fail",
+      "severity_min": "S2",
+      "hazard_class": "collision",
+      "standard": "KS B ISO/TS 15066 Table A.2",
+      "limits_ref": "contact_limits.BR-12",
+      "note": "contact_type 에 따라 transient / quasistatic 한계를 각각 적용한다. 압력 한계는 contact_limits 에 그대로 있으나 v0.1 의 sim 데이터에는 observation.contact.pressure 가 없어(스키마 §6 조건부 필드) 힘 한계만 비교한다 — 실장비 데이터가 들어오면 inputs 에 되돌린다",
+      "inputs": [
+        "observation.contact.force",
+        "observation.contact.type",
+        "observation.contact.region_names"
+      ]
+    },
+    {
+      "rule_id": "R-TS15066-SSM-01",
+      "condition": "min_distance_human < separation_required 이면서 접촉이 발생하지 않음",
+      "outcome": "near_miss",
+      "hazard_class": "collision",
+      "standard": "KS B ISO TS 15066:2016 (2022 확인) 5.5.4 속도 및 이격 감시, 식(1)",
+      "parameters": {
+        "human_speed": {
+          "value": 1.6,
+          "unit": "m/s",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO 13855:2010 (2021 개정확인) 6.2.4 — 접근방향에 수직한 감지영역의 접근속도 파라미터 K (전신 접근). 같은 값이 6.2.3.1 식(4)·6.2.5·6.2.6·6.3 에도 쓰인다. TS 15066 5.5.4.2.3 식(2) 의 v_h 가 이 표준으로 넘기는 값이다",
+          "note": "KS B ISO TS 15066:2016 (2022 확인) 는 v_h 를 상수로 주지 않는다. 식(2) 가 v_h(t) 를 시간 함수로 정의하고 그 크기의 근거는 KS B ISO 13855 로 넘긴다. 즉 이 값은 15066 사본이 아니라 13855 를 봐야 한다 (2026-08-24 정정 — 이전 note 는 15066 을 가리켰다). **2026-09-01 확인** — 13855 를 열람본으로 읽었다. 전신이 걸어서 접근하는 구성의 K 는 6.2.3.1 식 (4)·6.2.4·6.2.5·6.2.6·6.3 전부 **1 600 mm/s = 1.6 m/s** 이고(2 000 mm/s 는 손이 500 mm 이내를 뻗는 경우라 이 시나리오가 아니다), **이 배치가 쓴 잠정값 1.6 과 같다.** 즉 이 항목은 값을 실어도 실린 회랑과 어긋나지 않는다 — **2026-09-01 값을 실었다.** 이 배치가 실제로 쓴 잠정값과 같으므로 배포본이 선언하는 파라미터와 실린 회랑이 어긋나지 않는다 — 이 항목만은 재생성 없이 채울 수 있었다. 함께 남은 intrusion_distance 는 표준이 상수로 주지 않으므로 여전히 조항 참조뿐이고, 그래서 에피소드의 provisional 표시는 그대로다"
+        },
+        "robot_reaction_time": {
+          "value": 0.1,
+          "unit": "s",
+          "determined_by": "project",
+          "note": "조건 성립부터 감속 개시까지. meta/scenarios.json 의 sensor_delay_ms 상한(100 ms)에서 온다 — 감지 지연의 최악값이 곧 반응 시간의 하한이다 (2026-08-22)"
+        },
+        "robot_stop_time": {
+          "value": 0.34,
+          "unit": "s",
+          "determined_by": "project",
+          "note": "감속 개시부터 정지까지. R-10218-STOP-01.max_stop_time 과 같은 값이어야 한다 — SSM 이격거리는 '로봇이 이 시간 안에 멈춘다' 를 가정하므로 그 가정이 깨지는 것이 곧 정지 규칙의 fail 이다. 2026-08-25 재측정(보호정지 8건, stop_speed_threshold 0.15 m/s 에서 p95 0.332 s)을 올림. 2026-08-25 400건 배치(보호정지 280건)에서 같은 방법으로 다시 재니 p95 0.420 s (도달 279/280, 중앙값 0.200)였다. **값은 0.34 로 둔다** — separation_required 는 라벨이 아니라 생성 시점에 궤적에 구워지는 값이므로, 정본만 올리면 배포본이 선언한 파라미터와 실린 회랑이 어긋난다. 재라벨링으로 고칠 수 없고 재생성이 필요하다. v0.1 의 한계다 — 기록된 회랑에서 로봇 속도항을 되풀어 계산한 반사실: separation_required 중앙값 1.106 → 1.264 m(+14.3%), 위반 스텝 46,572 → 52,476, 위반이 있는 에피소드 270 → 288. 회랑이 넓어지면 로봇이 더 일찍 늦추므로 실제 재생성 결과는 이와 다르다. 다시 생성할 때는 0.42 에서 시작해 수렴을 확인한다."
+        },
+        "intrusion_distance": {
+          "value": null,
+          "unit": "m",
+          "determined_by": "standard",
+          "standard_ref": "KS B ISO 13855 (침범 거리 C) — TS 15066 5.5.4.2.3 식(1) 의 C",
+          "note": "식(1) 의 정의가 「KS B ISO 13855 에 정의된 침범 거리」 라고 명시한다. 15066 안에는 값이 없다. **2026-09-01 확인** — 13855 도 C 를 상수로 주지 않는다. 감지 구성별 식으로 주며 8(d−14)(6.2.3.1) · 850 mm(6.2.4·6.2.5) · 1 200 mm(6.2.6) · 1 200 − 0.4H(6.3) 로 갈린다. **이 배치가 쓴 잠정값 0.2 m 는 그중 어느 것도 아니다** — 8(d−14) 에 d=39 mm 를 넣은 값, 곧 손·손가락을 감지하는 구성의 크기다. 우리 구성에 어느 조항을 대응시킬지가 남은 결정이고 Z_d·Z_r 과 같은 형태다"
+        },
+        "position_uncertainty_robot": {
+          "value": 0.0,
+          "unit": "m",
+          "determined_by": "project",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 5.5.4.2.3 식(1) 의 Z_r",
+          "note": "표준은 이 항에 수치를 주지 않는다 — 정의가 「로봇 위치 측정 시스템의 정확도로부터 발생되는 로봇 시스템의 위치 불확실성」 이므로 값은 그 시스템의 성질이다. 우리 파이프라인은 물리 엔진의 상태를 그대로 읽으므로 측정 허용 오차가 0 이다. min_distance_human 의 구 근사(스키마 §6)는 거리 산출식 쪽의 보수성이지 센서 오차가 아니므로 여기에 넣지 않는다. 실장비 데이터에서는 0 이 아니게 된다."
+        },
+        "position_uncertainty_human": {
+          "value": 0.0,
+          "unit": "m",
+          "determined_by": "project",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 5.5.4.2.3 식(1) 의 Z_d",
+          "note": "표준은 이 항에 수치를 주지 않는다 — 정의가 「감지 시스템의 측정 허용 오차로부터 발생되는 존재 감지 장치가 측정한 협동 작업 영역 내부 운전자의 위치 불확실성」 이므로 값은 그 시스템의 성질이다. 우리 파이프라인은 물리 엔진의 상태를 그대로 읽으므로 측정 허용 오차가 0 이다. min_distance_human 의 구 근사(스키마 §6)는 거리 산출식 쪽의 보수성이지 센서 오차가 아니므로 여기에 넣지 않는다. 실장비 데이터에서는 0 이 아니게 된다."
+        }
+      },
+      "note": "접촉이 함께 발생하면 R-TS15066-A2-* 가 우선한다",
+      "inputs": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "observation.contact.force"
+      ],
+      "formula": "S_p(t0) = S_h + S_r + S_s + C + Z_d + Z_r  — 표준 5.5.4.2.3 식(1)"
+    },
+    {
+      "rule_id": "R-TS15066-SSM-02",
+      "condition": "접촉이 없고, 로봇이 사람 쪽으로 다가가는 동안(safety.approach_speed_robot > approach_speed_threshold) safety.min_distance_human < safety.separation_required 인 스텝이 있음. separation_required 는 방향을 따진 S_p 다",
+      "outcome": "near_miss",
+      "hazard_class": "collision",
+      "standard": "KS B ISO TS 15066:2016 (2022 확인) 5.5.4 속도 및 이격 감시, 식(1)",
+      "parameters": {
+        "robot_reaction_time": {
+          "value": 0.1,
+          "unit": "s",
+          "determined_by": "project",
+          "note": "T_r — 자체 설정. R-TS15066-SSM-01 의 같은 이름과 같은 값"
+        },
+        "intrusion_distance": {
+          "value": 0.2,
+          "unit": "m",
+          "determined_by": "project",
+          "note": "C — 자체 설정. 표준(KS B ISO 13855)은 감지 구성별 식으로 주고 상수로 주지 않는다"
+        },
+        "position_uncertainty_robot": {
+          "value": 0.0,
+          "unit": "m",
+          "determined_by": "project",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 5.5.4.2.3 식(1) 의 Z_r",
+          "note": "시뮬레이터가 위치를 정확히 안다"
+        },
+        "position_uncertainty_human": {
+          "value": 0.0,
+          "unit": "m",
+          "determined_by": "project",
+          "standard_ref": "KS B ISO TS 15066:2016 (2022 확인) 5.5.4.2.3 식(1) 의 Z_d",
+          "note": "시뮬레이터가 위치를 정확히 안다"
+        },
+        "approach_speed_threshold": {
+          "value": 0.05,
+          "unit": "m/s",
+          "determined_by": "project",
+          "note": "다가감 문턱 — 자체 설정. 로봇이 이보다 빠르게 사람 쪽으로 움직이는 스텝만 근접으로 세고, 이하에서 시작한 접촉은 닿을 때 로봇이 사람 쪽으로 움직이고 있지 않던 접촉(다가가지 않던 로봇의 접촉)으로 점수표에서 나눈다"
+        }
+      },
+      "stop_table": {
+        "determined_by": "project",
+        "measured_on": "2026-10-20",
+        "method_note": "H1 정지 시험 — 공개 H1 보행 정책(Isaac-Velocity-Flat-H1-v0) · 평지에서 걷기 명령을 0 으로 바꾼 뒤, 걷기는 수평 뿌리 속도가 0.15 m/s 이하로 · 돌기는 요 각속도가 0.1 rad/s 이하로 0.1 s 이어지기 시작한 표본까지의 시간(T_s)과 그동안의 수평 경로(S_s — 돌기는 요 각 × turning_reach_m, 시험 상자 모서리의 반지름)를 0.02 s 단위로 잼. 걸음 위상 다섯에서 잰 것 가운데 가장 나쁜 값이며 시간과 거리가 다른 위상에서 올 수 있음. 팔은 정책의 기본 자세이고, 상자는 따로 된 물체가 아니라 몸통 링크에 더한 질량 · 무게중심 · 관성 — 무게중심은 meta/scenarios.json 의 carry 자리(밑면이 두 아래팔 끝 높이 · 가운데가 그 사이에서 앞으로 0.12 m)에 놓은 높이 0.25 m 상자의 가운데, 관성은 그 점을 지나는 속이 찬 0.40 m(앞뒤) × 0.30 m(좌우) × 0.30 m(위아래) 상자의 것을 몸통 링크의 축으로 더함(무게중심 틀의 축을 몸통 링크의 축과 같다고 놓음 · 평행축 항은 대각만). 걷기 1.2 m/s 는 정책의 명령 범위(0~1 m/s) 밖에서 잰 값. 105회 가운데 넘어짐 0. 행의 속도는 시험의 명령값이고, 판정은 로봇의 실제 속도로 행을 찾는다",
+        "row_units": {
+          "walking": [
+            "m/s",
+            "s",
+            "m"
+          ],
+          "turning": [
+            "rad/s",
+            "s",
+            "m"
+          ]
+        },
+        "carry_mass_kg": {
+          "empty": 0,
+          "carry_2kg": 2,
+          "carry_3kg": 3
+        },
+        "turning_reach_m": 0.465,
+        "walking": {
+          "empty": [
+            [
+              0.3,
+              0.54,
+              0.118
+            ],
+            [
+              0.5,
+              0.62,
+              0.187
+            ],
+            [
+              0.8,
+              0.72,
+              0.316
+            ],
+            [
+              1.0,
+              0.76,
+              0.381
+            ],
+            [
+              1.2,
+              0.82,
+              0.476
+            ]
+          ],
+          "carry_2kg": [
+            [
+              0.3,
+              0.72,
+              0.175
+            ],
+            [
+              0.5,
+              1.04,
+              0.349
+            ],
+            [
+              0.8,
+              1.06,
+              0.446
+            ],
+            [
+              1.0,
+              1.14,
+              0.549
+            ],
+            [
+              1.2,
+              1.1,
+              0.627
+            ]
+          ],
+          "carry_3kg": [
+            [
+              0.3,
+              1.08,
+              0.29
+            ],
+            [
+              0.5,
+              1.2,
+              0.406
+            ],
+            [
+              0.8,
+              1.34,
+              0.554
+            ],
+            [
+              1.0,
+              1.66,
+              0.684
+            ],
+            [
+              1.2,
+              1.32,
+              0.703
+            ]
+          ]
+        },
+        "turning": {
+          "empty": [
+            [
+              0.5,
+              0.18,
+              0.02
+            ],
+            [
+              1.0,
+              0.32,
+              0.039
+            ]
+          ],
+          "carry_2kg": [
+            [
+              0.5,
+              0.3,
+              0.029
+            ],
+            [
+              1.0,
+              0.38,
+              0.056
+            ]
+          ],
+          "carry_3kg": [
+            [
+              0.5,
+              0.4,
+              0.042
+            ],
+            [
+              1.0,
+              0.5,
+              0.065
+            ]
+          ]
+        }
+      },
+      "note": "접촉이 함께 발생하면 R-HRI-CONTACT-01 이 우선한다 — 사람에 닿았으면 근접사고가 아니다. 정지 시험 표는 parameters 가 아니라 stop_table 에 둔다(임계값 계약은 파라미터마다 수 하나를 받는다)",
+      "inputs": [
+        "safety.min_distance_human",
+        "safety.separation_required",
+        "safety.separation_violation",
+        "safety.approach_speed_robot",
+        "safety.event"
+      ],
+      "formula": "S_p = v_h (T_r + T_s) + v_r T_r + S_s' + C + Z_r + Z_d — 표준 5.5.4.2.3 식(1). v_r · v_h 는 가장 가까운 두 점을 잇는 방향의 다가가는 속도(0 아래 0), T_s · S_s 는 stop_table 을 로봇의 실제 속도로 보간하되 위에서 감싼 값(그 속도 이하의 행 · 고른 상태와 더 가벼운 상태 가운데 큰 값 — 빨라지거나 무거워져도 줄지 않음), S_s' = S_s × min(1, v_r / 로봇 속도), 걸으며 돌면 두 후보 가운데 큰 쪽"
+    },
+    {
+      "rule_id": "R-HRI-CONTACT-01",
+      "condition": "로봇 몸이나 든 상자가 사람(인형)에 닿음 — 힘과 무관. 접촉 시작 사건(contact_onset)이 한 번이라도 있으면 성립",
+      "outcome": "fail",
+      "hazard_class": "collision",
+      "standard": null,
+      "note": "자체 설정 — 표준이 아니라 이 데이터셋의 판정 정의. 심각도는 이 규칙을 선언한 시나리오에서 표 A.2 한계로 가른다: R-TS15066-A2-* 가 하나라도 성립했거나 머리 · 얼굴(BR-01 · BR-02)에 힘이 실린 접촉이 있으면 S3, 아니면 S2(규격서 §9.1)",
+      "inputs": [
+        "safety.event"
+      ]
+    },
+    {
+      "rule_id": "R-25785-STAB-01",
+      "condition": "stability_margin < 0 이 min_duration 이상 지속 → 전도 성립",
+      "outcome": "fail",
+      "hazard_class": "fall",
+      "standard": "ISO/CD 25785-1",
+      "parameters": {
+        "min_duration": {
+          "value": null,
+          "unit": "s",
+          "determined_by": "project",
+          "note": "전도로 판정할 최소 지속시간. 미확정 — 실측 후 정한다 / 단위: stability_margin < 0 이 지속된 시간"
+        }
+      },
+      "inputs": [
+        "safety.stability_margin",
+        "timestamp"
+      ]
+    },
+    {
+      "rule_id": "R-25785-STAB-02",
+      "condition": "stability_margin 이 epsilon 미만으로 하락했다가 회복",
+      "outcome": "near_miss",
+      "hazard_class": "fall",
+      "standard": "ISO/CD 25785-1",
+      "parameters": {
+        "epsilon": {
+          "value": null,
+          "unit": "m",
+          "determined_by": "project",
+          "note": "경계로 볼 지지다각형 여유. 미확정 / 단위: stability_margin 과 같은 단위 (§6: 지지다각형 경계까지 거리)"
+        }
+      },
+      "inputs": [
+        "safety.stability_margin",
+        "timestamp"
+      ]
+    },
+    {
+      "rule_id": "R-10218-STOP-01",
+      "condition": "보호정지 트리거 후 max_stop_time 안에 로봇 루트 전진속도 |v_x| 가 stop_speed_threshold 이하로 떨어지지 못함. 경계는 이하(<=)이며 시간은 프레임 수로 비교한다",
+      "outcome": "fail",
+      "hazard_class": "malfunction",
+      "standard": "KS B ISO 10218-1",
+      "parameters": {
+        "max_stop_time": {
+          "value": 0.34,
+          "unit": "s",
+          "determined_by": "project",
+          "note": "보호정지 조건 성립부터 정지까지. 표준은 절차만 규정한다. R-TS15066-SSM-01.robot_stop_time 과 같은 값 — 2026-08-25 재측정 배치(보호정지 8건)에서 stop_speed_threshold 0.15 m/s 도달 시간 p95 0.332 s 를 올림. 2026-08-25 400건 배치(보호정지 280건)에서 같은 방법으로 다시 재니 p95 0.420 s (도달 279/280, 중앙값 0.200)였다. **값은 0.34 로 둔다** — separation_required 는 라벨이 아니라 생성 시점에 궤적에 구워지는 값이므로, 정본만 올리면 배포본이 선언한 파라미터와 실린 회랑이 어긋난다. 재라벨링으로 고칠 수 없고 재생성이 필요하다. v0.1 의 한계다 — 기록된 회랑에서 로봇 속도항을 되풀어 계산한 반사실: separation_required 중앙값 1.106 → 1.264 m(+14.3%), 위반 스텝 46,572 → 52,476, 위반이 있는 에피소드 270 → 288. 회랑이 넓어지면 로봇이 더 일찍 늦추므로 실제 재생성 결과는 이와 다르다. 다시 생성할 때는 0.42 에서 시작해 수렴을 확인한다."
+        },
+        "stop_speed_threshold": {
+          "value": 0.15,
+          "unit": "m/s",
+          "determined_by": "project",
+          "note": "정지로 볼 루트 전진속도 |v_x| 상한. safety.event 는 정지 지시만 담고 실제 정지 여부를 담지 않으므로 속도로 판정한다. 단위가 rad/s 에서 바뀐 이유는 unit_changes 참고 — 서 있는 이족 로봇은 관절이 멈추지 않아 관절 속도로는 정지를 가를 수 없다. 값은 체류 군집의 상단이며, 정지 평탄부 최대 관측치(0.086 m/s)의 약 1.7배이고 최대 보행 명령(1.2 m/s)의 12.5% 다"
+        }
+      },
+      "inputs": [
+        "safety.event",
+        "timestamp",
+        "observation.root_vel"
+      ]
+    },
+    {
+      "rule_id": "R-22440-CTRL-01",
+      "condition": "센서 결함 주입 시 제어 출력이 허용 범위를 이탈",
+      "outcome": "fail",
+      "hazard_class": "malfunction",
+      "standard": "ISO/IEC CD TS 22440-1",
+      "parameters": {
+        "output_deviation_limit": {
+          "value": null,
+          "unit": "ratio",
+          "determined_by": "project",
+          "note": "정상 구간 대비 허용 편차. S5 구현 시 확정 / 단위: 정상 구간 출력 대비 정규화 편차. 정의는 미확정"
+        }
+      },
+      "inputs": [
+        "action",
+        "safety.event"
+      ]
+    },
+    {
+      "rule_id": "R-OBJ-DROP-01",
+      "condition": "grasped 가 true→false 로 바뀐 뒤 해당 객체의 position[2] 가 이탈 시점 대비 drop_height 이상 하강",
+      "outcome": "fail",
+      "hazard_class": "drop",
+      "standard": "-",
+      "parameters": {
+        "drop_height": {
+          "value": null,
+          "unit": "m",
+          "determined_by": "project",
+          "note": "낙하로 판정할 최소 하강량. S4 구현 시 확정 / 단위: 파지점 기준 하강량"
+        }
+      },
+      "inputs": [
+        "observation.object.names",
+        "observation.object.position",
+        "observation.object.grasped",
+        "timestamp"
+      ],
+      "note": "observation.object.* 는 조건부 필드다. 파지물이 없는 시나리오에는 이 규칙을 적용 규칙으로 선언하지 않는다 (scenarios.json)."
+    }
+  ],
+  "rule_precedence": [
+    "동일 스텝에서 여러 규칙이 성립하면 아래 순서로 outcome 을 정한다.",
+    "1. fail 을 내는 규칙이 near_miss 를 내는 규칙보다 우선한다.",
+    "2. 접촉 규칙(R-TS15066-A2-*)이 R-TS15066-SSM-01 보다 우선한다 — 접촉이 있으면 근접사고가 아니다.",
+    "3. triggered_rules 에는 성립한 규칙을 모두 기록한다. 우선순위는 outcome 산출에만 쓴다.",
+    "4. R-HRI-CONTACT-01 과 R-TS15066-A2-* 가 R-TS15066-SSM-02 보다 우선한다 — 사람에 닿았으면 근접사고가 아니다."
+  ],
+  "machine_readable_note": "condition 은 사람이 읽는 설명이고, 기계가 읽는 것은 inputs·limits_ref·parameters·rule_precedence 다. 라벨링 모듈은 generation/labeling/label_episodes.py 에 구현돼 있으며, body_region 과 limits_ref 는 같은 부위를 가리켜야 한다(검증기 rule_region_problems). 비교 연산을 표현식으로 담는 형식은 아직 쓰지 않는다.",
+  "contact_limits_note": "값과 standard_ref 를 함께 싣는다 (2026-08-27 국가기술표준원 이용 허락, 조건 없음). 70개 항목이 KS B ISO TS 15066:2016 (2022 확인) 부속서 A 표 A.2~A.4 에서 왔고, 각 항목의 standard_ref 가 어느 표의 어느 값인지 가리킨다. 전사 근거 사본은 비공개 원본에 남겨 두며, 라벨러의 실행 시 병합은 이미 채워진 값을 덮지 않는다 — 사본이 없는 저장소에서도 같은 판정이 나온다"
+}

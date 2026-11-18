@@ -1,0 +1,49 @@
+# 생성물 — `make clean` 대상
+.tmp/
+docs/build/
+__pycache__/
+*.py[cod]
+
+# S1d 물류 씬의 빌드 산출물 — 텍스처는 textures.lock 대로 fetch_textures.py 가, KETI CI 는 keti_ci.json 대로
+# fetch_keti_ci.py 가 내려받고, USD 는 build_logistics_scene.py 가 만든다. 모두 정본(lock · yaml)에서 재생성한다
+generation/scene/textures/
+generation/scene/build/
+
+# 더미 시각 메시의 빌드 산출물 — skin_spec.yaml 대로 make_skin.py (Blender) 가 OBJ·텍스처를 만들고,
+# build_dummy.py --skin 이 USD 와 textures/ 사본을 만든다. 정본(yaml · textures.lock)에서 재생성한다
+generation/dummy/skin/build/
+generation/dummy/build/
+
+# 폴더째 싣는 로봇(H1)의 받은 사본 — meta/assets.json 의 ship 행대로 generation/robots/fetch_robot.py 가
+# 받아 해시를 대조한다. 제3자 원본이라 저장소에는 넣지 않고 배포본에만 싣는다
+generation/robots/build/
+
+# 데이터셋 본체의 집은 Hugging Face 이며 GitHub 에는 올리지 않는다
+*.parquet
+*.mp4
+*.usd
+*.usda
+*.usdc
+*.npz
+
+# get_published_pretrained_checkpoint() 의 다운로드 캐시 (generation/envs/run_s1a.py).
+# Isaac Lab 이 게시한 정책 체크포인트(*.pt) 원본이며, 위와 같은 이유로 커밋하지 않는다
+.pretrained_checkpoints/
+
+# 로컬 환경
+.venv/
+.venv-lerobot/
+.venv-pptx/
+venv/
+.env
+
+# OS · 편집기
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Node
+node_modules/
+package-lock.json
+.playwright-mcp/

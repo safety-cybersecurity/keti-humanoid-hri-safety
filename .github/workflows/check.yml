@@ -1,0 +1,31 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Drop superseded runs on the same ref.
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: 검증기 회귀 시험
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - run: pip install -r requirements.txt
+      # Builds the synthetic fixtures, then fails if the clean fixture reports
+      # an ERROR or if any broken fixture goes undetected.
+      - run: make validate
+      # The tests read a PDF's text through pdftotext.
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - run: make test

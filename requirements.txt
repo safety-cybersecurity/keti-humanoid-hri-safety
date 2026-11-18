@@ -1,0 +1,8 @@
+# 검증기 및 문서 빌드용. Isaac Sim / lerobot 은 생성 파이프라인에서만 필요하며
+# 검증기는 이 목록만으로 동작한다 (CI 에서 그대로 사용).
+pandas>=2.0
+pyarrow>=14.0
+numpy>=1.24
+PyYAML>=6.0
+markdown>=3.5
+pytest>=8.0
