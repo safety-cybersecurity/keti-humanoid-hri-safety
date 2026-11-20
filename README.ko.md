@@ -50,16 +50,21 @@ make check    # 검증기 자체 회귀 시험 + 단위 시험
 (`huggingface_hub` 에 들어 있으며 `requirements.txt` 는 설치하지 않습니다).
 
 ```bash
-hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset --revision v26.11.1 --local-dir <release>
+hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset \
+    --revision v26.11.1 --local-dir <release>
 ```
 
 그다음은 이 저장소만으로 됩니다 — Isaac Sim 도 네트워크도 쓰지 않습니다.
 
 ```bash
-.venv/bin/python validator/validate_dataset.py <release>                          # 검사 C1~C8 (C9 는 Isaac Sim 이 필요)
-.venv/bin/python generation/labeling/check_release_labels.py --dataset <release>  # 배포본만으로 라벨을 모두 다시 유도
-.venv/bin/python generation/scorecard.py --dataset <release>                      # 시나리오별 점수표
-.venv/bin/python scripts/make_train_copy.py <release> <new_dir>                   # lerobot-train 이 받는 사본
+# 검사 C1~C8 (C9 는 Isaac Sim 이 필요)
+.venv/bin/python validator/validate_dataset.py <release>
+# 배포본만으로 라벨을 모두 다시 유도
+.venv/bin/python generation/labeling/check_release_labels.py --dataset <release>
+# 시나리오별 점수표
+.venv/bin/python generation/scorecard.py --dataset <release>
+# lerobot-train 이 받는 사본
+.venv/bin/python scripts/make_train_copy.py <release> <new_dir>
 ```
 
 검사 항목과 종료 코드는 [`validator/README.md`](validator/README.md) 에 있습니다. 학습용 사본은 배포본을 그대로 두고

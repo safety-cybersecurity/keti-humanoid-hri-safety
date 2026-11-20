@@ -52,16 +52,21 @@ make check    # the validator's own regression tests and the unit tests
 `huggingface_hub`, which `requirements.txt` does not install):
 
 ```bash
-hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset --revision v26.11.1 --local-dir <release>
+hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset \
+    --revision v26.11.1 --local-dir <release>
 ```
 
 Then, with nothing but this repository — no Isaac Sim, no network:
 
 ```bash
-.venv/bin/python validator/validate_dataset.py <release>                          # checks C1–C8 (C9 needs Isaac Sim)
-.venv/bin/python generation/labeling/check_release_labels.py --dataset <release>  # rebuild every label from the release
-.venv/bin/python generation/scorecard.py --dataset <release>                      # the scorecard, per scenario
-.venv/bin/python scripts/make_train_copy.py <release> <new_dir>                   # a copy lerobot-train accepts
+# checks C1–C8 (C9 needs Isaac Sim)
+.venv/bin/python validator/validate_dataset.py <release>
+# rebuild every label from the release
+.venv/bin/python generation/labeling/check_release_labels.py --dataset <release>
+# the scorecard, per scenario
+.venv/bin/python generation/scorecard.py --dataset <release>
+# a copy lerobot-train accepts
+.venv/bin/python scripts/make_train_copy.py <release> <new_dir>
 ```
 
 What each check looks at and its exit codes are in [`validator/README.md`](validator/README.md). The training copy
