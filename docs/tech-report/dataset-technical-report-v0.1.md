@@ -3,7 +3,7 @@
 
 <table class="cover-stamp">
 <tr><th>년월일</th><th>문서번호</th><th>변경코드</th><th>파일</th></tr>
-<tr><td>2026.11.20.</td><td>HUMANOID-KETI-2026-0001</td><td>0.1</td><td></td></tr>
+<tr><td>2026.11.20.</td><td>HUMANOID-KETI-2026-0001</td><td>0.2</td><td></td></tr>
 </table>
 
 <div class="cover-body">
@@ -20,7 +20,7 @@
 <div class="fm-heading">문서 정보</div>
 
 <table class="fm-table">
-<tr><th>버전</th><td>0.1</td></tr>
+<tr><th>버전</th><td>0.2</td></tr>
 <tr><th>작성자</th><td>정요한</td></tr>
 <tr><th>검토자</th><td>김동엽</td></tr>
 <tr><th>발행일</th><td>2026.11.20</td></tr>
@@ -32,6 +32,7 @@
 <table class="fm-table fm-history">
 <tr><th>개정일자</th><th>버전</th><th>개정내역</th><th>작성자</th><th>확인자</th></tr>
 <tr><td>2026.11.20.</td><td>0.1</td><td>297건 배포본 기준 최초 공개</td><td>정요한</td><td>김동엽</td></tr>
+<tr><td>2026.11.20.</td><td>0.2</td><td>데이터셋 v26.11.1 기준 개정</td><td>정요한</td><td>김동엽</td></tr>
 </table>
 
 <div class="fm-copyright">
@@ -91,7 +92,7 @@ KETI CI 는 문서 라이선스와 따로 표기한다. 본 문서가 기술하�
 
 ### 1.2 적용 범위
 
- ㅇ 본 문서가 다루는 배포본은 판 26.11(태그 `v26.11.0`)이며 스키마 버전은 0.2 임
+ ㅇ 본 문서가 다루는 배포본은 판 26.11(태그 `v26.11.1`)이며 스키마 버전은 0.2 임
   - 랙이 늘어선 물류 창고에서 사람과 Unitree H1 휴머노이드가 만나는 시나리오 셋(`S1e` · `S1f` · `S1g`)을 담음. 위해요인은 셋 다 충돌임
   - 에피소드는 297건이며 시나리오마다 99건임. 모두 50 fps 로 기록함
   - 시나리오마다 99건 가운데 50건은 조건표의 창에서 뽑은 무작위 행이고, 49건은 7 × 7 실패 지도의 칸에 하나씩 놓은 격자 행임. 에피소드 열 `condition_design` 이 둘을 `random` 과 `grid` 로 가름
@@ -99,6 +100,7 @@ KETI CI 는 문서 라이선스와 따로 표기한다. 본 문서가 기술하�
   - 에피소드마다 달라지는 것은 조건표의 행과 겉모습임. 겉모습은 조끼 · 작업복 상의 · 바지 · 든 상자의 색, 빛의 밝기(0.6~1.3배)와 색온도(3500~10000 K), 랙 기둥 · 보의 색, 바닥과 벽의 밝기(0.85~1.1배)의 아홉 축이며 축과 값은 자체 설정임
   - 겉모습은 물리 · 판정 · 사람 상자 · 카메라 자세를 바꾸지 않음
   - 시나리오와 조건표는 3장, 배포본의 파일 구성은 4장과 부록 G 에 있음
+  - 26.11 의 첫 공개 태그는 `v26.11.0` 이며, `v26.11.1` 은 데이터셋 카드를 언어마다 첫 화면과 상세 문서로 나눈 판임. 두 태그의 데이터는 같고 차이는 10.4 에 있음
 
  ㅇ 기록된 로봇은 사람에 반응하지 않는 기준 로봇 하나임
   - Unitree H1 19DOF 에 게시된 `Isaac-Velocity-Flat-H1-v0` 보행 체크포인트를 그대로 쓰고, 과제의 걷기 명령을 그대로 넘기는 행동 층을 얹었음
@@ -121,11 +123,12 @@ KETI CI 는 문서 라이선스와 따로 표기한다. 본 문서가 기술하�
 ### 1.3 관련 자료
 
  ㅇ 데이터셋과 코드 저장소
-  - 데이터셋 : Hugging Face Hub 의 `KETI-IRRC/keti-humanoid-hri-safety` (https://huggingface.co/datasets/KETI-IRRC/keti-humanoid-hri-safety). 26.11 배포본은 태그 `v26.11.0` 이며 데이터셋 카드가 배포본의 `README.md` 로 실림
-  - 코드 저장소 : https://github.com/safety-cybersecurity/keti-humanoid-hri-safety 에 생성 · 라벨링 · 변환 · 검증 코드와 정본(`meta/`), 아래 문서가 있음. 같은 이름의 태그 `v26.11.0` 이 이 배포본을 만든 생성 코드를 담으며 그 범위는 6장에 있음
+  - 데이터셋 : Hugging Face Hub 의 `KETI-IRRC/keti-humanoid-hri-safety` (https://huggingface.co/datasets/KETI-IRRC/keti-humanoid-hri-safety). 26.11 배포본은 태그 `v26.11.1` 이며, 데이터셋 카드는 배포본의 첫 화면 `README.md`(영문) · `README.ko.md`(국문)와 상세 문서 `docs/dataset-reference.md`(영문) · `docs/dataset-reference.ko.md`(국문)로 실림
+  - 코드 저장소 : https://github.com/safety-cybersecurity/keti-humanoid-hri-safety 에 생성 · 라벨링 · 변환 · 검증 코드와 정본(`meta/`), 아래 문서가 있음. 같은 이름의 태그 `v26.11.1` 이 이 배포본을 만든 생성 코드를 담으며 그 범위는 6장에 있음
 
  ㅇ 코드 저장소의 문서
-  - `docs/dataset-card.md` : 데이터셋 카드의 원본(국문 · 영문)
+  - `docs/dataset-card.md` · `docs/dataset-card.ko.md` : 데이터셋 카드 첫 화면의 원본(영문 · 국문). 배포본의 `README.md` · `README.ko.md` 로 실림
+  - `docs/dataset-reference.md` · `docs/dataset-reference.ko.md` : 데이터셋 카드 상세 문서의 원본(영문 · 국문). 열의 뜻 · 조건표 · 라벨 산출 · 점수표와 실패 지도 · 한계를 담으며 배포본의 같은 자리에 실림
   - `docs/schema/dataset-schema-v0.2.md` : 데이터 표준 포맷 및 메타데이터 규격서 v0.2. 필드 · 관절 규격 · 판정 규칙 · 검증 규칙 · 버전 정책
   - `docs/scenarios/scenario-catalog-v0.1.md` : 시나리오 카탈로그 v0.1 및 데이터 수집계획. 시나리오 · 조건표 · 랜덤화 · 에피소드 배분
   - `docs/sop/data-lifecycle-sop-v0.1.md` : 데이터 전주기 표준작업절차 v0.1. 단계별 통과 기준과 금지 사항
@@ -180,11 +183,11 @@ pip install "lerobot[dataset]==0.6.1"
 ```
 
  ㅇ 받기
-  - Hugging Face Hub 에서 태그 `v26.11.0` 을 받음. 전체 19.72 GB 가운데 영상이 19.39 GB 이며, 표와 메타데이터만 받는 법은 8.1 받기와 열기에 있음
+  - Hugging Face Hub 에서 태그 `v26.11.1` 을 받음. 전체 19.72 GB 가운데 영상이 19.39 GB 이며, 표와 메타데이터만 받는 법은 8.1 받기와 열기에 있음
 
 ```bash
 hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset \
-    --revision v26.11.0 --local-dir <배포본>
+    --revision v26.11.1 --local-dir <배포본>
 ```
 
  ㅇ 열기
@@ -199,11 +202,11 @@ print(ds.num_episodes, ds.num_frames, ds.fps)
 ```
 
  ㅇ 코드 저장소 받기
-  - 검증과 8장의 도구는 코드 저장소의 태그 `v26.11.0` 에서 돌림. 아래는 그 태그를 받아 `.venv` 를 만드는 명령이며, 이후의 코드 저장소 명령은 받은 디렉터리의 뿌리에서 돌림
+  - 검증과 8장의 도구는 코드 저장소의 태그 `v26.11.1` 에서 돌림. 아래는 그 태그를 받아 `.venv` 를 만드는 명령이며, 이후의 코드 저장소 명령은 받은 디렉터리의 뿌리에서 돌림
   - `make venv` 는 시스템의 `python3` 으로 `.venv` 를 만들고 `requirements.txt` 를 설치함. 클론 후 한 번이면 됨
 
 ```bash
-git clone --branch v26.11.0 https://github.com/safety-cybersecurity/keti-humanoid-hri-safety
+git clone --branch v26.11.1 https://github.com/safety-cybersecurity/keti-humanoid-hri-safety
 cd keti-humanoid-hri-safety
 make venv
 ```
@@ -636,10 +639,11 @@ make venv
   - 시나리오마다 조건표의 99행이 모두 배포본에 있음
   - 배포본의 `observation.contact.v_rel` 최댓값은 20.3 m/s 이며 검증기의 비현실 상한 30 m/s(자체 설정) 아래임
 
- ㅇ 배포본 전체는 파일 166개, 19.72 GB 임
-  - 1 GB 를 10의 9제곱 바이트로 셈한 값이며 2의 30제곱 바이트 기준으로는 18.37 GiB 임. 2026년 11월 18일 배포본의 파일을 세고 바이트를 더한 값임
+ ㅇ 배포본 전체는 파일 170개, 19.72 GB 임
+  - 1 GB 를 10의 9제곱 바이트로 셈한 값이며 2의 30제곱 바이트 기준으로는 18.37 GiB 임. 2026년 11월 20일 Hub 의 `v26.11.1` 의 파일을 세고 바이트를 더한 값임
   - 영상이 파일 117개, 19.39 GB 로 거의 전부이며 에피소드당 평균 65.3 MB 임. 카메라 가운데 CCTV 의 영상이 5.86 GB 로 가장 큼
   - 스텝 표는 parquet 파일 3개, 268 MB 임. 에피소드 표와 정본을 담은 `meta/` 는 파일 10개, 5.39 MB 이고 `assets/` 는 파일 31개, 54.9 MB 임
+  - 데이터셋 카드의 첫 화면 두 벌 · 상세 문서 두 벌 · 첫 화면의 그림과 고지 · 이용조건 둘 · 자산 라이선스 인벤토리는 파일 9개, 0.68 MB 임
   - 구성별 · 카메라별 크기는 부록 K 에 있음. 영상 없이 표와 메타데이터만 받는 법은 8.1 받기와 열기에 있음
 
 ## 4. 데이터 구성
@@ -648,7 +652,7 @@ make venv
 
  ㅇ 데이터셋과 배포 저장소의 이름
   - 데이터셋의 이름은 `keti-humanoid-hri-safety` 이며, Hugging Face Hub 의 배포 저장소는 조직 계정을 앞에 붙인 `KETI-IRRC/keti-humanoid-hri-safety` 임
-  - 배포본의 판은 저장소의 태그로 가름. 26.11 배포본은 `v26.11.0` 이며, 태그를 주어 받고 여는 법은 8.1 받기와 열기에 있음
+  - 배포본의 판은 저장소의 태그로 가름. 26.11 배포본은 `v26.11.1` 이며, 태그를 주어 받고 여는 법은 8.1 받기와 열기에, 첫 공개 태그 `v26.11.0` 과의 차이는 10.4 에 있음
 
  ㅇ 에피소드 식별자 `episode_id` 는 시나리오, 행 번호, 시드를 이어 붙인 것임
   - 꼴은 `{scenario_id}_{episode_seq:04d}_seed{seed}` 임. 예를 들어 `S1e_0007_seed2427026312` 는 `S1e` 조건표의 행 7 을 시드 2427026312 로 생성한 에피소드임
@@ -666,13 +670,13 @@ make venv
 
 ### 4.2 여섯 단
 
- ㅇ 배포본이 담는 것은 여섯 단으로 나뉨. 단의 이름은 데이터셋 카드가 쓰는 이름과 같음
+ ㅇ 배포본이 담는 것은 여섯 단으로 나뉨. 단의 이름은 데이터셋 카드의 상세 문서가 쓰는 이름과 같음
   - World(장면)
     : 배포본에 하나씩 있음. 엮은 장면, 3D 자산과 그 출처 · 라이선스, 카메라 일곱, 관절 이름과 순서임
     : `assets/`, `meta/assets.json`, `meta/cameras.json`, `meta/joint_map/`, `NOTICE` 에 있음. 정본 파일과 자산은 4.4 에서 다룸
   - Scenario(시나리오)
     : 배포본에 하나씩 있음. 시나리오 정의와 조건표의 창임
-    : `meta/scenarios.json` 과 데이터셋 카드(`README.md`)에 있음
+    : `meta/scenarios.json` 과 데이터셋 카드의 상세 문서(`docs/dataset-reference.md` · `docs/dataset-reference.ko.md`)에 있음
   - 판정 규칙 명세
     : 배포본에 하나씩 있음. 판정 규칙과 조항 인용이 붙은 표준 임계값, 로봇의 정지 시험 표, 데이터 규격임
     : `meta/rules.json` 과 `meta/safety_schema.json` 에 있음
@@ -727,6 +731,12 @@ make venv
   - `meta/info.json` 은 LeRobot 의 표준 메타데이터이며 형식 판(`codebase_version` 의 `v3.0`), 기록 주기(`fps` 50), 에피소드 · 스텝 · 과제의 수(297 · 247,181 · 3)와 열마다의 형(`features`)을 적음
   - `features` 는 48개이며 영상 일곱과 스텝 표의 열 41개임
   - `meta/stats.json` 은 열마다의 정규화 통계(최솟값 · 최댓값 · 평균 · 표준편차 · 분위수 다섯 · 표본 수)임. 통계가 비어 있는 열 둘은 4.10 에 있음
+
+ ㅇ 함께 싣는 문서
+  - 뿌리의 `README.md`(영문)와 `README.ko.md`(국문)가 데이터셋 카드의 첫 화면이며, Hub 는 `README.md` 를 리포의 첫 화면으로 보여 줌. 두 첫 화면은 맨 위의 언어 단추로 서로를 가리킴
+  - 첫 화면은 개요 · 시나리오 · 시작하기 · 데이터 구조 · 라벨 · 결과 · 한계 · 라이선스 · 인용을 짧게 적음. 열마다의 뜻 · 조건표 · 라벨 산출 · 점수표와 실패 지도 · 한계의 전부는 상세 문서 `docs/dataset-reference.md`(영문)와 `docs/dataset-reference.ko.md`(국문)에 있음
+  - 첫 화면의 그림은 `docs/media/teaser.png` 임
+  - 고지 `NOTICE`, 이용조건 `LICENSE`(CC BY 4.0)와 `LICENSE-CODE`(Apache-2.0), 그 근거인 자산 라이선스 인벤토리 `docs/assets/asset-license-inventory-v0.1.md` 가 함께 실림(4.4, 10장)
 
 ### 4.4 함께 싣는 정본과 자산
 
@@ -1211,9 +1221,10 @@ spec = eps["episode_spec"].map(json.loads)                            # -> {"wor
   - 에피소드의 `sim_backend.generator_commit` 이 297건 모두 `26a81accbe69d7a8c63f4ed1f7cf434ed0074a66` 임
   - 이 커밋은 비공개 원본 저장소의 것임. 공개 코드 저장소는 원본에서 릴리스마다 커밋 하나로 내보낸 것이며 원본의 이력을 담지 않음(`CONTRIBUTING.md`)
 
- ㅇ 공개 코드 저장소의 태그 `v26.11.0` 이 같은 생성 코드를 담음
+ ㅇ 공개 코드 저장소의 태그 `v26.11.1` 이 같은 생성 코드를 담음
   - 시뮬레이션 실행이 돌리는 코드는 그대로이고, 다른 것이 있다면 주석 · 메시지의 문구 · 설명 문장임
   - 그 태그의 커밋 메시지에 생성 커밋의 해시가 적혀 있음
+  - 첫 공개 태그 `v26.11.0` 도 같은 생성 코드를 담음. `v26.11.1` 은 그 위에 커밋 하나를 얹은 것이며, 다른 것은 데이터셋 카드와 문서, 조립 · 게시 코드와 그 시험이고 시뮬레이션 실행이 돌리는 코드는 같음
   - 그 태그에서 다시 생성하면 `generator_commit` 에는 생성 커밋이 아니라 그 태그의 커밋이 적힘. 시드 재현 검사는 생성 커밋을 대조하지 않으므로 이 차이만으로 재현이 실패하지 않음(6.5)
 
 ### 6.4 재현 단위와 다시 만드는 절차
@@ -1234,7 +1245,7 @@ spec = eps["episode_spec"].map(json.loads)                            # -> {"wor
   - 그래서 모든 에피소드가 자기 실행의 첫 에피소드이며, `run_start_seq` 가 그 행 번호이자 에피소드 번호임. 297건 모두 그러함
   - 에피소드 하나를 그 행 하나로 다시 만들 수 있으며 앞에 다른 에피소드를 돌릴 필요가 없음
   - 이 배포본의 297행을 생성할 때 행 하나에 든 시간은 Isaac Sim 의 기동과 저장을 넣어 중앙값 180.5 s, 가장 긴 것이 264.8 s(`S1f` 행 26)였음
-  - 아래는 `S1f` 행 26 을 다시 생성해 배포본과 대조하는 명령임. 코드 저장소의 태그 `v26.11.0` 에서, 첫 명령은 Isaac Sim 의 Python 으로, 둘째 명령은 LeRobot 0.6.1 을 설치한 Python 환경(1.4)의 `python` 으로 돌림
+  - 아래는 `S1f` 행 26 을 다시 생성해 배포본과 대조하는 명령임. 코드 저장소의 태그 `v26.11.1` 에서, 첫 명령은 Isaac Sim 의 Python 으로, 둘째 명령은 LeRobot 0.6.1 을 설치한 Python 환경(1.4)의 `python` 으로 돌림
 
 ```bash
 <isaac-sim>/python.sh generation/envs/run_s1a.py --scenario S1f --seq 26 --episodes 1 \
@@ -1366,11 +1377,13 @@ python generation/compare_published.py --episode-id S1f_0026_seed2835511576 \
   - 나머지 INFO 여섯은 C9 가 재현을 확인한 에피소드마다 한 줄씩임
   - 빠진 행은 없음. 시나리오마다 조건표의 99행이 모두 있고, `observation.contact.v_rel` 의 최댓값 20.3 m/s 는 C8 의 비현실 상한 30 m/s(자체 설정) 아래임(3.8)
 
- ㅇ 이 검사 뒤에 배포본에서 바뀐 파일은 글 파일 셋뿐임
-  - 데이터셋 카드(`README.md`), `NOTICE`, 자산 라이선스 인벤토리 `docs/assets/asset-license-inventory-v0.1.md` 임
-  - 그 밖의 파일은 영상을 빼고 모두 바이트까지 같았고, 영상 117개는 경로와 크기가 같았음
-  - C9 가 대조한 스텝 열과 에피소드 메타데이터는 바이트가 같은 두 표에 있으므로 위의 재현 결과는 지금 배포본에도 그대로 해당함
-  - `NOTICE` 를 읽는 C1 · C6 을 포함해, 바뀐 배포본에 같은 날 재현 훅 없이 다시 돌린 검사는 ERROR 0 · WARN 0 · INFO 1 · SKIP 1 이었음. INFO 는 위의 `safety.zmp` 표식이고 SKIP 은 C9 임
+ ㅇ 이 검사 뒤에 배포본에서 바뀐 것은 문장뿐이고 더해진 것은 문서와 그림임
+  - 바뀐 파일은 넷임. 데이터셋 카드의 영문 첫 화면(`README.md`), `NOTICE`, 자산 라이선스 인벤토리 `docs/assets/asset-license-inventory-v0.1.md`, 그리고 시나리오 셋의 랜덤화 설명 문장(`randomization_note`)을 고친 `meta/scenarios.json` 임
+  - 더해진 파일은 국문 첫 화면 `README.ko.md`, 상세 문서 `docs/dataset-reference.md` · `docs/dataset-reference.ko.md`, 첫 화면의 그림 `docs/media/teaser.png` 의 넷임(4.3)
+  - 그 밖의 파일은 영상까지 바이트가 같음. 2026년 11월 20일에 Hub 의 게시 커밋마다 파일의 해시를 앞 커밋과 대조했음
+  - C9 가 대조한 스텝 열과 에피소드 메타데이터는 바이트가 같은 두 표에 있으므로 위의 재현 결과는 지금 배포본에도 그대로 해당함. `meta/scenarios.json` 에서 바뀐 것은 설명 문장뿐이며 검사와 라벨이 읽는 값은 같음
+  - 바뀐 배포본마다 재현 훅 없이 다시 돌린 검사는 모두 ERROR 0 · WARN 0 · INFO 1 · SKIP 1 이었음. INFO 는 위의 `safety.zmp` 표식이고 SKIP 은 C9 임
+  - 2026년 11월 20일 `v26.11.1` 을 게시하기 직전의 점검은 재현 훅을 걸고 세 시나리오의 행 26 을 하나씩 다시 생성해 대조했으며 ERROR 0 · WARN 0 · INFO 4 · SKIP 0 이었음
 
  ㅇ 시드 재현은 표본 여섯 에피소드에서 확인함
   - 표본 수를 6 으로 주어(`--repro-sample 6`) 검증기가 고른 것이며, 무작위 행 넷(`S1e` · `S1f` · `S1g` 의 행 26 과 `S1f` 의 행 15)과 격자 행 둘(`S1e` 의 행 75 · 79)임
@@ -1456,7 +1469,7 @@ python generation/compare_published.py --episode-id S1f_0026_seed2835511576 \
 
  ㅇ 이 장은 26.11 배포본을 받아 쓰는 절차를 단계마다 적음
   - 절마다 그 단계로 얻는 것, 명령, 결과를 읽는 법, 그 결과를 믿어도 되는 범위를 차례로 적음
-  - 코드 저장소의 명령은 저장소(1.3)의 태그 `v26.11.0` 을 받은 디렉터리의 뿌리에서 돌림. 그 태그를 받고 `.venv` 를 만드는 명령은 1.4 에 있음. `<배포본>` 은 받은 배포본의 디렉터리이고 그 밖의 `<...>` 는 이용자가 정하는 자리나 값임
+  - 코드 저장소의 명령은 저장소(1.3)의 태그 `v26.11.1` 을 받은 디렉터리의 뿌리에서 돌림. 그 태그를 받고 `.venv` 를 만드는 명령은 1.4 에 있음. `<배포본>` 은 받은 배포본의 디렉터리이고 그 밖의 `<...>` 는 이용자가 정하는 자리나 값임
   - 인터프리터는 셋임
     : `.venv/bin/python` 은 코드 저장소에서 `make venv` 가 만드는 환경이며 `requirements.txt` 의 의존성만 담음. 검증 · 라벨 다시 만들기 · 점수표 · 학습용 사본의 도구가 이것으로 돎
     : `python` 과 `hf` 는 LeRobot 0.6.1 을 설치한 Python 환경의 것임. 받기 · 열기 · 변환 · 재현 대조는 1.4 의 설치로 돌고, LeRobot 의 도구에는 8.6 의 선택 의존성이 필요함
@@ -1468,20 +1481,21 @@ python generation/compare_published.py --episode-id S1f_0026_seed2835511576 \
 
  ㅇ 이 절로 얻는 것은 26.11 배포본의 파일과, 그 표를 LeRobot 이나 parquet 판독기로 연 것임
   - 배포본은 Hugging Face Hub 의 `KETI-IRRC/keti-humanoid-hri-safety` 에 있음(1.3)
-  - Hub 에서 받거나 열 때는 태그 `v26.11.0` 을 줌
+  - Hub 에서 받거나 열 때는 태그 `v26.11.1` 을 줌
 
- ㅇ 리포의 태그는 둘임
+ ㅇ 리포의 태그는 셋임
   - `v3.0` 은 `meta/info.json` 의 `codebase_version` 인 LeRobot 의 형식 판임. LeRobot 은 `revision` 을 주지 않으면 열 때 이 태그를 찾고, 없으면 열기를 거부함. 이 태그는 게시마다 옮겨짐
-  - `v26.11.0` 은 이 배포본이며 한 번 걸면 옮기지 않음. 그래서 `revision="v26.11.0"` 으로 받거나 연 것은 늘 26.11 배포본임
+  - `v26.11.1` 은 이 배포본이며 한 번 걸면 옮기지 않음. 그래서 `revision="v26.11.1"` 으로 받거나 연 것은 늘 이 문서가 다루는 배포본임
+  - `v26.11.0` 은 26.11 의 첫 공개 판이며 이 배포본과 데이터가 같고 카드와 문서가 다름(10.4)
 
  ㅇ 받기
   - 전체를 받는 명령은 1.4 바로 해 보기에 있음. 전체 19.72 GB 가운데 19.39 GB 가 영상임(3.8)
-  - 아래는 영상을 빼고 받는 명령임. 스텝 표 · 에피소드 표 · 정본 · 문서 · 자산의 49개 파일, 0.33 GB 가 옴
-  - 이 수는 2026년 11월 17일에 26.11 배포본의 파일 목록에 `hf download` 가 쓰는 거르기(`huggingface_hub` 1.27.0 의 `filter_repo_objects`)를 같은 패턴으로 적용해 센 것임. 리포에는 Hub 가 더한 `.gitattributes` 가 하나 더 있어 함께 옴
+  - 아래는 영상을 빼고 받는 명령임. 스텝 표 · 에피소드 표 · 정본 · 문서 · 자산의 53개 파일, 0.33 GB 가 옴
+  - 이 수는 2026년 11월 20일에 Hub 의 `v26.11.1` 파일 목록에 `hf download` 가 쓰는 거르기(`huggingface_hub` 1.27.0 의 `filter_repo_objects`)를 같은 패턴으로 적용해 센 것임. 리포에는 Hub 가 더한 `.gitattributes` 가 하나 더 있어 함께 옴
 
 ```bash
 hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset \
-    --revision v26.11.0 --exclude "videos/*" --local-dir <배포본>
+    --revision v26.11.1 --exclude "videos/*" --local-dir <배포본>
 ```
 
  ㅇ 열기
@@ -1492,7 +1506,7 @@ hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset \
 ```python
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
-ds = LeRobotDataset("KETI-IRRC/keti-humanoid-hri-safety", revision="v26.11.0")
+ds = LeRobotDataset("KETI-IRRC/keti-humanoid-hri-safety", revision="v26.11.1")
 print(ds.num_episodes, ds.num_frames, ds.fps)
 ```
 
@@ -1523,7 +1537,7 @@ rows = steps[(steps["index"] >= ep["dataset_from_index"]) & (steps["index"] < ep
   - 실린 자릿수가 필요하면, 이를테면 다시 생성한 기록과 비트 단위로 대조할 때는 parquet 을 직접 읽음
 
  ㅇ 믿어도 되는 범위
-  - `revision="v26.11.0"` 으로 받거나 연 것은 이 문서가 다루는 배포본과 같은 파일임. `revision` 없이 열거나 `v3.0` 으로 연 것은 그 뒤에 게시한 판일 수 있음
+  - `revision="v26.11.1"` 으로 받거나 연 것은 이 문서가 다루는 배포본과 같은 파일임. `revision` 없이 열거나 `v3.0` 으로 연 것은 그 뒤에 게시한 판일 수 있음
   - float32 로 넘긴 수로도 실린 라벨은 다시 나옴(7.4). 다만 float32 텐서를 임계값과 직접 비교하면 임계값도 float32 가 되어, 임계값에서 float32 한 눈금 안의 값은 다른 답을 낼 수 있음
 
 ### 8.2 검증기 돌리기와 결과 읽기
@@ -1643,7 +1657,7 @@ rows = steps[(steps["index"] >= ep["dataset_from_index"]) & (steps["index"] < ep
     : JSON 은 시나리오마다 `safety` · `task` · `contact` · `anomalies` · `failure_map` 과 무작위 행 수 `episodes`, 뺀 수 `degenerate_excluded`, 격자 행 수 `grid_episodes` 를 담음
     : 분포는 최솟값 · 다섯 분위수(p05 · p25 · p50 · p75 · p95) · 최댓값 · 표본 수로 적음
     : `failure_map` 은 칸 수 `cells`, 가로와 세로의 양과 구간 `x` · `y`, 칸마다의 `outcome` · `severity` 를 담음. `outcome[j][i]` 가 사람 축 칸 j 와 로봇 축 칸 i 의 행이며 칸 번호는 낮은 끝에서 0 부터 셈
-  - 2026년 11월 17일 26.11 배포본으로 낸 점수표가 기준 로봇의 점수표이며 약 0.9초 걸렸음. 데이터셋 카드의 「기준 로봇의 점수표」 · 「실패 지도」와 같은 수임
+  - 2026년 11월 17일 26.11 배포본으로 낸 점수표가 기준 로봇의 점수표이며 약 0.9초 걸렸음. 데이터셋 카드의 상세 문서에 있는 「기준 로봇의 점수표」 · 「실패 지도」와 같은 수임
   - `S1e` 는 무작위 행 50건 가운데 뺀 것이 없음
     : 안전 : 실패 9(18.0 %) · 근접사고 41(82.0 %) · 정상 0, 심각도 `S3` 9 · `S2` 0 · `S1` 41 · `S0` 0, 정지거리 여유 최솟값 p5 −1.012 · 중앙 −0.527 · p95 −0.140 m
     : 과제 : 50건 가운데 49건 완료(98.0 %), 걸린 시간 중앙 12.68 s
@@ -1851,7 +1865,7 @@ HF_HUB_OFFLINE=1 lerobot-dataset-viz --repo-id KETI-IRRC/keti-humanoid-hri-safet
  ㅇ 다시 생성하는 데 필요한 것
   - 생성 환경은 `environment.lock` 이 고정한 Isaac Sim 6.0.1-rc.7 과 Isaac Lab v3.0.0-beta2.patch1 이며(부록 E), Isaac Lab 을 Isaac Sim 의 번들 Python 에 설치한 것임. 아래 명령의 `<isaac-sim>/python.sh` 가 그 Python 임
   - Isaac Sim 의 부팅은 CUDA 를 쓰는 GPU 를 요구함. 이 배포본은 부록 E 의 기기에서 만들었음
-  - 코드 저장소는 태그 `v26.11.0` 의 git 체크아웃이며 그 뿌리에서 돌림. 변환기와 재현 훅이 git 을 읽음(8.5)
+  - 코드 저장소는 태그 `v26.11.1` 의 git 체크아웃이며 그 뿌리에서 돌림. 변환기와 재현 훅이 git 을 읽음(8.5)
   - 행을 돌리면 시뮬레이션이 H1 을 Isaac Lab 의 자산 루트에서 띄우고 게시된 보행 체크포인트를 받아 옴. 그 주소에 닿을 수 있어야 함
   - 행이 띄우는 창고 · 든 상자 · 조끼 입은 관절 인형의 USD 와 그 텍스처가 코드 저장소의 빌드 자리에 있어야 함
 
@@ -1894,7 +1908,7 @@ PYTHONPATH= .venv/bin/python -m pytest -q tests/generation/test_assets_canon.py
 ### 9.1 26.11 배포본의 한계
 
  ㅇ 이 배포본의 분포를 인용하기 전에 이 절을 읽음
-  - 아래 항목은 데이터셋 카드의 「26.11 배포본의 한계」와 같은 항목을 같은 차례로 적은 것이며, 동적 접촉의 충돌 모형과 넘어짐의 라벨 두 항목은 2.2 와 1.2 가 이 장으로 보낸 것임
+  - 아래 항목은 데이터셋 카드의 상세 문서에 있는 「26.11 배포본의 한계」와 같은 항목을 같은 차례로 적은 것이며, 동적 접촉의 충돌 모형과 넘어짐의 라벨 두 항목은 2.2 와 1.2 가 이 장으로 보낸 것임
   - 수는 모두 배포본에서 센 것이며 데이터셋 카드의 수와 같음. 첫 접촉 스텝 · 후방 카메라 · 머리 카메라 · 검은 프레임 · 에피소드별 통계의 수는 2026년 11월 17일에 배포본으로 셈
   - 수마다 어느 에피소드에서 센 수인지를 함께 적음. 결과의 비율은 무작위 행 150건으로만 셈(7.3)
 
@@ -2127,18 +2141,20 @@ PYTHONPATH= .venv/bin/python -m pytest -q tests/generation/test_assets_canon.py
 
 ### 10.3 인용
 
- ㅇ 데이터셋을 인용할 때는 데이터셋 카드의 영문 「Citation」 절에 있는 BibTeX 를 그대로 씀
-  - 판은 `v26.11.0` 이며 저자는 기관명 한국전자기술연구원(Korea Electronics Technology Institute, KETI)으로 적음
-  - BibTeX 를 이 문서에 다시 옮기지 않음. 두 벌을 두면 한쪽만 고쳐져 갈라지므로, 카드의 국문 「인용」 절도 같은 까닭으로 영문 절을 가리킴
-  - 받은 자리를 함께 적을 때는 Hugging Face Hub 의 `KETI-IRRC/keti-humanoid-hri-safety` 와 태그 `v26.11.0` 을 적음. 태그 없이 연 것은 그 뒤의 판일 수 있음(8.1)
+ ㅇ 데이터셋을 인용할 때는 데이터셋 카드의 「Citation」 · 「인용」 절에 있는 BibTeX 를 그대로 씀
+  - 판은 `v26.11.1` 이며 저자는 기관명 한국전자기술연구원(Korea Electronics Technology Institute, KETI)으로 적음
+  - 첫 화면 두 벌과 상세 문서 두 벌이 같은 BibTeX 를 실으며, 코드 저장소의 시험이 넷의 글자가 같은지 대조함. 이 문서에는 BibTeX 를 다시 옮기지 않음
+  - 받은 자리를 함께 적을 때는 Hugging Face Hub 의 `KETI-IRRC/keti-humanoid-hri-safety` 와 태그 `v26.11.1` 을 적음. 태그 없이 연 것은 그 뒤의 판일 수 있음(8.1)
 
- ㅇ 이 문서를 인용할 때는 제목, 문서번호 `HUMANOID-KETI-2026-0001`, 버전 0.1, 발행 기관 한국전자기술연구원을 적음
+ ㅇ 이 문서를 인용할 때는 제목, 문서번호 `HUMANOID-KETI-2026-0001`, 버전 0.2, 발행 기관 한국전자기술연구원을 적음
   - 이 문서를 바꾸어 다시 배포할 때는 CC BY 4.0 에 따라 출처와 라이선스를 밝히고 바꾼 것을 적음
 
 ### 10.4 갱신 정책
 
  ㅇ 배포본의 판은 Hub 리포의 태그로 가름
-  - 판의 태그는 `v<연 두 자리>.<월>.<차례>` 꼴임. 26.11 배포본이 `v26.11.0` 이고, 같은 달에 고친 판은 `v26.11.1` 이 됨(규격서 §11)
+  - 판의 태그는 `v<연 두 자리>.<월>.<차례>` 꼴임. 26.11 배포본은 2026년 11월 18일 `v26.11.0` 으로 처음 공개했고, 같은 달에 고친 판이 `v26.11.1` 임(규격서 §11)
+  - `v26.11.1` 은 2026년 11월 20일에 데이터셋 카드를 언어마다 첫 화면 하나와 상세 문서로 나눈 판임. `v26.11.0` 과는 영문 첫 화면 `README.md` 가 다르고 국문 첫 화면 · 상세 문서 두 벌 · 첫 화면의 그림이 더해졌으며, 그 밖의 파일은 바이트까지 같음(7.3)
+  - 그러므로 두 판의 에피소드 · 스텝 · 라벨 · 영상은 같음. 다른 것은 카드의 구성(4.3), 파일 수와 용량(3.8, 부록 K), 영상 없이 받는 파일 수(8.1)임
   - 판의 태그는 한 번 걸면 옮기지 않음. 그래서 판의 태그로 받거나 연 것은 늘 그 판임
   - `v3.0` 은 LeRobot 의 형식 판(`codebase_version`)의 태그이며, LeRobot 이 `revision` 없이 열 때 찾는 태그라 게시마다 옮김(8.1)
   - 판의 태그와 `v3.0` 과 `schema_version` 은 셋이 따로임
@@ -2161,7 +2177,8 @@ PYTHONPATH= .venv/bin/python -m pytest -q tests/generation/test_assets_canon.py
  ㅇ 공개 코드 저장소는 릴리스마다 커밋 하나로 실림
   - 비공개 원본에서 릴리스마다 공개할 파일을 커밋 하나로 내보낸 것이며 원본의 이력을 담지 않음(6.3)
   - 그래서 그 저장소에서는 풀 리퀘스트를 머지하지 않음. 고칠 것은 이슈로 받아 원본에 반영하고 다음 릴리스에 실음(`CONTRIBUTING.md`)
-  - 26.11 배포본에 대응하는 것은 그 저장소의 태그 `v26.11.0` 임
+  - 26.11 배포본에 대응하는 것은 그 저장소의 태그 `v26.11.1` 이며, 첫 공개 판에 대응하는 `v26.11.0` 도 남음. `v26.11.1` 은 `v26.11.0` 위에 커밋 하나를 얹은 것임(6.3)
+  - 그 위의 태그 `v26.11.2` 는 이 문서를 판 0.2 로 바꾸고 데이터셋 카드가 이 문서를 가리키는 링크를 그 태그로 옮긴 것이며, 코드는 `v26.11.1` 과 같음
 
  ㅇ 이 문서는 26.11 배포본을 기준으로 함
   - 배포본이 바뀌면 이 문서도 함께 고치고 개정 이력에 남김
@@ -2319,7 +2336,7 @@ C9 의 대조 범위는 6.5 에 있음. 항목마다의 세부와 검증기가 �
 | `policy.sha256` | `8800eb8fc6c161949f9bca903e976ad7c5ef993b6b47b3a806acad4658047f66` |
 | `policy.behavior` | `generation.behavior:PassThrough` |
 
-생성 커밋과 공개 코드 저장소의 태그 `v26.11.0` 의 관계는 6.3 에 있음.
+생성 커밋과 공개 코드 저장소의 태그 `v26.11.1` 의 관계는 6.3 에 있음.
 
 ## 부록 F. 관절 구성 비교
 
@@ -2360,15 +2377,21 @@ keti-humanoid-hri-safety/
 |   |-- keti_hri_stage_v1.usd                           창고, H1, 인형, 상자를 엮은 장면
 |   |-- textures/                                       CC0 텍스처와 상자 라벨의 KETI CI (24 파일)
 |   `-- unitree_h1/                                     h1.usd, instanceable_meshes.usd, LICENSE.txt
-|-- docs/assets/
-|   `-- asset-license-inventory-v0.1.md       자산 라이선스 인벤토리 (고지의 근거)
+|-- docs/
+|   |-- dataset-reference.md                  데이터셋 카드의 상세 문서 (영문)
+|   |-- dataset-reference.ko.md               데이터셋 카드의 상세 문서 (국문)
+|   |-- media/
+|   |   `-- teaser.png                        첫 화면의 그림
+|   `-- assets/
+|       `-- asset-license-inventory-v0.1.md   자산 라이선스 인벤토리 (고지의 근거)
 |-- NOTICE                                    포함 자산 출처·라이선스
 |-- LICENSE                                   데이터셋·문서 이용조건 (CC BY 4.0)
 |-- LICENSE-CODE                              소스코드 이용조건 (Apache-2.0)
-`-- README.md                                 데이터셋 카드 (국문·영문)
+|-- README.md                                 데이터셋 카드의 첫 화면 (영문)
+`-- README.ko.md                              데이터셋 카드의 첫 화면 (국문)
 ```
 
-26.11 배포본의 구성이며 파일은 모두 166개임. 확장으로 표시한 일곱 자리가 본 과제가 LeRobotDataset v3.0 에 더한 것이며, 표준 LeRobot 적재기는 그것을 읽지 않고도 배포본을 엶(4.3). 구성별 파일 수와 크기는 부록 K 에 있음.
+26.11 배포본(`v26.11.1`)의 구성이며 파일은 모두 170개임. 확장으로 표시한 일곱 자리가 본 과제가 LeRobotDataset v3.0 에 더한 것이며, 표준 LeRobot 적재기는 그것을 읽지 않고도 배포본을 엶(4.3). 구성별 파일 수와 크기는 부록 K 에 있음.
 
 `meta/rules.json` 과 `meta/scenarios.json` 은 배포본이 담은 시나리오로 좁혀 실리므로 코드 저장소의 같은 파일과 바이트가 다름(4.4). 코드 저장소의 정본 가운데 G1 의 관절 매핑처럼 배포본의 에피소드가 쓰지 않는 것은 실리지 않음.
 
@@ -2627,11 +2650,11 @@ keti-humanoid-hri-safety/
 
 관측 잡음은 보행 정책이 받는 관측에 매 스텝 더하는 균등 잡음의 반폭이며 정책의 입력에만 들어감. 배포본에 기록된 로봇 상태는 잡음 없는 시뮬레이터 값임.
 
-26.11 배포본의 저장 용량이며 2026년 11월 18일 배포본의 파일을 세고 바이트를 더한 값임. 1 GB 는 10의 9제곱 바이트, 1 MB 는 10의 6제곱 바이트임. 전체는 2의 30제곱 바이트 기준으로 18.37 GiB 임.
+26.11 배포본(`v26.11.1`)의 저장 용량이며 2026년 11월 20일 Hub 의 `v26.11.1` 의 파일을 세고 바이트를 더한 값임. 1 GB 는 10의 9제곱 바이트, 1 MB 는 10의 6제곱 바이트임. 전체는 2의 30제곱 바이트 기준으로 18.37 GiB 임.
 
 | 구성 | 파일 | 바이트 | 크기 |
 |---|---|---|---|
-| 배포본 전체 | 166 | 19,720,771,406 | 19.72 GB |
+| 배포본 전체 | 170 | 19,721,168,962 | 19.72 GB |
 | `videos/` 영상 | 117 | 19,392,152,489 | 19.39 GB |
 | 영상 · CCTV `cctv_rgb` | 34 | 5,858,493,749 | 5.86 GB |
 | 영상 · 이마 `head_rgb` | 23 | 3,227,388,081 | 3.23 GB |
@@ -2643,14 +2666,14 @@ keti-humanoid-hri-safety/
 | `data/` 스텝 표 | 3 | 268,044,195 | 268.0 MB |
 | `meta/` 에피소드 표 · 과제 표 · 통계 · 정본 | 10 | 5,386,308 | 5.39 MB |
 | `assets/` 장면 자산 · 텍스처 · H1 | 31 | 54,907,867 | 54.9 MB |
-| `docs/` 자산 라이선스 인벤토리 | 1 | 34,369 | 0.03 MB |
-| 루트의 `README.md` · `LICENSE` · `LICENSE-CODE` · `NOTICE` | 4 | 246,178 | 0.25 MB |
+| `docs/` 상세 문서 두 벌 · 첫 화면의 그림 · 자산 라이선스 인벤토리 | 4 | 604,578 | 0.60 MB |
+| 루트의 `README.md` · `README.ko.md` · `LICENSE` · `LICENSE-CODE` · `NOTICE` | 5 | 73,525 | 0.07 MB |
 
 영상은 에피소드당 평균 65.3 MB 이고 스텝 표는 에피소드당 평균 0.90 MB 임. 영상과 스텝 표는 한 파일에 여러 에피소드가 이어 실리며, 영상 파일은 `meta/info.json` 의 `video_files_size_in_mb`(200)를 기준으로 나뉨. 에피소드가 카메라마다 어느 파일의 어느 구간인지는 에피소드 표의 `videos/observation.images.<카메라>/file_index` · `from_timestamp` · `to_timestamp` 에 있음.
 
 ## 부록 L. 자체 설정 값
 
-아래 표는 26.11 배포본이 싣는 규칙과 「봄」의 정의에서 본 과제가 정한 값(`determined_by` 가 `project`)임. 배포본의 `meta/rules.json` 이 싣는 규칙의 `parameters` 가운데 `determined_by` 가 `project` 인 항목 전부와 `meta/cameras.json` 의 `seeing` 의 두 문턱이며, 데이터셋 카드의 「자체 설정 값」 표와 같은 일곱 값임. 어느 것도 표준의 값이 아님.
+아래 표는 26.11 배포본이 싣는 규칙과 「봄」의 정의에서 본 과제가 정한 값(`determined_by` 가 `project`)임. 배포본의 `meta/rules.json` 이 싣는 규칙의 `parameters` 가운데 `determined_by` 가 `project` 인 항목 전부와 `meta/cameras.json` 의 `seeing` 의 두 문턱이며, 데이터셋 카드의 상세 문서에 있는 「자체 설정 값」 표와 같은 일곱 값임. 어느 것도 표준의 값이 아님.
 
 | 무엇 | 키 | 값 | 단위 | 정한 근거 |
 |---|---|---|---|---|
@@ -2688,15 +2711,15 @@ keti-humanoid-hri-safety/
 
 ## 부록 M. 명령 요약
 
-아래 표는 8장과 1.4 · 3.5 · 6.4 의 명령을 한데 모은 것임. 코드 저장소의 명령은 저장소의 태그 `v26.11.0` 을 받은 디렉터리의 뿌리에서 돌리며, `<배포본>` 은 받은 배포본의 디렉터리임. 인터프리터 열의 `.venv` 는 `make venv` 가 만드는 환경, LeRobot 은 LeRobot 0.6.1 을 설치한 Python 환경, Isaac Sim 은 Isaac Lab 을 설치한 Isaac Sim 의 Python 임(8장 머리).
+아래 표는 8장과 1.4 · 3.5 · 6.4 의 명령을 한데 모은 것임. 코드 저장소의 명령은 저장소의 태그 `v26.11.1` 을 받은 디렉터리의 뿌리에서 돌리며, `<배포본>` 은 받은 배포본의 디렉터리임. 인터프리터 열의 `.venv` 는 `make venv` 가 만드는 환경, LeRobot 은 LeRobot 0.6.1 을 설치한 Python 환경, Isaac Sim 은 Isaac Lab 을 설치한 Isaac Sim 의 Python 임(8장 머리).
 
 | 무엇 | 명령 | 인터프리터 | 걸린 시간 |
 |---|---|---|---|
-| 코드 저장소 받기 (1.4) | `git clone --branch v26.11.0 https://github.com/safety-cybersecurity/keti-humanoid-hri-safety` | `git` | 네트워크에 따름 |
+| 코드 저장소 받기 (1.4) | `git clone --branch v26.11.1 https://github.com/safety-cybersecurity/keti-humanoid-hri-safety` | `git` | 네트워크에 따름 |
 | 검증 환경 만들기 (1.4) | `make venv` | 시스템의 `python3` | 재지 않음 |
 | LeRobot 환경 만들기 (1.4) | `pip install "lerobot[dataset]==0.6.1"` | LeRobot 으로 쓸 Python 3.12 이상 환경의 `pip` | 네트워크에 따름 |
-| 배포본 받기 (1.4) | `hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset --revision v26.11.0 --local-dir <배포본>` | LeRobot 의 `hf` | 네트워크에 따름 · 19.72 GB |
-| 영상을 빼고 받기 (8.1) | `hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset --revision v26.11.0 --exclude "videos/*" --local-dir <배포본>` | LeRobot 의 `hf` | 네트워크에 따름 · 0.33 GB |
+| 배포본 받기 (1.4) | `hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset --revision v26.11.1 --local-dir <배포본>` | LeRobot 의 `hf` | 네트워크에 따름 · 19.72 GB |
+| 영상을 빼고 받기 (8.1) | `hf download KETI-IRRC/keti-humanoid-hri-safety --repo-type dataset --revision v26.11.1 --exclude "videos/*" --local-dir <배포본>` | LeRobot 의 `hf` | 네트워크에 따름 · 0.33 GB |
 | LeRobot 으로 열기 (1.4 · 8.1) | `LeRobotDataset("KETI-IRRC/keti-humanoid-hri-safety", root="<배포본>")` | LeRobot | 5.6초 · 새 `datasets` 캐시로 연 프로세스 전체 |
 | 검증 (8.2) | `.venv/bin/python validator/validate_dataset.py <배포본> --json <보고서>.json` | `.venv` | 11초 |
 | 고른 검사만 검증 (8.2) | `.venv/bin/python validator/validate_dataset.py <배포본> --checks C7` | `.venv` | 2.0초 |
@@ -2721,7 +2744,7 @@ keti-humanoid-hri-safety/
 
 ## 부록 N. 기준 로봇의 실패 지도
 
-아래 표는 8.4 의 실패 지도를 26.11 배포본으로 낸 것이며 데이터셋 카드의 「실패 지도」와 같음. 시나리오마다 격자 행 49건(행 50~98)을 두 양 위의 7 × 7 격자에 하나씩 놓았으며, 가로가 로봇이 받는 과제의 양이고 세로가 사람의 양임. 세로는 높은 끝이 위임. 두 양의 구간을 같은 폭의 일곱 칸으로 나누었고, 칸 하나는 격자 행 하나를 한 번 돌린 것임. 그 행은 두 양을 칸의 가운데 값에, 나머지 열을 창의 가운데 값에 두었음(`S1g` 의 `approach_side` 는 `west`). 칸에는 그 실행의 `<결과> <심각도>` 가 적히며 비율이 아님. 격자의 축 · 구간 · 고정값은 `meta/scenarios.json` 의 `conditions.grid` 에 있고 자체 설정임(3.5, 부록 K). 이 배포본에는 `degenerate` 인 격자 행이나 행이 없는 칸이 없음.
+아래 표는 8.4 의 실패 지도를 26.11 배포본으로 낸 것이며 데이터셋 카드의 상세 문서에 있는 「실패 지도」와 같음. 시나리오마다 격자 행 49건(행 50~98)을 두 양 위의 7 × 7 격자에 하나씩 놓았으며, 가로가 로봇이 받는 과제의 양이고 세로가 사람의 양임. 세로는 높은 끝이 위임. 두 양의 구간을 같은 폭의 일곱 칸으로 나누었고, 칸 하나는 격자 행 하나를 한 번 돌린 것임. 그 행은 두 양을 칸의 가운데 값에, 나머지 열을 창의 가운데 값에 두었음(`S1g` 의 `approach_side` 는 `west`). 칸에는 그 실행의 `<결과> <심각도>` 가 적히며 비율이 아님. 격자의 축 · 구간 · 고정값은 `meta/scenarios.json` 의 `conditions.grid` 에 있고 자체 설정임(3.5, 부록 K). 이 배포본에는 `degenerate` 인 격자 행이나 행이 없는 칸이 없음.
 
 `S1e` (가로 `turn_radius_m` m, 세로 `face_distance_m` m)
 

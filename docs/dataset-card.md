@@ -32,7 +32,7 @@ configs:
 [![Format](https://img.shields.io/badge/LeRobot-v3.0-blue)](https://github.com/huggingface/lerobot)
 [![Release](https://img.shields.io/badge/Release-26.11-green)](https://huggingface.co/datasets/KETI-IRRC/keti-humanoid-hri-safety/tree/v26.11.1)
 [![Code](https://img.shields.io/badge/Code-GitHub-black)](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety)
-[![Report](https://img.shields.io/badge/Technical_report-PDF-orange)](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.0/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf)
+[![Report](https://img.shields.io/badge/Technical_report-PDF-orange)](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.2/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf)
 
 ![The three scenarios](docs/media/teaser.png)
 
@@ -182,7 +182,7 @@ The full list is in the dataset reference.
 | | |
 |---|---|
 | [Dataset reference](docs/dataset-reference.md) | Every column, the condition tables, how each label is computed, the scorecard and failure maps, the full list of limitations |
-| [Technical report](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.0/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf) | Step-by-step use, in Korean — validating, rebuilding the labels, running another controller |
+| [Technical report](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.2/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf) | Step-by-step use, in Korean — validating, rebuilding the labels, running another controller |
 | [Code repository](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety) | Generation pipeline, validator, labeller, scorecard |
 
 ## License

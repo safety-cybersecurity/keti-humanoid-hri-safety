@@ -11,7 +11,7 @@
 [![Format](https://img.shields.io/badge/LeRobot-v3.0-blue)](https://github.com/huggingface/lerobot)
 [![Release](https://img.shields.io/badge/Release-26.11-green)](https://huggingface.co/datasets/KETI-IRRC/keti-humanoid-hri-safety/tree/v26.11.1)
 [![Code](https://img.shields.io/badge/Code-GitHub-black)](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety)
-[![Report](https://img.shields.io/badge/%EA%B8%B0%EC%88%A0%EB%AC%B8%EC%84%9C-PDF-orange)](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.0/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf)
+[![Report](https://img.shields.io/badge/%EA%B8%B0%EC%88%A0%EB%AC%B8%EC%84%9C-PDF-orange)](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.2/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf)
 
 ![세 시나리오](docs/media/teaser.png)
 
@@ -158,7 +158,7 @@ LICENSE · LICENSE-CODE            데이터는 CC BY 4.0 · 인용한 코드는
 | | |
 |---|---|
 | [데이터셋 상세 문서](docs/dataset-reference.ko.md) | 모든 열, 조건표, 라벨 산출 방법, 점수표와 실패 지도, 한계 전체 |
-| [기술문서](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.0/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf) | 단계별 활용 방법 — 검증, 라벨 재산출, 다른 제어기 평가 |
+| [기술문서](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety/blob/v26.11.2/docs/tech-report/humanoid-dataset-technical-report-v0.1.pdf) | 단계별 활용 방법 — 검증, 라벨 재산출, 다른 제어기 평가 |
 | [코드 저장소](https://github.com/safety-cybersecurity/keti-humanoid-hri-safety) | 생성 파이프라인, 검증기, 라벨러, 점수표 |
 
 ## 라이선스
