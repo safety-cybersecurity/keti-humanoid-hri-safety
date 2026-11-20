@@ -106,7 +106,8 @@ keti-humanoid-hri-safety/
 │   └── {robot}/                           # 폴더째 싣는 로봇 — USD · 그것이 참조하는 레이어 · 라이선스 파일 ²
 ├── NOTICE                                 # 포함 자산 출처·라이선스 전문
 ├── LICENSE                                # CC BY 4.0
-└── README.md                              # Dataset Card (국/영)
+├── README.md                              # Dataset Card (영문)
+└── README.ko.md                           # Dataset Card (한국어)
 ```
 
 ★ 표시가 본 과제 확장분입니다. LeRobot 표준 로더는 이를 무시하고도 동작하며,

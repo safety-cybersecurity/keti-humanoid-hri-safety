@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import signal
 import sys
@@ -160,6 +161,33 @@ def file_manifest(root: Path, skip: tuple[str, ...] = ()) -> dict[str, str]:
     return out
 
 
+def linked_directories(root: Path) -> list[str]:
+    """배포본 안에서 디렉터리를 가리키는 심링크 — 뿌리 기준의 경로.
+
+    올릴 파일을 고르는 Hub 클라이언트의 탐색(`glob("**/*")`)과 왕복 대조의 `file_manifest` 는 그런 링크 아래로
+    내려가지 않는다(huggingface_hub 1.27.0 · Python 3.12 에서 잼). 「이 파일이 있는가 · 저장소 것과 같은가」를 묻는
+    대조는 링크를 따라가 읽으므로, `docs/` 가 링크인 배포본은 그 대조를 통과하고 그 아래의 문서 없이 올라가며 왕복
+    대조도 같은 목록끼리 견주어 말하지 않는다. 파일을 가리키는 링크는 두 탐색이 모두 파일로 세므로 여기서 세지 않는다.
+    """
+    root = Path(root)
+    # Asked of every entry, in whichever list it came: os.walk takes an entry for a file when asking whether it is
+    # a directory failed.
+    return sorted(p.relative_to(root).as_posix() for here, dirs, names in os.walk(root)
+                  for p in (Path(here, name) for name in dirs + names) if p.is_symlink() and p.is_dir())
+
+
+def unlisted_directories(root: Path) -> list[str]:
+    """배포본 안에서 목록을 읽지 못하는 디렉터리 — 뿌리 기준의 경로(뿌리 자신은 `.`).
+
+    같은 틈의 다른 꼴이다. 들어갈 권한만 있고 읽을 권한이 없는 디렉터리는 경로를 알고 여는 대조에는 파일을 내주는데,
+    올릴 파일을 고르는 탐색과 `file_manifest` 는 그 디렉터리를 오류 없이 지나친다.
+    """
+    root, failed = Path(root), []
+    for _ in os.walk(root, onerror=lambda error: failed.append(Path(error.filename).relative_to(root).as_posix())):
+        pass
+    return sorted(failed)
+
+
 def manifest_problems(local: dict[str, str], remote: dict[str, str]) -> list[str]:
     """올린 것과 내려받은 것의 차이. 빈 리스트면 비트 단위로 같다."""
     problems = []
@@ -231,6 +259,7 @@ def preflight(dataset: Path, repo_root: Path, repro_hook: str | None = None,
     판정을 못 얻으면 「검증 실패」가 아니라 그 사실을 말한다. 죽은 뒤 통과한 것은
     문제가 아니지만 `notes` 에 남겨 호출부가 찍게 한다.
     """
+    from generation import release_docs
     from generation.convert_lerobot import CANON_DIRS, CANON_FILES, CANON_RENAMES
 
     problems: list[str] = []
@@ -298,6 +327,19 @@ def preflight(dataset: Path, repo_root: Path, repro_hook: str | None = None,
             problems.append(
                 f"{dst_rel} 이 저장소의 {src_rel} 과 다릅니다 — 정본을 고친 뒤 "
                 "재변환하지 않은 배포본입니다")
+    # 카드 옆에 조립이 싣는 문서(카드의 한국어 화면 · 상세 문서 · 그림)도 같은 대조를 받는다 — 카드의 두 화면이
+    # 그 경로를 가리키므로, 없거나 옛것이면 올라간 카드의 링크가 죽거나 옛 문서로 간다.
+    problems += release_docs.problems(repo_root, dataset)
+    # 위의 대조들은 링크를 따라가 읽는다. 올리기는 디렉터리 링크 아래로 내려가지 않으므로, 그런 링크가 있으면
+    # 「있다 · 같다」고 본 파일이 올라가지 않는다.
+    for linked in linked_directories(Path(dataset)):
+        problems.append(
+            f"배포본 안의 {linked} 이 디렉터리를 가리키는 심링크입니다 — 올리기와 왕복 대조는 그 아래로 내려가지 "
+            "않으므로 그 아래의 파일이 빠진 채 올라가고, 빠진 것을 아무도 말하지 않습니다")
+    for unlisted in unlisted_directories(Path(dataset)):
+        problems.append(
+            f"배포본 안의 {unlisted} 디렉터리의 목록을 읽지 못했습니다 — 올리기와 왕복 대조는 그 아래의 파일을 "
+            "보지 못하므로 그 파일이 빠진 채 올라가고, 빠진 것을 아무도 말하지 않습니다")
     for rel in CANON_DIRS:
         for src in sorted((repo_root / rel).rglob("*")):
             if not src.is_file():
@@ -819,6 +861,11 @@ def _backend(value) -> dict | None:
     return None
 
 
+# The documents of a release a reader is sent to: the card (README.md), and what the assembly lays beside
+# it for reading (generation.release_docs) -- the card's Korean page and the reference in both languages.
+READER_DOCUMENTS = ("README.md", "README.ko.md", "docs/dataset-reference.md", "docs/dataset-reference.ko.md")
+
+
 def card_generator_problems(dataset: Path, required: bool) -> list[str]:
     """카드가 말하는 생성 커밋이 실린 에피소드의 것과 같은가.
 
@@ -861,10 +908,13 @@ def card_generator_problems(dataset: Path, required: bool) -> list[str]:
                    f"{[c[:12] for c in shipped[:4]]}) — 카드의 한 줄로 말할 수 없습니다")
     elif shipped[0] != said:
         out.append(f"카드의 생성 커밋 {said[:12]} 이 배포본의 {shipped[0][:12]} 과 다릅니다")
-    # What a reader sees: a hash inside a comment is not a sentence in either language.
-    mentions = re.sub(r"<!--.*?-->", "", text, flags=re.S).count(said)
+    # What a reader sees: a hash inside a comment is not a sentence in either language. The card's two
+    # pages are short and point at a reference for the detail, so the sentence may stand in any of the
+    # documents a reader is sent to -- the card, its Korean page, and the reference in both languages.
+    mentions = sum(re.sub(r"<!--.*?-->", "", (dataset / name).read_text(encoding="utf-8"), flags=re.S).count(said)
+                   for name in READER_DOCUMENTS if (dataset / name).is_file())
     if mentions < 2:
-        out.append(f"카드 본문에 생성 커밋 해시가 {mentions}번 나옵니다 — 국문과 영문에 한 번씩 "
+        out.append(f"카드와 상세 문서의 본문에 생성 커밋 해시가 {mentions}번 나옵니다 — 국문과 영문에 한 번씩 "
                    "있어야 합니다(주석 안의 것은 세지 않습니다)")
     return out
 

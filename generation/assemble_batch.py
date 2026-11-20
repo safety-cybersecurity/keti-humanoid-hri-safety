@@ -89,6 +89,7 @@ from generation.batch_layout import (BATCH_FILE, DATASET_DIR, EPISODES_DIR, Batc
                                      ChunkPlan, load_batch, read_seal, seal_problems)
 from generation.convert_lerobot import (NARROWED_CANON, assemble_dataset, blank_episode_stats, conversion_order,  # noqa: E402
                                         check_canon_fingerprint, normalise_stats, the_pack)
+from generation import release_docs  # noqa: E402
 from generation.release_canon import release_canon  # noqa: E402
 
 # Beside the release and named after it (beside): the assembly is made in the first, the merge is handed views of
@@ -987,6 +988,17 @@ def lay_canon(repo_root: Path, out: Path, sidecars: list[dict]) -> list[str]:
                             cameras=cameras, packs=None, referenced=referenced_assets(eps))
 
 
+def lay_release(repo_root: Path, out: Path, sidecars: list[dict]) -> list[str]:
+    """lay_canon, and then the documents that go out beside the card (generation.release_docs): the
+    card's Korean page, the reference in both languages and the picture. All of them are read from the
+    repository as it is now, like the card."""
+    copied = lay_canon(repo_root, out, sidecars)
+    try:
+        return copied + release_docs.lay(repo_root, out)
+    except FileNotFoundError as e:
+        raise BatchError(str(e)) from e
+
+
 # ── 6. what the assembly checks about itself ──
 
 def step_nulls(column) -> int:
@@ -1598,7 +1610,7 @@ def _said_of_the_release(batches: list[Batch], chosen: ReleaseChunks) -> list[st
 
 
 def assemble(batches, repo_root: Path, *, aggregate, aggregate_stats, write_stats, read_packets,
-             open_dataset, lay=lay_canon, say=print, accept_canon_change: bool = False,
+             open_dataset, lay=lay_release, say=print, accept_canon_change: bool = False,
              check_labels=verify_labels, out=None, drop=()) -> Path:
     """Build the release of ``batches`` -- a Batch, or several made at one generator commit -- from their sealed
     chunks (release_chunks: every row the batches plan but those ``drop`` names, each in one sealed chunk) in
@@ -1632,7 +1644,7 @@ def assemble(batches, repo_root: Path, *, aggregate, aggregate_stats, write_stat
         say(f"병합 — 스텝 파일 {files}개를 청크에서 다시 씀")
         recompute_stats(work, aggregate_stats, write_stats)
         copied = lay(repo_root, work, sidecars)
-        say(f"정본 · 카드 · 자산 {len(copied)}건")
+        say(f"정본 · 카드 · 자산 · 문서 {len(copied)}건")
         verify_rows(datasets, work)
         verify_episodes(datasets, work, chunks)
         verify_stats(work)

@@ -288,7 +288,7 @@ drop · malfunction 은 우선순위 3~4 에만 있어 함께 이월됩니다.
 
 겉모습 — 정본 `appearance` 가 에피소드마다 뽑는 축 아홉은 `vest_color`(조끼) · `shirt_color`(작업복 상의) · `trousers_color`(작업복 바지 — 같은 재질인
 버클 · 단추 · 가슴의 작은 회색 조각도 함께) · `box_color`(든 상자) · `light_scale`(등기구와 채움 빛에 같은 배) · `light_temperature_k`(빛의 색온도) ·
-`upright_color`(랙 기둥) · `beam_color`(랙 보) · `floor_wall_scale`(바닥과 벽의 밝기)이고, 값(팔레트 이름과 범위)은 데이터셋 카드의 표에 있습니다. 세 시나리오가 같은 내용의 블록을
+`upright_color`(랙 기둥) · `beam_color`(랙 보) · `floor_wall_scale`(바닥과 벽의 밝기)이고, 값(팔레트 이름과 범위)은 데이터셋 상세 문서(`docs/dataset-reference.ko.md`)의 표에 있습니다. 세 시나리오가 같은 내용의 블록을
 하나씩 두며(시험이 셋을 같게 지킵니다) 모두 자체 설정입니다. 행 i 는 `SHA-256("<시나리오>:appearance:<i>")` 의 앞 8바이트로 `numpy.random.default_rng` 를 만들어 축을 적힌 차례대로 뽑고(조건표와
 다른 흐름), 뽑은 값은 사이드카와 에피소드 메타의 `randomization.appearance` 에 남습니다. 물리 배열 · 판정 · 사람 상자 · 카메라 자세 · 보이는 몫은 바뀌지 않습니다.
 

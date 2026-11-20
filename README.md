@@ -24,7 +24,8 @@ AI 휴머노이드의 **안전성 평가용 공개 데이터셋**을 만들고 �
 | [`docs/assets/`](docs/assets/) | 자산 라이선스 인벤토리와 배포 방침 |
 | [`docs/sop/`](docs/sop/) | 데이터 전주기 표준작업절차 — 단계별 통과 기준과 금지 사항 |
 | [`docs/tech-report/`](docs/tech-report/) | 기술문서 — 데이터셋의 구성 · 판정 · 검증 · 활용을 설명하는 CC BY 4.0 문서. 읽는 판은 같은 자리의 PDF |
-| [`docs/dataset-card.md`](docs/dataset-card.md) | 데이터셋 카드의 원본 — 배포본의 `README.md` 가 됩니다 |
+| `docs/dataset-card.md` · `docs/dataset-card.ko.md` | 데이터셋 카드의 원본 — 배포본의 첫 화면 `README.md`(영문) · `README.ko.md`(한국어)가 됩니다. 링크와 그림은 배포본의 자리를 기준으로 적혀 있어 [Hub 의 데이터셋 화면](https://huggingface.co/datasets/KETI-IRRC/keti-humanoid-hri-safety)에서 열립니다 |
+| [`docs/dataset-reference.md`](docs/dataset-reference.md) · [`docs/dataset-reference.ko.md`](docs/dataset-reference.ko.md) | 데이터셋 상세 문서(영문 · 국문) — 모든 열, 조건표, 라벨 산출, 점수표와 실패 지도, 한계. 배포본에 같은 경로로 실립니다 |
 | [`meta/`](meta/) | 정본 — 스키마, 판정 규칙과 임계값, 시나리오, 자산, 카메라, 관절 이름과 순서 |
 | [`validator/`](validator/) | 데이터셋 검증기 C1~C9 와 합성 픽스처. Isaac Sim 없이 돕니다 |
 | [`generation/`](generation/) | Isaac Sim 생성 파이프라인 — 생성, 라벨링, 변환, 조립, 게시 |
@@ -54,19 +55,19 @@ make check      # 검증기 자체 시험 + 단위 시험
 ```
 
 LeRobot 의 `lerobot-train` 이 받는 사본을 만듭니다. 배포본은 그대로 두고 새 자리에 쓰며, 영상은 배포본의
-파일에 거는 하드링크입니다(링크를 걸 수 없는 파일 시스템이면 복사 · `--copy-videos` 면 모두 복사). 무엇을 바꾸는지는 도구의 머리말과 데이터셋 카드의
+파일에 거는 하드링크입니다(링크를 걸 수 없는 파일 시스템이면 복사 · `--copy-videos` 면 모두 복사). 무엇을 바꾸는지는 도구의 머리말과 데이터셋 상세 문서의
 「LeRobot 의 도구」에 있습니다.
 
 ```bash
 .venv/bin/python scripts/make_train_copy.py <데이터셋_루트> <새_자리>
 ```
 
-데이터셋을 내려받아 여는 법은 [데이터셋 카드](docs/dataset-card.md)에, 에피소드를 다시 생성하는
+데이터셋을 내려받아 여는 법은 [데이터셋 상세 문서](docs/dataset-reference.ko.md)의 「내려받아 여는 법」에, 에피소드를 다시 생성하는
 법(Isaac Sim 필요)은 [`generation/README.md`](generation/README.md) 에 있습니다.
 
 ## 알고 쓰셔야 하는 것
 
-데이터셋 카드가 26.11 배포본의 한계를 적습니다 — 기록된 로봇은 사람에 반응하지 않는 기준 로봇 하나(공개된 보행
+데이터셋 상세 문서가 26.11 배포본의 한계를 적습니다 — 기록된 로봇은 사람에 반응하지 않는 기준 로봇 하나(공개된 보행
 정책)라는 것, 사람은 걸음 표로 걷는 관절 인형이고 붙잡기가 걷는 동안 몸무게의 일부를 들다 첫 접촉에서 놓는다는 것,
 영상은 렌더링이라 다시 돌려도 같은 프레임이 나오지 않지만 상태 · 접촉 · 카메라 자세는 조건표의 행 하나로 비트
 단위로 다시 나온다는 것, 라벨의 범위가 담은 시나리오가 선언한 규칙에 한정된다는 것 등입니다. 평가에 쓰기 전에 먼저

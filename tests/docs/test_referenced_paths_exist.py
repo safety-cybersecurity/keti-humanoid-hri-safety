@@ -42,7 +42,8 @@ REPO = Path(__file__).resolve().parents[2]
 PUBLIC_DOCUMENTS = (
     "docs/schema/dataset-schema-v0.2.md", "docs/scenarios/scenario-catalog-v0.1.md",
     "docs/assets/asset-license-inventory-v0.1.md", "docs/sop/data-lifecycle-sop-v0.1.md",
-    "docs/dataset-card.md", "docs/tech-report/dataset-technical-report-v0.1.md",
+    "docs/dataset-card.md", "docs/dataset-card.ko.md", "docs/dataset-reference.md", "docs/dataset-reference.ko.md",
+    "docs/tech-report/dataset-technical-report-v0.1.md",
 )
 
 # 저장소의 최상위 디렉터리. meta/ 는 배포본과 이름이 겹쳐 뺀다 (독스트링 1번).

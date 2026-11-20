@@ -3,6 +3,7 @@
 **왜 여기에 시험이 없었나.** 배포본까지 이어지는 사슬이 문서마다 다르다.
 
     docs/dataset-card.md          publish_dataset.preflight 가 배포본과 대조 (표식)
+    docs/dataset-reference*.md    배포본에 동봉되어 함께 나간다 (게시기가 바이트로 대조)
     docs/assets/…inventory…md     배포본에 동봉되어 함께 나간다
     docs/schema/…md               ← 아무것도 없었다
     docs/scenarios/…md            ← 아무것도 없었다
@@ -45,7 +46,13 @@ import pytest
 REPO = Path(__file__).resolve().parents[2]
 SPEC = REPO / "docs/schema/dataset-schema-v0.2.md"
 CATALOG = REPO / "docs/scenarios/scenario-catalog-v0.1.md"
+# 데이터셋 카드는 배포본의 첫 화면(README.md · README.ko.md)이고, 표와 수의 상세는 상세 문서 두 벌에 있다.
+# 정본과 대조하는 카드 시험은 상세 문서를 읽는다 — 첫 화면은 tests/docs/test_card_front_page.py 가 본다.
 CARD = REPO / "docs/dataset-card.md"
+CARD_KO = REPO / "docs/dataset-card.ko.md"
+REFERENCE = REPO / "docs/dataset-reference.md"
+REFERENCE_KO = REPO / "docs/dataset-reference.ko.md"
+CARD_DOCUMENTS = (CARD, CARD_KO, REFERENCE, REFERENCE_KO)
 INVENTORY = REPO / "docs/assets/asset-license-inventory-v0.1.md"
 
 
@@ -602,9 +609,15 @@ CARD_RANDOMIZATION_SECTIONS = {
 CARD_FIXED_WORD = {"en": "fixed", "ko": "고정"}
 
 
+def reference_text() -> str:
+    """상세 문서 두 벌을 영문 · 국문 차례로 이은 글. 절의 머리가 두 언어에서 서로 달라, 한 글에서 머리로 절을 찾는다."""
+    return read(REFERENCE) + "\n" + read(REFERENCE_KO)
+
+
 def card_section(start: str, ends=("\n## ", "\n### ")) -> str:
-    """카드에서 ``start`` 머리로 시작하는 절 — ``ends`` 가운데 먼저 오는 것까지. 그 머리는 카드에 정확히 하나여야 한다."""
-    text = read(CARD)
+    """상세 문서에서 ``start`` 머리로 시작하는 절 — ``ends`` 가운데 먼저 오는 것까지. 그 머리는 두 벌을 통틀어 정확히
+    하나여야 한다."""
+    text = reference_text()
     assert text.count(start) == 1, f"카드에 「{start.strip()}」 절이 {text.count(start)}개입니다 (1개여야 합니다)"
     body = text[text.index(start) + len(start):]
     cuts = [body.find(end) for end in ends if end in body]
@@ -877,7 +890,7 @@ def test_no_document_claims_the_release_withholds_the_values():
     if standard_thresholds()["value"] == 0:
         pytest.skip("정본이 표준 값을 싣지 않습니다 — 이 검사는 그때 의미가 없습니다")
 
-    hits = withholding_claims([SPEC, CATALOG, CARD, INVENTORY])
+    hits = withholding_claims([SPEC, CATALOG, *CARD_DOCUMENTS, INVENTORY])
     assert not hits, "배포본이 값을 싣는데 반대로 적힌 자리:\n  " + "\n  ".join(hits)
 
 
@@ -964,7 +977,7 @@ def test_no_document_says_the_dummy_embodies_the_biomechanical_values():
         "생체역학 값을 실제로 쓰게 되었다면 이 검사와 함께 규격서 §8 · 카탈로그 · "
         "카드 · 인벤토리의 서술을 다시 보십시오")
 
-    hits = embodiment_claims([SPEC, CATALOG, CARD, INVENTORY, REPO / "generation/dummy/build_dummy.py"])
+    hits = embodiment_claims([SPEC, CATALOG, *CARD_DOCUMENTS, INVENTORY, REPO / "generation/dummy/build_dummy.py"])
     assert not hits, (
         "빌더는 생체역학 값을 읽지 않는데 더미가 그것으로 만들어졌다고 읽히는 자리:\n  "
         + "\n  ".join(hits))
@@ -974,8 +987,6 @@ def test_no_document_says_the_dummy_embodies_the_biomechanical_values():
 # 데이터셋 카드 — 배포본의 README.md 이고 국·영 두 벌이다
 # ─────────────────────────────────────────────────────────────────────
 
-# 카드 두 벌의 제목 — 국문 반쪽이 시작하는 자리
-CARD_KOREAN_TITLE = "# AI 휴머노이드 HRI 안전성 데이터셋"
 # 카드의 「한눈에」 — (절의 머리, 시나리오 행의 첫 칸, 카메라 수를 말하는 낱말의 틀)
 CARD_GLANCE = {
     "en": ("## At a glance\n", "Scenarios", "{} RGB cameras"),
@@ -1127,7 +1138,7 @@ def test_the_card_states_the_fill_state_of_what_it_ships(language):
     카드는 배포본의 README 이므로 정본 전체가 아니라 실린 문서를 센다 — 정본에서만 조항 참조인 항목(빠진 규칙의
     파라미터)은 받은 쪽에게 없다. 문장을 찾지 못하거나 두 번 찾으면 실패한다(`only`).
     """
-    said = only(CARD_FILL_STATE[language], read(CARD), f"카드({language}) · 채움 상태")
+    said = only(CARD_FILL_STATE[language], reference_text(), f"카드({language}) · 채움 상태")
     got = (int(said.group(1)), int(said.group(2)))
     want = card_fill_state(card_release_rules())
     assert got == want, (f"카드({language})는 표준 임계값 {got[0]}개 · 조항 참조만 {got[1]}개라 하고, 배포본이 싣는 "
@@ -1292,9 +1303,9 @@ FILL_STATE_SAID_AGAIN = [
     (SPEC, r"\*\*배포본은 이 (\d+)개를 전부 싣지 않습니다\.\*\*", ("rules",), {}, 1),
     (SPEC, r"(두) 부위의 `transient_multiplier` 는 수치가 아니라 `not_applicable`", ("limit cells not applicable",),
      {}, 1),
-    (CARD, r"(두) 칸 — 두개골·이마와 얼굴의 동적 배수 — 은 위의 까닭으로 `not_applicable`",
+    (REFERENCE_KO, r"(두) 칸 — 두개골·이마와 얼굴의 동적 배수 — 은 위의 까닭으로 `not_applicable`",
      ("shipped limit cells not applicable",), {}, 1),
-    (CARD, r"(two) further cells, the transient multipliers of the skull and forehead and of the face, are "
+    (REFERENCE, r"(two) further cells, the transient multipliers of the skull and forehead and of the face, are "
            r"`not_applicable`", ("shipped limit cells not applicable",), {}, 1),
     (VALIDATOR_README, r"조항 참조만 실린 임계값\(정본에서는 `\w+` (\d+)건\)", ("reference only",), {}, 1),
     (VALIDATOR_README, r"26\.11 배포본은 그 규칙을 싣지 않아 WARN 0", (), {"shipped reference only": 0}, 1),
@@ -1302,12 +1313,12 @@ FILL_STATE_SAID_AGAIN = [
      ("reference only",), {}, 1),
     (CONTRIBUTING, r"`meta/rules\.json` `contact_limits`\(값 (\d+)개\)", ("limit values",), {}, 1),
     (("rules.json", "contact_limits_note"), r"(\d+)개 항목이 KS B ISO TS 15066", ("limit values",), {}, 1),
-    (CARD, r"Release 26\.11 ships (fourteen): the twelve contact-limit rules", ("shipped rules",), {}, 1),
-    (CARD, r"The other (six) belong to scenarios", ("excluded rules",), {}, 1),
-    (CARD, r"The full (twenty)-rule catalogue", ("rules",), {}, 1),
-    (CARD, r"26\.11 배포본은 (열네) 개를 싣습니다", ("shipped rules",), {}, 1),
-    (CARD, r"나머지 (여섯)은 여기 실린 어떤 에피소드도", ("excluded rules",), {}, 1),
-    (CARD, r"(\d+)개 전체 목록은 데이터 스키마 정의서", ("rules",), {}, 1),
+    (REFERENCE, r"Release 26\.11 ships (fourteen): the twelve contact-limit rules", ("shipped rules",), {}, 1),
+    (REFERENCE, r"The other (six) belong to scenarios", ("excluded rules",), {}, 1),
+    (REFERENCE, r"The full (twenty)-rule catalogue", ("rules",), {}, 1),
+    (REFERENCE_KO, r"26\.11 배포본은 (열네) 개를 싣습니다", ("shipped rules",), {}, 1),
+    (REFERENCE_KO, r"나머지 (여섯)은 여기 실린 어떤 에피소드도", ("excluded rules",), {}, 1),
+    (REFERENCE_KO, r"(\d+)개 전체 목록은 데이터 스키마 정의서", ("rules",), {}, 1),
     (SPEC, r"`meta/rules\.json` 의 압력 한계 (\d+)개에는 값이 실려 있습니다", ("pressure limit values",), {}, 1),
     (GENERATION_README, r"유효질량 · 스프링상수 (\d+)건\(표 A\.3\)은 `meta/rules\.json` 의 "
                         r"`contact_limits\.\*\.biomechanical` 에 값과 조항 참조가 함께 실려", ("biomechanical values",),
@@ -1365,17 +1376,17 @@ REFERENCE_ONLY_NAMED = [
                        r"배포본은 그 규칙을 싣지 않습니다\)", 1, False),
     (INVENTORY, r"그 임계값은 `(?P<rule>[\w-]+)` 의 것이고, 26\.11 배포본은 그 규칙을 싣지 않습니다", 1, False),
     (SPEC, r"\*\*아직 값 없이 조항 참조만 실린 항목이 1개 있습니다\*\* — `(?P<name>\w+)` 입니다", 1, None),
-    (CARD, r"`(?P<rule>[\w-]+)` — its `(?P<name>\w+)` — has no value in the code repository's `meta/rules\.json`\. "
-           r"That rule is not in this release", 1, False),
-    (CARD, r"`(?P<rule>[\w-]+)` 의 파라미터 하나\(`(?P<name>\w+)`\)가 코드 저장소의 `meta/rules\.json` 에서 값이 없다는 "
-           r"뜻입니다\. 그 규칙은 이 배포본에 없고", 1, False),
+    (REFERENCE, r"`(?P<rule>[\w-]+)` — its `(?P<name>\w+)` — has no value in the code repository's `meta/rules\.json`\. "
+                r"That rule is not in this release", 1, False),
+    (REFERENCE_KO, r"`(?P<rule>[\w-]+)` 의 파라미터 하나\(`(?P<name>\w+)`\)가 코드 저장소의 `meta/rules\.json` 에서 값이 없다는 "
+                   r"뜻입니다\. 그 규칙은 이 배포본에 없고", 1, False),
 ]
 
 # (where, the sentence naming the `not_applicable` cells, how many times it is said)
 NOT_APPLICABLE_NAMED = [
     (SPEC, r"(?P<cells>`BR-\d\d`\([^)]*\)·`BR-\d\d`\([^)]*\))은 표 A\.2 의 동적 칸이", 1),
-    (CARD, r"두 칸 — (?P<cells>[^—]+)의 동적 배수 — 은 위의 까닭으로 `not_applicable`", 1),
-    (CARD, r"the transient multipliers (?P<cells>.+?), are `not_applicable`", 1),
+    (REFERENCE_KO, r"두 칸 — (?P<cells>[^—]+)의 동적 배수 — 은 위의 까닭으로 `not_applicable`", 1),
+    (REFERENCE, r"the transient multipliers (?P<cells>.+?), are `not_applicable`", 1),
 ]
 
 
@@ -1450,8 +1461,23 @@ def test_the_card_self_set_table_matches_canon(language):
                           f"값이 다름: {sorted(k for k in set(said) & set(want) if said[k] != want[k])}")
 
 
-def test_the_card_has_the_same_sections_in_both_languages():
-    """카드는 국·영 두 벌이며 절 구성이 어긋나면 한쪽 독자만 못 읽는 내용이 생긴다.
+def top_sections(path: Path) -> list[str]:
+    """문서의 최상위 절 제목 — 코드 블록 안의 줄은 빼고.
+
+    `^## ` 는 `### ` 의 앞 두 글자에도 맞는다 — 하위 절까지 세면 무엇을 비교하는지 흐려진다."""
+    out, fenced = [], False
+    for line in read(path).splitlines():
+        if line.startswith("```"):
+            fenced = not fenced
+        elif not fenced and re.match(r"## [^#]", line):
+            out.append(line[3:].strip())
+    return out
+
+
+@pytest.mark.parametrize("english_doc,korean_doc", [(REFERENCE, REFERENCE_KO), (CARD, CARD_KO)],
+                         ids=["reference", "front page"])
+def test_the_card_has_the_same_sections_in_both_languages(english_doc, korean_doc):
+    """카드의 첫 화면과 상세 문서는 각각 국·영 두 벌이며 절 구성이 어긋나면 한쪽 독자만 못 읽는 내용이 생긴다.
 
     **국문에 「인용」 절이 빠진 적이 있다**(영문 7 · 국문 6). 인용 절이 한쪽에만
     있으면 다른 쪽 독자는 이 데이터셋을 인용하는 법을 모른다.
@@ -1460,32 +1486,59 @@ def test_the_card_has_the_same_sections_in_both_languages():
     **제목은 언어가 달라 짝지을 수 없으므로 개수만 본다.** 어느 절이 빠졌는지는
     사람이 봐야 하지만, 빠졌다는 사실은 여기서 걸린다.
     """
-    text = read(CARD)
-    split = text.index(CARD_KOREAN_TITLE)
-    # `^## ` 는 `### ` 의 앞 두 글자에도 맞는다 — 하위 절까지 세면 무엇을 비교하는지
-    # 흐려진다. 최상위 절만 본다.
-    english = re.findall(r"^## ([^#].*)$", text[:split], re.M)
-    korean = re.findall(r"^## ([^#].*)$", text[split:], re.M)
-
-    assert english and korean, "카드에서 절 제목을 찾지 못했습니다 — 구조가 바뀌었습니까?"
+    english, korean = top_sections(english_doc), top_sections(korean_doc)
+    assert english and korean, f"{english_doc.name} · {korean_doc.name} 에서 절 제목을 찾지 못했습니다 — 구조가 바뀌었습니까?"
     assert len(english) == len(korean), (
-        f"카드 두 벌의 절 수가 다릅니다 — 영문 {len(english)}개 {english}, "
-        f"국문 {len(korean)}개 {korean}. 한쪽에만 있는 내용은 그 언어 독자만 읽습니다")
+        f"두 벌의 절 수가 다릅니다 — {english_doc.name} {len(english)}개 {english}, "
+        f"{korean_doc.name} {len(korean)}개 {korean}. 한쪽에만 있는 내용은 그 언어 독자만 읽습니다")
 
 
-def test_the_card_tree_names_every_bundled_canon_file():
-    """카드의 구성 트리는 배포본에 동봉되는 정본 파일을 모두 그린다.
+# 상세 문서의 구성 트리 — (문서, 트리가 시작하는 자리)
+REFERENCE_TREES = {"en": (REFERENCE, "## What is in it\n\n```\n"), "ko": (REFERENCE_KO, "## 무엇이 들어 있는가\n\n```\n")}
+
+
+def reference_tree(language: str) -> str:
+    """상세 문서(영 · 국)의 구성 트리 — 그 절의 첫 코드 블록."""
+    path, head = REFERENCE_TREES[language]
+    text = read(path)
+    assert text.count(head) == 1, f"{path.name} 의 구성 트리를 찾지 못했습니다"
+    start = text.index(head) + len(head)
+    return text[start:text.index("```", start)]
+
+
+def tree_names(tree: str) -> set[str]:
+    """구성 트리가 그리는 이름 — 줄의 첫 칸. 설명 칸의 글은 이름이 아니다(`NOTICE` 는 인벤토리 줄의 설명에도 나온다).
+
+    하위 항목의 두 칸 들여쓰기보다 깊이 들여쓴 줄은 윗줄의 설명을 잇는 줄이라 아무것도 그리지 않고, 한 줄에 이름을
+    여럿 적을 때는 ` · ` 로 잇는다. 칸은 공백 둘 이상으로 갈린다.
+    """
+    assert "\t" not in tree, "구성 트리에 탭이 있습니다 — 들여쓰기와 칸은 공백으로 맞춥니다(탭은 들여쓰기로 세지 못합니다)"
+    names: set[str] = set()
+    for line in tree.splitlines():
+        if not line.strip() or len(line) - len(line.lstrip(" ")) > 2:
+            continue
+        names |= {name.strip() for name in re.split(r" {2,}", line.strip(), maxsplit=1)[0].split(" · ")}
+    return names
+
+
+def release_doc_paths() -> set[str]:
+    """조립이 카드 옆에 싣는 문서 — 배포본 안의 경로."""
+    from generation.release_docs import RELEASE_DOCS
+    return {shipped for _, shipped in RELEASE_DOCS}
+
+
+@pytest.mark.parametrize("language", sorted(REFERENCE_TREES))
+def test_the_card_tree_names_every_bundled_canon_file(language):
+    """상세 문서(영 · 국)의 구성 트리는 배포본에 동봉되는 정본 파일과 문서를 모두 그린다.
 
     `meta/assets.json` 은 자산 경로·체크섬·라이선스를 담은 파일이고 배포본에는 있다 —
     라이선스 검토자가 `NOTICE` 다음으로 볼 파일이다. 트리에서 빠지면 받은 쪽이 그
     파일을 찾을 길잡이가 없다.
     """
-    tree = re.search(r"## What is in it\n\n```\n(.*?)```", read(CARD), re.S)
-    assert tree, "카드의 구성 트리를 찾지 못했습니다"
-    drawn = tree.group(1)
-    missing = sorted(p for p in bundled_paths() if p.rsplit("/", 1)[-1] not in drawn)
+    drawn = tree_names(reference_tree(language))
+    missing = sorted((bundled_paths() | release_doc_paths()) - drawn)
     assert not missing, (
-        f"변환기가 동봉하는데 카드 트리가 그리지 않는 파일: {missing}")
+        f"배포본에 동봉하는데 상세 문서({language})의 트리가 그리지 않는 파일: {missing}")
 
 
 def test_both_trees_count_their_own_extension_marks():
@@ -1495,15 +1548,14 @@ def test_both_trees_count_their_own_extension_marks():
     적고 있었다 — 빠진 줄을 세지 않았으니 산문도 따라 틀렸다. 수를 트리에서 유도하면
     줄이 늘거나 줄 때 산문이 따라오지 않는 것을 잡는다.
     """
-    card = read(CARD)
-    tree = re.search(r"## What is in it\n\n```\n(.*?)```", card, re.S).group(1)
-    marks = len(re.findall(r"\bext\b", tree))
-    assert marks in COUNT_WORDS, f"트리의 ext 표시가 {marks}개라 셀 낱말이 없습니다"
-    english, korean = COUNT_WORDS[marks]
-    assert f"The {english} `ext` entries" in card, (
-        f"트리에 ext 표시가 {marks}개인데 영문 산문이 그렇게 말하지 않습니다")
-    assert f"`ext` 표시 **{korean}**" in card, (
-        f"트리에 ext 표시가 {marks}개인데 국문 산문이 그렇게 말하지 않습니다")
+    marks = {language: len(re.findall(r"\bext\b", reference_tree(language))) for language in REFERENCE_TREES}
+    assert marks["en"] == marks["ko"], f"상세 문서 두 벌의 트리가 ext 표시를 다르게 답니다: {marks}"
+    assert marks["en"] in COUNT_WORDS, f"트리의 ext 표시가 {marks['en']}개라 셀 낱말이 없습니다"
+    english, korean = COUNT_WORDS[marks["en"]]
+    assert f"The {english} `ext` entries" in read(REFERENCE), (
+        f"트리에 ext 표시가 {marks['en']}개인데 영문 산문이 그렇게 말하지 않습니다")
+    assert f"`ext` 표시 **{korean}**" in read(REFERENCE_KO), (
+        f"트리에 ext 표시가 {marks['ko']}개인데 국문 산문이 그렇게 말하지 않습니다")
 
 
 def test_the_spec_counts_joints_from_the_joint_maps():
